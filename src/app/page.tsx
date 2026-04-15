@@ -13,7 +13,7 @@ export default async function HomePage() {
   return (
     <>
       {/* ─── Hero ─────────────────────────────────────────────────────────────── */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
         <div className="absolute inset-0">
           <Image
             src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920"
@@ -25,7 +25,7 @@ export default async function HomePage() {
           <div className="absolute inset-0 luxury-gradient opacity-75" />
         </div>
 
-        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
+        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto pb-20 md:pb-0">
           <p className="text-[#c9a84c] text-sm font-semibold tracking-[0.3em] uppercase mb-4 animate-fade-in">
             Inmobiliaria · Santa Perpètua de Mogoda &amp; Vallès Occidental
           </p>
@@ -46,23 +46,23 @@ export default async function HomePage() {
             <QuickSearch locations={locations} />
           </div>
 
-          <div className="grid grid-cols-3 gap-8 mt-16 animate-fade-in" style={{ animationDelay: '0.5s' }}>
+          <div className="grid grid-cols-3 gap-4 md:gap-8 mt-8 md:mt-16 animate-fade-in" style={{ animationDelay: '0.5s' }}>
             {[
               { value: '12', label: 'Propiedades activas' },
               { value: '3', label: 'Expertas a tu lado' },
               { value: '6', label: 'Zonas de actuación' },
             ].map(({ value, label }) => (
               <div key={label} className="text-center">
-                <p className="text-[#c9a84c] font-bold text-3xl md:text-4xl" style={{ fontFamily: 'var(--font-playfair)' }}>
+                <p className="text-[#c9a84c] font-bold text-2xl md:text-4xl" style={{ fontFamily: 'var(--font-playfair)' }}>
                   {value}
                 </p>
-                <p className="text-white/60 text-sm mt-1">{label}</p>
+                <p className="text-white/60 text-xs md:text-sm mt-1">{label}</p>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/40 text-xs">
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2 text-white/40 text-xs">
           <span>Descubre más</span>
           <div className="w-px h-8 bg-white/30 animate-bounce" />
         </div>
@@ -233,7 +233,7 @@ function QuickSearch({ locations }: { locations: string[] }) {
     >
       <select
         name="operacion"
-        className="flex-1 bg-white rounded-xl px-4 py-3 text-[#0f1f3d] text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#c9a84c]"
+        className="flex-1 bg-white rounded-xl pl-4 pr-10 py-3 text-[#0f1f3d] text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#c9a84c]"
         defaultValue=""
       >
         <option value="">Comprar o alquilar</option>
@@ -243,7 +243,7 @@ function QuickSearch({ locations }: { locations: string[] }) {
 
       <select
         name="tipo"
-        className="flex-1 bg-white rounded-xl px-4 py-3 text-[#0f1f3d] text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#c9a84c]"
+        className="flex-1 bg-white rounded-xl pl-4 pr-10 py-3 text-[#0f1f3d] text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#c9a84c]"
         defaultValue=""
       >
         <option value="">Tipo de propiedad</option>
