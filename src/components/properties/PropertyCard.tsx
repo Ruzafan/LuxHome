@@ -1,0 +1,157 @@
+import Link from 'next/link';
+import Image from 'next/image';
+import { Property } from '@/types/property';
+import { formatPrice } from '@/lib/propertyService';
+
+const typeLabels: Record<Property['type'], string> = {
+  piso: 'Piso',
+  casa: 'Casa',
+  chalet: 'Chalet',
+  atico: 'Ático',
+  local: 'Local',
+  terreno: 'Terreno',
+  garaje: 'Garaje',
+};
+
+const statusConfig: Record<Property['status'], { label: string; classes: string }> = {
+  disponible: { label: 'Disponible', classes: 'bg-emerald-100 text-emerald-800' },
+  reservado: { label: 'Reservado', classes: 'bg-amber-100 text-amber-800' },
+  vendido: { label: 'Vendido', classes: 'bg-red-100 text-red-800' },
+  alquilado: { label: 'Alquilado', classes: 'bg-blue-100 text-blue-800' },
+};
+
+interface Props {
+  property: Property;
+  featured?: boolean;
+}
+
+export default function PropertyCard({ property, featured = false }: Props) {
+  const primaryImage = property.images.find((i) => i.isPrimary) ?? property.images[0];
+  const status = statusConfig[property.status];
+
+  return (
+    <Link href={`/propiedades/${property.id}`} className="block group">
+      <article className={`bg-white rounded-xl overflow-hidden card-hover ${featured ? 'shadow-lg' : 'shadow-md'}`}>
+        {/* Image */}
+        <div className={`relative overflow-hidden ${featured ? 'h-64' : 'h-52'}`}>
+          {primaryImage ? (
+            <Image
+              src={primaryImage.url}
+              alt={primaryImage.alt}
+              fill
+              className="object-cover group-hover:scale-105 transition-transform duration-500"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
+          ) : (
+            <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+              <span className="text-gray-400 text-sm">Sin imagen</span>
+            </div>
+          )}
+
+          {/* Overlays */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+
+          {/* Badges top */}
+          <div className="absolute top-3 left-3 flex gap-2">
+            <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${status.classes}`}>
+              {status.label}
+            </span>
+            {property.isNewDevelopment && (
+              <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-[#0f1f3d] text-[#c9a84c]">
+                Obra nueva
+              </span>
+            )}
+          </div>
+
+          {/* Operation tag */}
+          <div className="absolute top-3 right-3">
+            <span className="text-xs font-semibold px-2.5 py-1 rounded-full gold-gradient text-[#0f1f3d] uppercase tracking-wide">
+              {property.operation}
+            </span>
+          </div>
+
+          {/* Price bottom */}
+          <div className="absolute bottom-3 left-3">
+            <p className="text-white font-bold text-xl drop-shadow-md">
+              {formatPrice(property.price, property.operation)}
+            </p>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="p-4">
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-xs text-[#c9a84c] font-medium uppercase tracking-wide">
+              {typeLabels[property.type]}
+            </span>
+            <span className="text-gray-300">·</span>
+            <span className="text-xs text-gray-400">{property.reference}</span>
+          </div>
+
+          <h3 className="font-semibold text-[#0f1f3d] text-base leading-snug line-clamp-2 mb-2 group-hover:text-[#c9a84c] transition-colors">
+            {property.title}
+          </h3>
+
+          <p className="text-gray-500 text-sm mb-4">
+            📍 {property.location.neighborhood ? `${property.location.neighborhood}, ` : ''}
+            {property.location.city}
+          </p>
+
+          {/* Features */}
+          <div className="flex items-center gap-4 text-sm text-gray-600 border-t border-gray-100 pt-3">
+            <span className="flex items-center gap-1">
+              <BedIcon />
+              {property.features.bedrooms} hab.
+            </span>
+            <span className="flex items-center gap-1">
+              <BathIcon />
+              {property.features.bathrooms} baños
+            </span>
+            <span className="flex items-center gap-1">
+              <AreaIcon />
+              {property.features.area} m²
+            </span>
+            {property.features.hasGarage && (
+              <span className="flex items-center gap-1 text-[#c9a84c]">
+                <GarageIcon />
+                Garaje
+              </span>
+            )}
+          </div>
+        </div>
+      </article>
+    </Link>
+  );
+}
+
+function BedIcon() {
+  return (
+    <svg className="w-4 h-4 text-[#c9a84c]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M2 12h20M2 12V8a2 2 0 012-2h16a2 2 0 012 2v4M2 12v4a2 2 0 002 2h16a2 2 0 002-2v-4" />
+    </svg>
+  );
+}
+
+function BathIcon() {
+  return (
+    <svg className="w-4 h-4 text-[#c9a84c]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M4 12h16M4 12V7a3 3 0 016 0M4 12v5a2 2 0 002 2h12a2 2 0 002-2v-5" />
+    </svg>
+  );
+}
+
+function AreaIcon() {
+  return (
+    <svg className="w-4 h-4 text-[#c9a84c]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+    </svg>
+  );
+}
+
+function GarageIcon() {
+  return (
+    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M3 10l1.5-4.5A1 1 0 015.443 5h13.114a1 1 0 01.943.5L21 10M3 10v8a1 1 0 001 1h16a1 1 0 001-1v-8M3 10h18" />
+    </svg>
+  );
+}

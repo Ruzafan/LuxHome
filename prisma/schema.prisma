@@ -1,0 +1,103 @@
+// Prisma schema — LuxHome Inmobiliaria
+// Documentación: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Propiedad ────────────────────────────────────────────────────────────────
+
+model Property {
+  id               String   @id @default(cuid())
+  // Referencia interna de Inmovilla (usada para deduplicar en upserts)
+  inmovillaId      String   @unique
+  reference        String
+  title            String
+  description      String   @db.Text
+  type             String   // piso | casa | chalet | atico | local | terreno | garaje
+  operation        String   // venta | alquiler
+  status           String   // disponible | reservado | vendido | alquilado
+  price            Float
+  pricePerM2       Float?
+  isFeatured       Boolean  @default(false)
+  isNewDevelopment Boolean  @default(false)
+  publishedAt      DateTime
+  updatedAt        DateTime @updatedAt
+
+  features  PropertyFeatures?
+  location  PropertyLocation?
+  images    PropertyImage[]
+
+  @@index([operation])
+  @@index([type])
+  @@index([status])
+  @@index([isFeatured])
+}
+
+model PropertyFeatures {
+  id                 String   @id @default(cuid())
+  propertyId         String   @unique
+  property           Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  bedrooms           Int
+  bathrooms          Int
+  area               Float
+  plotArea           Float?
+  floor              Int?
+  hasGarage          Boolean  @default(false)
+  hasPool            Boolean  @default(false)
+  hasTerrace         Boolean  @default(false)
+  hasGarden          Boolean  @default(false)
+  hasElevator        Boolean  @default(false)
+  hasAirConditioning Boolean  @default(false)
+  hasHeating         Boolean  @default(false)
+  hasStorageRoom     Boolean  @default(false)
+  orientation        String?
+  energyCertificate  String?
+}
+
+model PropertyLocation {
+  id           String   @id @default(cuid())
+  propertyId   String   @unique
+  property     Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  address      String
+  city         String
+  province     String
+  postalCode   String
+  neighborhood String?
+  lat          Float?
+  lng          Float?
+
+  @@index([city])
+  @@index([postalCode])
+}
+
+model PropertyImage {
+  id         String   @id @default(cuid())
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  url        String
+  alt        String
+  isPrimary  Boolean  @default(false)
+  order      Int      @default(0)
+}
+
+// ─── Log de sincronización ────────────────────────────────────────────────────
+// Permite auditar cuándo y qué se sincronizó desde Inmovilla
+
+model SyncLog {
+  id          String   @id @default(cuid())
+  triggeredAt DateTime @default(now())
+  source      String   // "webhook" | "cron" | "manual"
+  status      String   // "ok" | "error"
+  message     String?  @db.Text
+  propertiesUpdated Int @default(0)
+  propertiesCreated Int @default(0)
+  propertiesDeleted Int @default(0)
+}

@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-git)",
+      "Bash(cp -r c:/Users/marcr/Documents/Projects/luxhome/src c:/Users/marcr/Documents/Projects/InmoWeb/)",
+      "Bash(cp -r c:/Users/marcr/Documents/Projects/luxhome/public c:/Users/marcr/Documents/Projects/InmoWeb/)",
+      "Bash(cp c:/Users/marcr/Documents/Projects/luxhome/package.json c:/Users/marcr/Documents/Projects/InmoWeb/)",
+      "Bash(cp c:/Users/marcr/Documents/Projects/luxhome/tsconfig.json c:/Users/marcr/Documents/Projects/InmoWeb/)",
+      "Bash(cp c:/Users/marcr/Documents/Projects/luxhome/postcss.config.mjs c:/Users/marcr/Documents/Projects/InmoWeb/)",
+      "Bash(npm run *)",
+      "WebFetch(domain:www.luxhomein.com)",
+      "WebSearch",
+      "WebFetch(domain:www.fotocasa.es)",
+      "WebFetch(domain:english.habitaclia.com)",
+      "Bash(npm install *)",
+      "Bash(npx prisma *)",
+      "Bash(ls c:/Users/marcr/Documents/Projects/InmoWeb/*.ts)",
+      "Bash(ls c:/Users/marcr/Documents/Projects/InmoWeb/prisma*.*)"
+    ]
+  }
+}
