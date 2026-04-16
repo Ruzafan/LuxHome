@@ -13,6 +13,7 @@ import type {
   PropertyFeatures as PrismaFeatures,
   PropertyLocation as PrismaLocation,
   PropertyImage as PrismaImage,
+  Prisma,
 } from '@prisma/client';
 
 // ─── Mapper BD → tipo interno ─────────────────────────────────────────────────
@@ -98,7 +99,7 @@ export async function getProperties(
   pageSize = 9
 ): Promise<PropertySearchResult> {
   // Filtros que pueden resolverse en SQL
-  const where: Parameters<typeof db.property.findMany>[0]['where'] = {};
+  const where: Prisma.PropertyWhereInput = {};
   if (filters.operation) where.operation = filters.operation;
   if (filters.type) where.type = filters.type;
   if (filters.minPrice !== undefined || filters.maxPrice !== undefined) {
