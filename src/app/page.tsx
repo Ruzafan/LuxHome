@@ -7,7 +7,7 @@ import LocationAutocomplete from '@/components/ui/LocationAutocomplete';
 export default async function HomePage() {
   const [featured, locations] = await Promise.all([
     getFeaturedProperties(4),
-    Promise.resolve(getAllLocations()),
+    getAllLocations(),
   ]);
 
   return (

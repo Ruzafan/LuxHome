@@ -40,7 +40,7 @@ export default async function PropiedadesPage({
   const page = params.pagina ? Number(params.pagina) : 1;
   const [{ properties, total, totalPages }, locations] = await Promise.all([
     getProperties(filters, page, 9),
-    Promise.resolve(getAllLocations()),
+    getAllLocations(),
   ]);
 
   return (
