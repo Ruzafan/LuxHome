@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 import { verifySessionToken, SESSION_COOKIE } from '@/lib/auth';
 import { db } from '@/lib/db';
+import type { SyncLog } from '@prisma/client';
 import UploadForm from '@/components/admin/UploadForm';
 import SyncButton from '@/components/admin/SyncButton';
 import LogoutButton from '@/components/admin/LogoutButton';
@@ -16,12 +17,23 @@ export default async function AdminPage() {
     redirect('/admin/login');
   }
 
-  const [total, disponibles, destacadas, logs] = await Promise.all([
-    db.property.count(),
-    db.property.count({ where: { status: 'disponible' } }),
-    db.property.count({ where: { isFeatured: true } }),
-    db.syncLog.findMany({ orderBy: { triggeredAt: 'desc' }, take: 15 }),
-  ]);
+  // La base de datos es opcional: el sitio puede funcionar con datos mock.
+  // Si DATABASE_URL no está configurada o hay error de conexión, mostramos
+  // el panel igualmente con valores a cero y un aviso.
+  let total = 0, disponibles = 0, destacadas = 0;
+  let logs: SyncLog[] = [];
+  let dbError: string | null = null;
+
+  try {
+    [total, disponibles, destacadas, logs] = await Promise.all([
+      db.property.count(),
+      db.property.count({ where: { status: 'disponible' } }),
+      db.property.count({ where: { isFeatured: true } }),
+      db.syncLog.findMany({ orderBy: { triggeredAt: 'desc' }, take: 15 }),
+    ]);
+  } catch (e) {
+    dbError = e instanceof Error ? e.message : 'Error de conexión con la base de datos';
+  }
 
   return (
     <div className="min-h-screen bg-[#0f1f3d]">
@@ -40,6 +52,19 @@ export default async function AdminPage() {
       </header>
 
       <main className="max-w-6xl mx-auto px-6 py-10 space-y-10">
+
+        {/* ── Aviso si la BD no está configurada ────────────────────────── */}
+        {dbError && (
+          <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl px-5 py-4">
+            <p className="text-amber-400 font-semibold text-sm mb-1">Base de datos no conectada</p>
+            <p className="text-white/50 text-xs">
+              Para ver estadísticas e historial, configura la variable{' '}
+              <code className="text-white/70 bg-white/10 px-1 rounded">DATABASE_URL</code> en Vercel
+              y ejecuta las migraciones de Prisma. La subida de ficheros seguirá fallando hasta entonces.
+            </p>
+            <p className="text-white/30 text-xs mt-2 font-mono">{dbError}</p>
+          </div>
+        )}
 
         {/* ── Resumen ───────────────────────────────────────────────────── */}
         <section>
