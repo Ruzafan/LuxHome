@@ -14,7 +14,16 @@
       "Bash(npx next *)",
       "Bash(ls c:/Users/marcr/Documents/Projects/InmoWeb/next.config* c:/Users/marcr/Documents/Projects/InmoWeb/i18n.ts)",
       "Bash(ls c:/Users/marcr/Documents/Projects/InmoWeb/node_modules/next-intl/plugin*)",
-      "Bash(node -e \"require\\('next-intl/plugin'\\)\")"
+      "Bash(node -e \"require\\('next-intl/plugin'\\)\")",
+      "Bash(python -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d.get\\('contact', {}\\), indent=2, ensure_ascii=False\\)\\)\")",
+      "Bash(node -e \"const d=require\\('./messages/es.json'\\); console.log\\(JSON.stringify\\(d.contact||{}, null, 2\\)\\)\")",
+      "Bash(node -e \"const d=require\\('./messages/ca.json'\\); console.log\\(JSON.stringify\\(d.contact?.form?.privacy||'not found'\\)\\)\")",
+      "Bash(node -e \"const d=require\\('./messages/en.json'\\); console.log\\(JSON.stringify\\(d.contact?.form?.privacy||'not found'\\)\\)\")",
+      "Bash(node -e \"const d=require\\('./messages/es.json'\\); console.log\\(JSON.stringify\\(d.cookies?.message||'not found'\\)\\)\")",
+      "Bash(node -e \"const d=require\\('./messages/es.json'\\); console.log\\(JSON.stringify\\(d.cookies, null, 2\\)\\)\")",
+      "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('messages/es.json','utf8'\\)\\); console.log\\('es OK'\\)\")",
+      "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('messages/ca.json','utf8'\\)\\); console.log\\('ca OK'\\)\")",
+      "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('messages/en.json','utf8'\\)\\); console.log\\('en OK'\\)\")"
     ],
     "defaultMode": "bypassPermissions"
   }

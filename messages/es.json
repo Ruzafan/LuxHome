@@ -206,8 +206,7 @@
       "budgetNone": "Sin especificar",
       "message": "Mensaje",
       "messagePlaceholder": "Cuéntanos qué buscas, la zona de preferencia, características importantes...",
-      "privacy": "He leído y acepto la {link}. Consiento el tratamiento de mis datos para gestionar mi consulta.",
-      "privacyLink": "Política de Privacidad",
+      "privacy": "He leído y acepto la <link>Política de Privacidad</link>. Consiento el tratamiento de mis datos para gestionar mi consulta.",
       "submit": "Enviar mensaje"
     },
     "office": "Oficina",
@@ -237,8 +236,7 @@
     "legal": "Aviso Legal"
   },
   "cookies": {
-    "message": "Usamos cookies técnicas propias para recordar tus preferencias. {link}.",
-    "moreInfo": "Más información",
+    "message": "Usamos cookies técnicas propias para recordar tus preferencias. <link>Más información</link>.",
     "accept": "Aceptar",
     "reject": "Rechazar"
   }

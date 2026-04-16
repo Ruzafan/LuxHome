@@ -206,8 +206,7 @@
       "budgetNone": "Sense especificar",
       "message": "Missatge",
       "messagePlaceholder": "Explica'ns què busques, la zona de preferència, característiques importants...",
-      "privacy": "He llegit i accepto la {link}. Consento el tractament de les meves dades per gestionar la meva consulta.",
-      "privacyLink": "Política de Privadesa",
+      "privacy": "He llegit i accepto la <link>Política de Privadesa</link>. Consento el tractament de les meves dades per gestionar la meva consulta.",
       "submit": "Enviar missatge"
     },
     "office": "Oficina",
@@ -237,8 +236,7 @@
     "legal": "Avís Legal"
   },
   "cookies": {
-    "message": "Usem cookies tècniques pròpies per recordar les teves preferències. {link}.",
-    "moreInfo": "Més informació",
+    "message": "Usem cookies tècniques pròpies per recordar les teves preferències. <link>Més informació</link>.",
     "accept": "Acceptar",
     "reject": "Rebutjar"
   }

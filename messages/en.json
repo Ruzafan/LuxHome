@@ -206,8 +206,7 @@
       "budgetNone": "Not specified",
       "message": "Message",
       "messagePlaceholder": "Tell us what you are looking for, preferred area, important features...",
-      "privacy": "I have read and accept the {link}. I consent to my data being processed to handle my enquiry.",
-      "privacyLink": "Privacy Policy",
+      "privacy": "I have read and accept the <link>Privacy Policy</link>. I consent to my data being processed to handle my enquiry.",
       "submit": "Send message"
     },
     "office": "Office",
@@ -237,8 +236,7 @@
     "legal": "Legal Notice"
   },
   "cookies": {
-    "message": "We use first-party technical cookies to remember your preferences. {link}.",
-    "moreInfo": "More information",
+    "message": "We use first-party technical cookies to remember your preferences. <link>More information</link>.",
     "accept": "Accept",
     "reject": "Reject"
   }
