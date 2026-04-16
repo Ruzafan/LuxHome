@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
+import { getStats } from '@/lib/propertyService';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('about');
@@ -42,7 +43,10 @@ const zoneDescs: Record<string, string> = {
 };
 
 export default async function SobreNosotrosPage() {
-  const t = await getTranslations('about');
+  const [t, stats] = await Promise.all([
+    getTranslations('about'),
+    getStats(),
+  ]);
 
   const valueKeys = ['proximity', 'honesty', 'rigor', 'communication'] as const;
   const valueIcons: Record<string, string> = {
@@ -86,9 +90,9 @@ export default async function SobreNosotrosPage() {
         <div className="max-w-5xl mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
-              { value: '12', label: 'Propiedades activas' },
+              { value: String(stats.total), label: 'Propiedades activas' },
               { value: '3', label: 'Agentes especializadas' },
-              { value: '6', label: 'Zonas de actuación' },
+              { value: String(stats.zones), label: 'Zonas de actuación' },
               { value: '3', label: 'Idiomas (ES, CAT, EN)' },
             ].map(({ value, label }) => (
               <div key={label} className="text-center">
