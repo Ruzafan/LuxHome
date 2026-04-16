@@ -304,12 +304,12 @@ const services = [
 ];
 
 const zones = [
-  { label: 'Santa Perpètua de Mogoda', count: 7, img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400' },
-  { label: 'Castelldefels', count: 1, img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400' },
-  { label: 'Vilanova del Vallès', count: 1, img: 'https://images.unsplash.com/photo-1586105251261-72a756497a11?w=400' },
-  { label: 'Montcada i Reixac', count: 1, img: 'https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=400' },
-  { label: 'Sant Adrià de Besòs', count: 1, img: 'https://images.unsplash.com/photo-1555881400-74d7acaacd8b?w=400' },
-  { label: 'Les Franqueses del Vallès', count: 1, img: 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=400' },
+  { label: 'Santa Perpètua de Mogoda', count: 7, img: 'https://images.pexels.com/photos/5751184/pexels-photo-5751184.jpeg?auto=compress&cs=tinysrgb&w=400' },
+  { label: 'Castelldefels', count: 1, img: 'https://images.pexels.com/photos/20370118/pexels-photo-20370118.jpeg?auto=compress&cs=tinysrgb&w=400' },
+  { label: 'Vilanova del Vallès', count: 1, img: 'https://images.pexels.com/photos/10673908/pexels-photo-10673908.jpeg?auto=compress&cs=tinysrgb&w=400' },
+  { label: 'Montcada i Reixac', count: 1, img: 'https://images.pexels.com/photos/12017937/pexels-photo-12017937.jpeg?auto=compress&cs=tinysrgb&w=400' },
+  { label: 'Sant Adrià de Besòs', count: 1, img: 'https://images.pexels.com/photos/9255685/pexels-photo-9255685.jpeg?auto=compress&cs=tinysrgb&w=400' },
+  { label: 'Les Franqueses del Vallès', count: 1, img: 'https://images.pexels.com/photos/34807091/pexels-photo-34807091.jpeg?auto=compress&cs=tinysrgb&w=400' },
 ];
 
 const testimonials = [
