@@ -187,8 +187,7 @@ export default async function HomePage() {
               <Link
                 key={label}
                 href={`/propiedades?ciudad=${encodeURIComponent(label)}`}
-                className="group relative rounded-xl overflow-hidden block"
-                style={{ aspectRatio: '3/4' }}
+                className="group relative rounded-xl overflow-hidden block aspect-[4/3] md:aspect-[3/4]"
               >
                 <Image
                   src={img}
