@@ -41,8 +41,8 @@ export default function ContactoPage() {
 
       <div className="max-w-6xl mx-auto px-6 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-10">
-          {/* Contact Form */}
-          <div className="lg:col-span-3 bg-white rounded-2xl shadow-lg p-8">
+          {/* Contact Form — order-2 on mobile so info panel appears first */}
+          <div className="lg:col-span-3 order-2 lg:order-1 bg-white rounded-2xl shadow-lg p-8">
             <h2 className="text-[#0f1f3d] font-bold text-2xl mb-1" style={{ fontFamily: 'var(--font-playfair)' }}>
               {t('form.title')}
             </h2>
@@ -157,8 +157,8 @@ export default function ContactoPage() {
             )}
           </div>
 
-          {/* Info panel */}
-          <div className="lg:col-span-2 space-y-6">
+          {/* Info panel — order-1 on mobile so it appears above the form */}
+          <div className="lg:col-span-2 order-1 lg:order-2 space-y-6">
             <div className="bg-white rounded-2xl shadow p-6">
               <h3 className="font-bold text-[#0f1f3d] text-base mb-4 pb-3 border-b border-gray-100" style={{ fontFamily: 'var(--font-playfair)' }}>
                 {t('office')}
