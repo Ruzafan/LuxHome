@@ -78,7 +78,6 @@ export default async function SobreNosotrosPage() {
       {/* Intro */}
       <section className="py-20 px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <p className="text-[#c9a84c] text-sm font-semibold tracking-[0.3em] uppercase mb-3">{t('badge')}</p>
           <h2 className="text-[#0f1f3d] font-bold text-3xl md:text-4xl mb-6 gold-line gold-line-center" style={{ fontFamily: 'var(--font-playfair)' }}>
             {t('subtitle')}
           </h2>
