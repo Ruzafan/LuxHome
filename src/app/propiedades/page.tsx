@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Propiedades',
-  description: 'Explora nuestra selección de propiedades de lujo en Barcelona y la Costa Brava.',
+  description: 'Explora nuestra selección de propiedades en venta y alquiler en el Vallès Occidental y alrededores.',
 };
 
 interface SearchParams {

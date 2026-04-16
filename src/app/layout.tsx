@@ -22,11 +22,11 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: {
     template: '%s | LuxHome',
-    default: 'LuxHome — Propiedades de Lujo en Barcelona y Costa Brava',
+    default: 'LuxHome — Inmobiliaria en el Vallès Occidental',
   },
   description:
-    'Especialistas en propiedades exclusivas en Barcelona y la Costa Brava. Pisos, chalets, áticos y villas de lujo en venta y alquiler.',
-  keywords: ['inmobiliaria lujo', 'propiedades barcelona', 'chalets costa brava', 'pisos exclusivos'],
+    'Lux Home Inmobiliaria: compra, vende y alquila con un equipo de asesores expertos en el Vallès Occidental y alrededores. Pisos, casas, chalets y más.',
+  keywords: ['inmobiliaria vallès occidental', 'comprar piso santa perpètua', 'vender casa vallès', 'alquiler piso barcelona nord'],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -18,7 +18,7 @@ export default function Footer() {
               />
             </div>
             <p className="text-white/60 text-sm leading-relaxed">
-              Especialistas en propiedades de lujo en Barcelona y la Costa Brava. Más de 15 años conectando personas con su hogar ideal.
+              Nuestros asesores cuentan con años de experiencia en el sector inmobiliario del Vallès Occidental y alrededores. Cercanos, honestos y profesionales.
             </p>
             <div className="flex gap-3 mt-6">
               {['fb', 'ig', 'in', 'yt'].map((s) => (
@@ -65,7 +65,7 @@ export default function Footer() {
               Zonas
             </h3>
             <ul className="space-y-2">
-              {['Barcelona', 'Sarrià - Sant Gervasi', 'Pedralbes', 'Sitges', 'Castelldefels', 'Costa Brava'].map(
+              {['Santa Perpètua de Mogoda', 'Montcada i Reixac', 'Vilanova del Vallès', 'Castelldefels', 'Sant Adrià de Besòs', 'Les Franqueses del Vallès'].map(
                 (zone) => (
                   <li key={zone}>
                     <Link

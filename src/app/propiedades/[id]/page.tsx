@@ -212,7 +212,7 @@ export default async function PropertyDetailPage({ params }: Props) {
                     </div>
                     <div>
                       <p className="text-white font-semibold">Ana Martínez</p>
-                      <p className="text-white/60 text-xs">Agente Premium · LuxHome</p>
+                      <p className="text-white/60 text-xs">Asesora · LuxHome</p>
                     </div>
                   </div>
                   <div className="flex gap-3 mt-4">

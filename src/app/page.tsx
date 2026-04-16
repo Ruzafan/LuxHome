@@ -72,7 +72,7 @@ export default async function HomePage() {
       <section className="py-24 px-6 bg-[#faf8f3]">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <p className="text-[#c9a84c] text-sm font-semibold tracking-[0.3em] uppercase mb-2">Selección exclusiva</p>
+            <p className="text-[#c9a84c] text-sm font-semibold tracking-[0.3em] uppercase mb-2">Nuestras propiedades</p>
             <h2
               className="text-[#0f1f3d] font-bold text-4xl gold-line gold-line-center"
               style={{ fontFamily: 'var(--font-playfair)' }}
