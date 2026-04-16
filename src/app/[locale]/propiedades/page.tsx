@@ -6,6 +6,8 @@ import { getProperties, getAllLocations } from '@/lib/propertyService';
 import { PropertyFilters, PropertyType, OperationType } from '@/types/property';
 import PropertyCard from '@/components/properties/PropertyCard';
 import LocationAutocomplete from '@/components/ui/LocationAutocomplete';
+import SortSelect from '@/components/properties/SortSelect';
+import FilterDrawer from '@/components/properties/FilterDrawer';
 
 export async function generateMetadata({
   params,
@@ -27,6 +29,7 @@ interface SearchParams {
   precioMin?: string;
   precioMax?: string;
   habitaciones?: string;
+  orden?: string;
   pagina?: string;
 }
 
@@ -54,8 +57,12 @@ export default async function PropiedadesPage({
   if (rawParams.habitaciones) filters.minBedrooms = Number(rawParams.habitaciones);
 
   const page = rawParams.pagina ? Number(rawParams.pagina) : 1;
+  const sort = (['price_asc', 'price_desc', 'newest'].includes(rawParams.orden ?? '')
+    ? rawParams.orden
+    : 'relevance') as 'relevance' | 'price_asc' | 'price_desc' | 'newest';
+
   const [{ properties, total, totalPages }, locations] = await Promise.all([
-    getProperties(filters, page, 9),
+    getProperties(filters, page, 9, sort),
     getAllLocations(),
   ]);
 
@@ -79,14 +86,51 @@ export default async function PropiedadesPage({
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-10 flex flex-col lg:flex-row gap-8">
-        {/* ─── Sidebar Filters ─────────────────────────────────────────────────── */}
-        <aside className="lg:w-72 shrink-0">
+        {/* ─── Sidebar Filters (desktop) ───────────────────────────────────────── */}
+        <aside className="hidden lg:block lg:w-72 shrink-0">
           <FilterPanel currentParams={rawParams} locations={locations} baseUrl={baseUrl} t={t} />
         </aside>
 
         {/* ─── Results ─────────────────────────────────────────────────────────── */}
         <div className="flex-1">
-          <ActiveFilters params={rawParams} baseUrl={baseUrl} t={t} />
+          {/* Mobile filter trigger */}
+          <div className="flex items-center justify-between mb-4 gap-3 lg:hidden">
+            <FilterDrawer
+              currentParams={rawParams}
+              locations={locations}
+              baseUrl={baseUrl}
+              activeFiltersCount={[rawParams.operacion, rawParams.tipo, rawParams.ciudad, rawParams.habitaciones, rawParams.precioMin, rawParams.precioMax].filter(Boolean).length}
+            />
+            <SortSelect
+              currentSort={sort}
+              label={t('sort')}
+              options={[
+                { value: 'relevance', label: t('sortRelevance') },
+                { value: 'price_asc', label: t('sortPriceAsc') },
+                { value: 'price_desc', label: t('sortPriceDesc') },
+                { value: 'newest', label: t('sortNewest') },
+              ]}
+            />
+          </div>
+
+          <div className="hidden lg:flex items-center justify-between mb-4 gap-4 flex-wrap">
+            <ActiveFilters params={rawParams} baseUrl={baseUrl} t={t} />
+            <SortSelect
+              currentSort={sort}
+              label={t('sort')}
+              options={[
+                { value: 'relevance', label: t('sortRelevance') },
+                { value: 'price_asc', label: t('sortPriceAsc') },
+                { value: 'price_desc', label: t('sortPriceDesc') },
+                { value: 'newest', label: t('sortNewest') },
+              ]}
+            />
+          </div>
+
+          {/* Desktop active filters */}
+          <div className="hidden lg:block">
+            <ActiveFilters params={rawParams} baseUrl={baseUrl} t={t} />
+          </div>
 
           {properties.length === 0 ? (
             <div className="text-center py-20">

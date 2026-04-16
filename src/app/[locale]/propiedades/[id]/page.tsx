@@ -1,10 +1,11 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { getPropertyById, getRelatedProperties, formatPrice } from '@/lib/propertyService';
 import PropertyCard from '@/components/properties/PropertyCard';
+import PropertyContactForm from '@/components/properties/PropertyContactForm';
+import PropertyGallery from '@/components/properties/PropertyGallery';
 
 interface Props {
   params: Promise<{ id: string; locale: string }>;
@@ -14,9 +15,28 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
   const property = await getPropertyById(id);
   if (!property) return { title: 'Propiedad no encontrada' };
+
+  const primaryImage = property.images.find((i) => i.isPrimary) ?? property.images[0];
+  const description = property.description.slice(0, 160);
+
   return {
     title: property.title,
-    description: property.description.slice(0, 160),
+    description,
+    openGraph: {
+      title: `${property.title} | LuxHome`,
+      description,
+      url: `https://luxhomein.com/propiedades/${property.id}`,
+      type: 'article',
+      ...(primaryImage && {
+        images: [{ url: primaryImage.url, width: 1200, height: 800, alt: primaryImage.alt }],
+      }),
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: property.title,
+      description,
+      ...(primaryImage && { images: [primaryImage.url] }),
+    },
   };
 }
 
@@ -30,8 +50,41 @@ export default async function PropertyDetailPage({ params }: Props) {
   if (!property) notFound();
 
   const related = await getRelatedProperties(property, 3);
+
   const primaryImage = property.images.find((i) => i.isPrimary) ?? property.images[0];
-  const secondaryImages = property.images.filter((i) => !i.isPrimary);
+
+  const listingSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'RealEstateListing',
+    name: property.title,
+    description: property.description,
+    url: `https://luxhomein.com/propiedades/${property.id}`,
+    ...(primaryImage && { image: primaryImage.url }),
+    offers: {
+      '@type': 'Offer',
+      price: property.price,
+      priceCurrency: 'EUR',
+      availability:
+        property.status === 'disponible'
+          ? 'https://schema.org/InStock'
+          : 'https://schema.org/SoldOut',
+    },
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: property.location.address,
+      addressLocality: property.location.city,
+      postalCode: property.location.postalCode,
+      addressRegion: property.location.province,
+      addressCountry: 'ES',
+    },
+    floorSize: {
+      '@type': 'QuantitativeValue',
+      value: property.features.area,
+      unitCode: 'MTK',
+    },
+    numberOfRooms: property.features.bedrooms,
+    numberOfBathroomsTotal: property.features.bathrooms,
+  };
 
   const statusClasses: Record<string, string> = {
     disponible: 'bg-emerald-100 text-emerald-800',
@@ -53,6 +106,10 @@ export default async function PropertyDetailPage({ params }: Props) {
 
   return (
     <div className="pt-20 bg-[#faf8f3] min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(listingSchema) }}
+      />
       {/* Breadcrumb */}
       <div className="max-w-7xl mx-auto px-6 py-4">
         <nav className="flex items-center gap-2 text-sm text-gray-400">
@@ -66,30 +123,7 @@ export default async function PropertyDetailPage({ params }: Props) {
 
       {/* Image gallery */}
       <div className="max-w-7xl mx-auto px-6 mb-10">
-        <div className="grid grid-cols-4 gap-3 rounded-2xl overflow-hidden h-96 md:h-[500px]">
-          <div className="col-span-4 md:col-span-3 relative">
-            {primaryImage && (
-              <Image src={primaryImage.url} alt={primaryImage.alt} fill className="object-cover" priority />
-            )}
-          </div>
-          <div className="hidden md:flex flex-col gap-3">
-            {secondaryImages.slice(0, 2).map((img) => (
-              <div key={img.id} className="relative flex-1">
-                <Image src={img.url} alt={img.alt} fill className="object-cover" />
-              </div>
-            ))}
-            {secondaryImages.length > 2 && (
-              <div className="relative flex-1">
-                <Image src={secondaryImages[2].url} alt={secondaryImages[2].alt} fill className="object-cover" />
-                {secondaryImages.length > 3 && (
-                  <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                    <span className="text-white font-semibold text-lg">+{secondaryImages.length - 3}</span>
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-        </div>
+        <PropertyGallery images={property.images} />
       </div>
 
       {/* Main content */}
@@ -227,7 +261,7 @@ export default async function PropertyDetailPage({ params }: Props) {
                 <div className="p-6">
                   <h3 className="font-bold text-[#0f1f3d] mb-1">{t('contact')}</h3>
                   <p className="text-gray-400 text-sm mb-4">{t('contactSubtitle')}</p>
-                  <ContactForm propertyRef={property.reference} />
+                  <PropertyContactForm propertyRef={property.reference} propertyTitle={property.title} />
                 </div>
               </div>
 
@@ -269,23 +303,3 @@ function FeatureStat({ icon, label, value }: { icon: string; label: string; valu
   );
 }
 
-function ContactForm({ propertyRef }: { propertyRef: string }) {
-  return (
-    <form className="space-y-3">
-      <input type="hidden" name="ref" value={propertyRef} />
-      <input type="text" name="nombre" placeholder="Nombre" required
-        className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#c9a84c]" />
-      <input type="email" name="email" placeholder="Email" required
-        className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#c9a84c]" />
-      <input type="tel" name="telefono" placeholder="Teléfono (opcional)"
-        className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#c9a84c]" />
-      <textarea name="mensaje" rows={3}
-        className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-[#c9a84c]"
-        defaultValue={`Hola, me interesa la propiedad ${propertyRef}. ¿Podríais darme más información?`} />
-      <button type="submit"
-        className="w-full py-3 gold-gradient text-[#0f1f3d] font-semibold rounded-lg hover:opacity-90 transition-opacity">
-        Enviar consulta
-      </button>
-    </form>
-  );
-}

@@ -101,6 +101,25 @@ model Translation {
   @@index([locale])
 }
 
+// ─── Leads del formulario de contacto ────────────────────────────────────────
+
+model Lead {
+  id           String   @id @default(cuid())
+  nombre       String
+  apellidos    String?
+  email        String
+  telefono     String?
+  asunto       String?
+  presupuesto  String?
+  mensaje      String   @db.Text
+  propertyRef  String?  // rellenado cuando viene de ficha de propiedad
+  locale       String   @default("es")
+  createdAt    DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([email])
+}
+
 // ─── Log de sincronización ────────────────────────────────────────────────────
 // Permite auditar cuándo y qué se sincronizó desde Inmovilla
 

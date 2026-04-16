@@ -102,7 +102,12 @@
     "noResultsHint": "Prueba a ampliar los criterios de búsqueda.",
     "page": "Página {current} de {total}",
     "prev": "Anterior",
-    "next": "Siguiente"
+    "next": "Siguiente",
+    "sort": "Ordenar por",
+    "sortRelevance": "Relevancia",
+    "sortPriceAsc": "Precio: menor a mayor",
+    "sortPriceDesc": "Precio: mayor a menor",
+    "sortNewest": "Más recientes"
   },
   "property": {
     "contact": "¿Te interesa esta propiedad?",
@@ -133,6 +138,14 @@
     "energy": "Certificado energético",
     "plotArea": "Parcela",
     "pricePerM2": "€/m²",
+    "contactNamePlaceholder": "Nombre",
+    "contactPhonePlaceholder": "Teléfono (opcional)",
+    "contactMessageDefault": "Hola, me interesa la propiedad {ref}. ¿Podríais darme más información?",
+    "contactSubmit": "Enviar consulta",
+    "contactSending": "Enviando...",
+    "contactSent": "¡Consulta enviada!",
+    "contactSentSubtitle": "Te responderemos en menos de 24 horas.",
+    "contactError": "No se pudo enviar. Prueba por WhatsApp.",
     "notFound": "Propiedad no encontrada",
     "notFoundHint": "Es posible que ya no esté disponible.",
     "operation": {
@@ -207,7 +220,11 @@
       "message": "Mensaje",
       "messagePlaceholder": "Cuéntanos qué buscas, la zona de preferencia, características importantes...",
       "privacy": "He leído y acepto la <link>Política de Privacidad</link>. Consiento el tratamiento de mis datos para gestionar mi consulta.",
-      "submit": "Enviar mensaje"
+      "submit": "Enviar mensaje",
+      "sending": "Enviando...",
+      "successTitle": "¡Mensaje enviado!",
+      "successSubtitle": "Te responderemos en menos de 24 horas.",
+      "errorMessage": "No se pudo enviar el mensaje. Inténtalo de nuevo o escríbenos por WhatsApp."
     },
     "office": "Oficina",
     "hours": "Lun–Vie 9:30–19:00",

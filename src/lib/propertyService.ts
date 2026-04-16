@@ -93,10 +93,13 @@ function matchesCity(p: Property, query: string): boolean {
 
 // ─── API pública del servicio ─────────────────────────────────────────────────
 
+type SortOption = 'relevance' | 'price_asc' | 'price_desc' | 'newest';
+
 export async function getProperties(
   filters: PropertyFilters = {},
   page = 1,
-  pageSize = 9
+  pageSize = 9,
+  sort: SortOption = 'relevance'
 ): Promise<PropertySearchResult> {
   // Filtros que pueden resolverse en SQL
   const where: Prisma.PropertyWhereInput = {};
@@ -112,10 +115,16 @@ export async function getProperties(
     where.features = { bedrooms: { gte: filters.minBedrooms } };
   }
 
+  const orderBy: Prisma.PropertyOrderByWithRelationInput[] =
+    sort === 'price_asc'  ? [{ price: 'asc' }] :
+    sort === 'price_desc' ? [{ price: 'desc' }] :
+    sort === 'newest'     ? [{ publishedAt: 'desc' }] :
+    [{ isFeatured: 'desc' }, { publishedAt: 'desc' }];
+
   const rows = await db.property.findMany({
     where,
     include: { features: true, location: true, images: true },
-    orderBy: [{ isFeatured: 'desc' }, { publishedAt: 'desc' }],
+    orderBy,
   });
 
   // Filtros JS: acentos en ciudad y características booleanas
@@ -186,6 +195,22 @@ export async function getAllLocations(): Promise<string[]> {
     }
   }
   return result.sort((a, b) => a.localeCompare(b, 'es'));
+}
+
+export async function getStats(): Promise<{ total: number; zones: number }> {
+  const [total, cities] = await Promise.all([
+    db.property.count({ where: { status: 'disponible' } }),
+    db.propertyLocation.findMany({ select: { city: true }, distinct: ['city'] }),
+  ]);
+  return { total, zones: cities.length };
+}
+
+export async function getPropertyCountByCity(): Promise<Record<string, number>> {
+  const rows = await db.propertyLocation.groupBy({
+    by: ['city'],
+    _count: { city: true },
+  });
+  return Object.fromEntries(rows.map((r) => [r.city, r._count.city]));
 }
 
 export { formatPrice } from '@/lib/propertyUtils';

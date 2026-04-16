@@ -2,26 +2,31 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
-import { getFeaturedProperties, getAllLocations } from '@/lib/propertyService';
+import { getFeaturedProperties, getAllLocations, getStats, getPropertyCountByCity } from '@/lib/propertyService';
 import PropertyCard from '@/components/properties/PropertyCard';
 import QuickSearch from '@/components/ui/QuickSearch';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('home');
   return {
-    title: t('badge'),
+    title: 'LuxHome — Inmobiliaria en el Vallès Occidental',
+    description: t('subtitle'),
     openGraph: {
       title: 'LuxHome — Inmobiliaria en el Vallès Occidental',
+      description: t('subtitle'),
       url: 'https://luxhomein.com',
+      images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'LuxHome Inmobiliaria' }],
     },
   };
 }
 
 export default async function HomePage() {
-  const [t, featured, locations] = await Promise.all([
+  const [t, featured, locations, stats, cityCount] = await Promise.all([
     getTranslations('home'),
     getFeaturedProperties(4),
     getAllLocations(),
+    getStats(),
+    getPropertyCountByCity(),
   ]);
 
   const serviceKeys = ['sale', 'personal', 'rental', 'newBuild', 'mortgage', 'docs'] as const;
@@ -30,12 +35,12 @@ export default async function HomePage() {
   };
 
   const zones = [
-    { label: 'Santa Perpètua de Mogoda', count: 7, img: 'https://images.pexels.com/photos/5751184/pexels-photo-5751184.jpeg?auto=compress&cs=tinysrgb&w=400' },
-    { label: 'Castelldefels', count: 1, img: 'https://images.pexels.com/photos/20370118/pexels-photo-20370118.jpeg?auto=compress&cs=tinysrgb&w=400' },
-    { label: 'Vilanova del Vallès', count: 1, img: 'https://images.pexels.com/photos/10673908/pexels-photo-10673908.jpeg?auto=compress&cs=tinysrgb&w=400' },
-    { label: 'Montcada i Reixac', count: 1, img: 'https://images.pexels.com/photos/12017937/pexels-photo-12017937.jpeg?auto=compress&cs=tinysrgb&w=400' },
-    { label: 'Sant Adrià de Besòs', count: 1, img: 'https://images.pexels.com/photos/9255685/pexels-photo-9255685.jpeg?auto=compress&cs=tinysrgb&w=400' },
-    { label: 'Les Franqueses del Vallès', count: 1, img: 'https://images.pexels.com/photos/34807091/pexels-photo-34807091.jpeg?auto=compress&cs=tinysrgb&w=400' },
+    { label: 'Santa Perpètua de Mogoda', img: 'https://images.pexels.com/photos/5751184/pexels-photo-5751184.jpeg?auto=compress&cs=tinysrgb&w=400' },
+    { label: 'Castelldefels', img: 'https://images.pexels.com/photos/20370118/pexels-photo-20370118.jpeg?auto=compress&cs=tinysrgb&w=400' },
+    { label: 'Vilanova del Vallès', img: 'https://images.pexels.com/photos/10673908/pexels-photo-10673908.jpeg?auto=compress&cs=tinysrgb&w=400' },
+    { label: 'Montcada i Reixac', img: 'https://images.pexels.com/photos/12017937/pexels-photo-12017937.jpeg?auto=compress&cs=tinysrgb&w=400' },
+    { label: 'Sant Adrià de Besòs', img: 'https://images.pexels.com/photos/9255685/pexels-photo-9255685.jpeg?auto=compress&cs=tinysrgb&w=400' },
+    { label: 'Les Franqueses del Vallès', img: 'https://images.pexels.com/photos/34807091/pexels-photo-34807091.jpeg?auto=compress&cs=tinysrgb&w=400' },
   ];
 
   const testimonials = [
@@ -82,9 +87,9 @@ export default async function HomePage() {
 
           <div className="grid grid-cols-3 gap-4 md:gap-8 mt-8 md:mt-16 animate-fade-in" style={{ animationDelay: '0.5s' }}>
             {[
-              { value: '12', label: t('stats.properties') },
+              { value: String(stats.total), label: t('stats.properties') },
               { value: '3', label: t('stats.experts') },
-              { value: '6', label: t('stats.zones') },
+              { value: String(stats.zones), label: t('stats.zones') },
             ].map(({ value, label }) => (
               <div key={label} className="text-center">
                 <p className="text-[#c9a84c] font-bold text-2xl md:text-4xl" style={{ fontFamily: 'var(--font-playfair)' }}>
@@ -178,7 +183,7 @@ export default async function HomePage() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mt-8">
-            {zones.map(({ label, count, img }) => (
+            {zones.map(({ label, img }) => (
               <Link
                 key={label}
                 href={`/propiedades?ciudad=${encodeURIComponent(label)}`}
@@ -194,7 +199,9 @@ export default async function HomePage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/10" />
                 <div className="absolute bottom-0 left-0 right-0 p-3">
                   <p className="text-white font-semibold text-sm">{label}</p>
-                  <p className="text-[#c9a84c] text-xs">{count} {t('zones.properties')}</p>
+                  {(cityCount[label] ?? 0) > 0 && (
+                    <p className="text-[#c9a84c] text-xs">{cityCount[label]} {t('zones.properties')}</p>
+                  )}
                 </div>
               </Link>
             ))}
