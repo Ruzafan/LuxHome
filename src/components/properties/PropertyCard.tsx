@@ -52,7 +52,7 @@ export default function PropertyCard({ property, featured = false }: Props) {
             </span>
             {property.isNewDevelopment && (
               <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-[#0f1f3d] text-[#c9a84c]">
-                {t('type.nueva')}
+                {t('newDevelopment')}
               </span>
             )}
           </div>
