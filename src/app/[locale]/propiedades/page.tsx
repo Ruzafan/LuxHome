@@ -113,8 +113,8 @@ export default async function PropiedadesPage({
             />
           </div>
 
-          <div className="hidden lg:flex items-center justify-between mb-4 gap-4 flex-wrap">
-            <ActiveFilters params={rawParams} baseUrl={baseUrl} t={t} />
+          {/* Sort (desktop only — mobile sort is in the drawer row above) */}
+          <div className="hidden lg:flex items-center justify-end mb-4">
             <SortSelect
               currentSort={sort}
               label={t('sort')}
@@ -127,10 +127,8 @@ export default async function PropiedadesPage({
             />
           </div>
 
-          {/* Desktop active filters */}
-          <div className="hidden lg:block">
-            <ActiveFilters params={rawParams} baseUrl={baseUrl} t={t} />
-          </div>
+          {/* Active filter chips — visible on all screen sizes */}
+          <ActiveFilters params={rawParams} baseUrl={baseUrl} t={t} />
 
           {properties.length === 0 ? (
             <div className="text-center py-20">
