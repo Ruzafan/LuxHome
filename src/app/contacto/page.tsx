@@ -2,7 +2,12 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Contacto',
-  description: 'Contacta con Lux Home Inmobiliaria. Oficina en Rambla 27, Santa Perpètua de Mogoda. Atendemos sin compromiso.',
+  description: 'Contacta con LuxHome y recibe respuesta en menos de 24h. Especialistas en compraventa y alquiler en el Vallès Occidental.',
+  openGraph: {
+    title: 'Contacto | LuxHome',
+    description: 'Contacta con LuxHome y recibe respuesta en menos de 24h.',
+    url: 'https://luxhomein.com/contacto',
+  },
 };
 
 const offices = [

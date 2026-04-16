@@ -1,8 +1,21 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { getFeaturedProperties, getAllLocations } from '@/lib/propertyService';
 import PropertyCard from '@/components/properties/PropertyCard';
 import LocationAutocomplete from '@/components/ui/LocationAutocomplete';
+
+export const metadata: Metadata = {
+  title: 'Inmobiliaria en el Vallès Occidental | LuxHome',
+  description:
+    'Inmobiliaria en el Vallès Occidental. Mónica, Vanesa y Bego te ayudan a comprar, vender o alquilar en Santa Perpètua, Castelldefels, Vilanova del Vallès y alrededores.',
+  openGraph: {
+    title: 'LuxHome — Inmobiliaria en el Vallès Occidental',
+    description:
+      'Compra, vende o alquila tu propiedad con un equipo cercano y experto en el Vallès Occidental.',
+    url: 'https://luxhomein.com',
+  },
+};
 
 export default async function HomePage() {
   const [featured, locations] = await Promise.all([
@@ -181,6 +194,33 @@ export default async function HomePage() {
             </h2>
           </div>
 
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                '@context': 'https://schema.org',
+                '@type': 'ItemList',
+                itemListElement: testimonials.map((t, i) => ({
+                  '@type': 'ListItem',
+                  position: i + 1,
+                  item: {
+                    '@type': 'Review',
+                    author: { '@type': 'Person', name: t.name },
+                    reviewRating: {
+                      '@type': 'Rating',
+                      ratingValue: t.stars,
+                      bestRating: 5,
+                    },
+                    reviewBody: t.text,
+                    itemReviewed: {
+                      '@type': 'RealEstateAgent',
+                      name: 'LuxHome Inmobiliaria',
+                    },
+                  },
+                })),
+              }),
+            }}
+          />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
             {testimonials.map(({ name, role, text, stars }) => (
               <div key={name} className="bg-white rounded-xl p-6 shadow-md">

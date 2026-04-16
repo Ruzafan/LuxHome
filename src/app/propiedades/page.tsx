@@ -6,8 +6,13 @@ import LocationAutocomplete from '@/components/ui/LocationAutocomplete';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Propiedades',
-  description: 'Explora nuestra selección de propiedades en venta y alquiler en el Vallès Occidental y alrededores.',
+  title: 'Propiedades en venta y alquiler',
+  description: 'Descubre nuestra selección de pisos, chalets y áticos en el Vallès Occidental. Propiedades disponibles en Santa Perpètua, Castelldefels y más zonas.',
+  openGraph: {
+    title: 'Propiedades en venta y alquiler | LuxHome',
+    description: 'Pisos, chalets y áticos en el Vallès Occidental. Consulta disponibilidad sin compromiso.',
+    url: 'https://luxhomein.com/propiedades',
+  },
 };
 
 interface SearchParams {
