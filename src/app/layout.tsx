@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     title: 'LuxHome — Inmobiliaria en el Vallès Occidental',
     description:
       'Compra, vende o alquila con Mónica, Vanesa y Bego. Especialistas en el Vallès Occidental y alrededores.',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'LuxHome Inmobiliaria' }],
+    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'LuxHome Inmobiliaria' }],
   },
   twitter: {
     card: 'summary_large_image',

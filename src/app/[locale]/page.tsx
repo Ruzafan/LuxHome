@@ -15,7 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
       title: 'LuxHome — Inmobiliaria en el Vallès Occidental',
       description: t('subtitle'),
       url: 'https://luxhomein.com',
-      images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'LuxHome Inmobiliaria' }],
+      images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'LuxHome Inmobiliaria' }],
     },
   };
 }

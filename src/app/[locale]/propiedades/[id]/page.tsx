@@ -6,6 +6,7 @@ import { getPropertyById, getRelatedProperties, formatPrice } from '@/lib/proper
 import PropertyCard from '@/components/properties/PropertyCard';
 import PropertyContactForm from '@/components/properties/PropertyContactForm';
 import PropertyGallery from '@/components/properties/PropertyGallery';
+import ShareButton from '@/components/properties/ShareButton';
 
 interface Props {
   params: Promise<{ id: string; locale: string }>;
@@ -113,7 +114,7 @@ export default async function PropertyDetailPage({ params }: Props) {
       {/* Breadcrumb */}
       <div className="max-w-7xl mx-auto px-6 py-4">
         <nav className="flex items-center gap-2 text-sm text-gray-400">
-          <Link href="/" className="hover:text-[#c9a84c] transition-colors">Inicio</Link>
+          <Link href="/" className="hover:text-[#c9a84c] transition-colors">{t('home')}</Link>
           <span>/</span>
           <Link href="/propiedades" className="hover:text-[#c9a84c] transition-colors">{t('back').replace('← ', '')}</Link>
           <span>/</span>
@@ -141,7 +142,7 @@ export default async function PropertyDetailPage({ params }: Props) {
                 </span>
                 {property.isNewDevelopment && (
                   <span className="text-xs font-semibold px-3 py-1 rounded-full bg-[#0f1f3d] text-[#c9a84c]">
-                    Obra nueva
+                    {t('newDevelopment')}
                   </span>
                 )}
               </div>
@@ -222,8 +223,8 @@ export default async function PropertyDetailPage({ params }: Props) {
             {/* Ref */}
             <div className="text-xs text-gray-400 border-t border-gray-100 pt-4 flex flex-wrap gap-4">
               <span>{t('reference')} <strong>{property.reference}</strong></span>
-              <span>Publicado: {new Date(property.publishedAt).toLocaleDateString('es-ES')}</span>
-              <span>Actualizado: {new Date(property.updatedAt).toLocaleDateString('es-ES')}</span>
+              <span>{t('publishedAt')}: {new Date(property.publishedAt).toLocaleDateString('es-ES')}</span>
+              <span>{t('updatedAt')}: {new Date(property.updatedAt).toLocaleDateString('es-ES')}</span>
             </div>
           </div>
 
@@ -267,9 +268,10 @@ export default async function PropertyDetailPage({ params }: Props) {
 
               <div className="mt-4 bg-white rounded-xl shadow p-4 flex items-center justify-between">
                 <p className="text-sm text-gray-500">{t('reference')} {property.reference}</p>
-                <button className="text-[#c9a84c] text-sm font-medium hover:underline">
-                  {t('share')} ↗
-                </button>
+                <ShareButton
+                  title={property.title}
+                  url={`https://luxhomein.com/propiedades/${property.id}`}
+                />
               </div>
             </div>
           </div>

@@ -121,6 +121,7 @@
     "related": "Similar properties",
     "back": "Back to properties",
     "share": "Share",
+    "shareCopied": "Link copied to clipboard",
     "reference": "Ref.",
     "bedrooms": "{n} bed.",
     "bathrooms": "{n} baths",
@@ -146,6 +147,10 @@
     "contactSent": "Enquiry sent!",
     "contactSentSubtitle": "We will get back to you within 24 hours.",
     "contactError": "Could not send. Try via WhatsApp.",
+    "home": "Home",
+    "newDevelopment": "New development",
+    "publishedAt": "Published",
+    "updatedAt": "Updated",
     "notFound": "Property not found",
     "notFoundHint": "It may no longer be available.",
     "operation": {

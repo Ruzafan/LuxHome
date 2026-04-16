@@ -121,6 +121,7 @@
     "related": "Propietats similars",
     "back": "Tornar a propietats",
     "share": "Compartir",
+    "shareCopied": "Enllaç copiat al porta-retalls",
     "reference": "Ref.",
     "bedrooms": "{n} hab.",
     "bathrooms": "{n} banys",
@@ -146,6 +147,10 @@
     "contactSent": "Consulta enviada!",
     "contactSentSubtitle": "Et respondrem en menys de 24 hores.",
     "contactError": "No s'ha pogut enviar. Prova per WhatsApp.",
+    "home": "Inici",
+    "newDevelopment": "Obra nova",
+    "publishedAt": "Publicat",
+    "updatedAt": "Actualitzat",
     "notFound": "Propietat no trobada",
     "notFoundHint": "És possible que ja no estigui disponible.",
     "operation": {

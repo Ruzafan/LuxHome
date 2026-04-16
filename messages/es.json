@@ -121,6 +121,7 @@
     "related": "Propiedades similares",
     "back": "Volver a propiedades",
     "share": "Compartir",
+    "shareCopied": "Enlace copiado al portapapeles",
     "reference": "Ref.",
     "bedrooms": "{n} hab.",
     "bathrooms": "{n} baños",
@@ -146,6 +147,10 @@
     "contactSent": "¡Consulta enviada!",
     "contactSentSubtitle": "Te responderemos en menos de 24 horas.",
     "contactError": "No se pudo enviar. Prueba por WhatsApp.",
+    "home": "Inicio",
+    "newDevelopment": "Obra nueva",
+    "publishedAt": "Publicado",
+    "updatedAt": "Actualizado",
     "notFound": "Propiedad no encontrada",
     "notFoundHint": "Es posible que ya no esté disponible.",
     "operation": {
