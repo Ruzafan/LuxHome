@@ -188,11 +188,4 @@ export async function getAllLocations(): Promise<string[]> {
   return result.sort((a, b) => a.localeCompare(b, 'es'));
 }
 
-export function formatPrice(price: number, operation: Property['operation']): string {
-  const formatted = new Intl.NumberFormat('es-ES', {
-    style: 'currency',
-    currency: 'EUR',
-    maximumFractionDigits: 0,
-  }).format(price);
-  return operation === 'alquiler' ? `${formatted}/mes` : formatted;
-}
+export { formatPrice } from '@/lib/propertyUtils';

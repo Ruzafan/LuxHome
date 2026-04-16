@@ -1,19 +1,24 @@
 import { Metadata } from 'next';
+import { getTranslations } from 'next-intl/server';
+import { getPathname } from '@/i18n/navigation';
+import { Link } from '@/i18n/navigation';
 import { getProperties, getAllLocations } from '@/lib/propertyService';
 import { PropertyFilters, PropertyType, OperationType } from '@/types/property';
 import PropertyCard from '@/components/properties/PropertyCard';
 import LocationAutocomplete from '@/components/ui/LocationAutocomplete';
-import Link from 'next/link';
 
-export const metadata: Metadata = {
-  title: 'Propiedades en venta y alquiler',
-  description: 'Descubre nuestra selección de pisos, chalets y áticos en el Vallès Occidental. Propiedades disponibles en Santa Perpètua, Castelldefels y más zonas.',
-  openGraph: {
-    title: 'Propiedades en venta y alquiler | LuxHome',
-    description: 'Pisos, chalets y áticos en el Vallès Occidental. Consulta disponibilidad sin compromiso.',
-    url: 'https://luxhomein.com/propiedades',
-  },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'properties' });
+  return {
+    title: t('title'),
+    description: t('subtitle'),
+  };
+}
 
 interface SearchParams {
   operacion?: string;
@@ -26,39 +31,49 @@ interface SearchParams {
 }
 
 export default async function PropiedadesPage({
+  params,
   searchParams,
 }: {
+  params: Promise<{ locale: string }>;
   searchParams: Promise<SearchParams>;
 }) {
-  const params = await searchParams;
+  const [{ locale }, rawParams, t] = await Promise.all([
+    params,
+    searchParams,
+    getTranslations('properties'),
+  ]);
 
   const filters: PropertyFilters = {};
-  if (params.operacion && (params.operacion === 'venta' || params.operacion === 'alquiler')) {
-    filters.operation = params.operacion as OperationType;
+  if (rawParams.operacion === 'venta' || rawParams.operacion === 'alquiler') {
+    filters.operation = rawParams.operacion as OperationType;
   }
-  if (params.tipo) filters.type = params.tipo as PropertyType;
-  if (params.ciudad) filters.city = params.ciudad;
-  if (params.precioMin) filters.minPrice = Number(params.precioMin);
-  if (params.precioMax) filters.maxPrice = Number(params.precioMax);
-  if (params.habitaciones) filters.minBedrooms = Number(params.habitaciones);
+  if (rawParams.tipo) filters.type = rawParams.tipo as PropertyType;
+  if (rawParams.ciudad) filters.city = rawParams.ciudad;
+  if (rawParams.precioMin) filters.minPrice = Number(rawParams.precioMin);
+  if (rawParams.precioMax) filters.maxPrice = Number(rawParams.precioMax);
+  if (rawParams.habitaciones) filters.minBedrooms = Number(rawParams.habitaciones);
 
-  const page = params.pagina ? Number(params.pagina) : 1;
+  const page = rawParams.pagina ? Number(rawParams.pagina) : 1;
   const [{ properties, total, totalPages }, locations] = await Promise.all([
     getProperties(filters, page, 9),
     getAllLocations(),
   ]);
+
+  const baseUrl = getPathname({ href: '/propiedades', locale });
 
   return (
     <div className="pt-20 min-h-screen bg-[#faf8f3]">
       {/* Page header */}
       <div className="luxury-gradient py-16 px-6">
         <div className="max-w-7xl mx-auto">
-          <p className="text-[#c9a84c] text-sm font-semibold tracking-[0.3em] uppercase mb-2">Catálogo completo</p>
+          <p className="text-[#c9a84c] text-sm font-semibold tracking-[0.3em] uppercase mb-2">
+            {t('title')}
+          </p>
           <h1 className="text-white font-bold text-4xl mb-2" style={{ fontFamily: 'var(--font-playfair)' }}>
-            Propiedades
+            {t('title')}
           </h1>
           <p className="text-white/60 text-sm">
-            {total} {total === 1 ? 'propiedad encontrada' : 'propiedades encontradas'}
+            {t('results', { count: total })}
           </p>
         </div>
       </div>
@@ -66,21 +81,20 @@ export default async function PropiedadesPage({
       <div className="max-w-7xl mx-auto px-6 py-10 flex flex-col lg:flex-row gap-8">
         {/* ─── Sidebar Filters ─────────────────────────────────────────────────── */}
         <aside className="lg:w-72 shrink-0">
-          <FilterPanel currentParams={params} locations={locations} />
+          <FilterPanel currentParams={rawParams} locations={locations} baseUrl={baseUrl} t={t} />
         </aside>
 
         {/* ─── Results ─────────────────────────────────────────────────────────── */}
         <div className="flex-1">
-          {/* Active filters */}
-          <ActiveFilters params={params} />
+          <ActiveFilters params={rawParams} baseUrl={baseUrl} t={t} />
 
           {properties.length === 0 ? (
             <div className="text-center py-20">
               <p className="text-5xl mb-4">🏠</p>
-              <h2 className="text-xl font-semibold text-[#0f1f3d] mb-2">Sin resultados</h2>
-              <p className="text-gray-500 mb-6">No hemos encontrado propiedades con esos filtros.</p>
+              <h2 className="text-xl font-semibold text-[#0f1f3d] mb-2">{t('noResults')}</h2>
+              <p className="text-gray-500 mb-6">{t('noResultsHint')}</p>
               <Link href="/propiedades" className="text-[#c9a84c] font-medium hover:underline">
-                Ver todas las propiedades
+                {t('results', { count: 0 }).replace('0 ', '')}
               </Link>
             </div>
           ) : (
@@ -91,7 +105,6 @@ export default async function PropiedadesPage({
                 ))}
               </div>
 
-              {/* Pagination */}
               {totalPages > 1 && (
                 <div className="flex justify-center gap-2 mt-10">
                   {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
@@ -99,7 +112,8 @@ export default async function PropiedadesPage({
                       key={p}
                       page={p}
                       currentPage={page}
-                      params={params}
+                      params={rawParams}
+                      baseUrl={baseUrl}
                     />
                   ))}
                 </div>
@@ -114,25 +128,35 @@ export default async function PropiedadesPage({
 
 // ─── Filter Panel ──────────────────────────────────────────────────────────────
 
-function FilterPanel({ currentParams, locations }: { currentParams: SearchParams; locations: string[] }) {
-  const baseUrl = '/propiedades';
+type TFn = Awaited<ReturnType<typeof getTranslations<'properties'>>>;
 
+function FilterPanel({
+  currentParams,
+  locations,
+  baseUrl,
+  t,
+}: {
+  currentParams: SearchParams;
+  locations: string[];
+  baseUrl: string;
+  t: TFn;
+}) {
   return (
     <form action={baseUrl} method="get" className="bg-white rounded-xl shadow-md p-6 sticky top-24">
       <h2 className="font-bold text-[#0f1f3d] text-lg mb-5 pb-3 border-b border-gray-100">
-        Filtros
+        {t('filters.title')}
       </h2>
 
       {/* Operación */}
       <div className="mb-5">
         <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
-          Operación
+          {t('filters.operation')}
         </label>
         <div className="flex gap-2">
           {[
-            { value: '', label: 'Todas' },
-            { value: 'venta', label: 'Comprar' },
-            { value: 'alquiler', label: 'Alquilar' },
+            { value: '', label: t('filters.allOperations') },
+            { value: 'venta', label: t('filters.buy') },
+            { value: 'alquiler', label: t('filters.rent') },
           ].map(({ value, label }) => (
             <label key={value} className="flex-1">
               <input
@@ -153,7 +177,7 @@ function FilterPanel({ currentParams, locations }: { currentParams: SearchParams
       {/* Tipo */}
       <div className="mb-5">
         <label htmlFor="tipo" className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
-          Tipo de propiedad
+          {t('filters.type')}
         </label>
         <select
           id="tipo"
@@ -161,11 +185,11 @@ function FilterPanel({ currentParams, locations }: { currentParams: SearchParams
           defaultValue={currentParams.tipo ?? ''}
           className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#c9a84c]"
         >
-          <option value="">Todos los tipos</option>
-          <option value="piso">Piso</option>
-          <option value="chalet">Chalet</option>
-          <option value="atico">Ático</option>
-          <option value="casa">Casa</option>
+          <option value="">{t('filters.allTypes')}</option>
+          <option value="piso">{t('filters.apartment')}</option>
+          <option value="chalet">{t('filters.villa')}</option>
+          <option value="atico">{t('filters.penthouse')}</option>
+          <option value="casa">{t('filters.house')}</option>
           <option value="local">Local</option>
           <option value="terreno">Terreno</option>
         </select>
@@ -174,7 +198,7 @@ function FilterPanel({ currentParams, locations }: { currentParams: SearchParams
       {/* Ciudad */}
       <div className="mb-5">
         <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
-          Ciudad o zona
+          {t('filters.location')}
         </label>
         <LocationAutocomplete
           suggestions={locations}
@@ -211,7 +235,7 @@ function FilterPanel({ currentParams, locations }: { currentParams: SearchParams
       {/* Habitaciones */}
       <div className="mb-6">
         <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
-          Habitaciones mínimas
+          {t('filters.bedrooms')}
         </label>
         <div className="flex gap-2">
           {['', '1', '2', '3', '4', '5+'].map((v) => (
@@ -224,7 +248,7 @@ function FilterPanel({ currentParams, locations }: { currentParams: SearchParams
                 className="peer sr-only"
               />
               <span className="block text-center text-xs py-2 rounded-lg border border-gray-200 cursor-pointer peer-checked:bg-[#0f1f3d] peer-checked:text-white peer-checked:border-[#0f1f3d] hover:border-[#c9a84c] transition-colors">
-                {v || 'Todos'}
+                {v || t('filters.anyBedrooms')}
               </span>
             </label>
           ))}
@@ -235,14 +259,14 @@ function FilterPanel({ currentParams, locations }: { currentParams: SearchParams
         type="submit"
         className="w-full py-3 gold-gradient text-[#0f1f3d] font-semibold rounded-lg hover:opacity-90 transition-opacity"
       >
-        Aplicar filtros
+        {t('filters.search')}
       </button>
 
       <Link
         href="/propiedades"
         className="block text-center mt-3 text-sm text-gray-400 hover:text-gray-600 transition-colors"
       >
-        Limpiar filtros
+        {t('filters.clear')}
       </Link>
     </form>
   );
@@ -250,9 +274,9 @@ function FilterPanel({ currentParams, locations }: { currentParams: SearchParams
 
 // ─── Active Filters ────────────────────────────────────────────────────────────
 
-function ActiveFilters({ params }: { params: SearchParams }) {
+function ActiveFilters({ params, baseUrl, t }: { params: SearchParams; baseUrl: string; t: TFn }) {
   const chips = [
-    params.operacion && { key: 'operacion', label: params.operacion === 'venta' ? 'Comprar' : 'Alquilar' },
+    params.operacion && { key: 'operacion', label: params.operacion === 'venta' ? t('filters.buy') : t('filters.rent') },
     params.tipo && { key: 'tipo', label: params.tipo },
     params.ciudad && { key: 'ciudad', label: params.ciudad },
     params.habitaciones && { key: 'habitaciones', label: `${params.habitaciones}+ hab.` },
@@ -289,10 +313,12 @@ function PaginationLink({
   page,
   currentPage,
   params,
+  baseUrl,
 }: {
   page: number;
   currentPage: number;
   params: SearchParams;
+  baseUrl: string;
 }) {
   const qs = Object.entries({ ...params, pagina: String(page) })
     .filter(([, v]) => v !== undefined && v !== '')

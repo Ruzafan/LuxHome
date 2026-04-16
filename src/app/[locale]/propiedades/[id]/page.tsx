@@ -1,12 +1,13 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
-import Link from 'next/link';
+import { getTranslations } from 'next-intl/server';
+import { Link } from '@/i18n/navigation';
 import { getPropertyById, getRelatedProperties, formatPrice } from '@/lib/propertyService';
 import PropertyCard from '@/components/properties/PropertyCard';
 
 interface Props {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string; locale: string }>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -21,20 +22,34 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function PropertyDetailPage({ params }: Props) {
   const { id } = await params;
-  const property = await getPropertyById(id);
+  const [property, t] = await Promise.all([
+    getPropertyById(id),
+    getTranslations('property'),
+  ]);
+
   if (!property) notFound();
 
   const related = await getRelatedProperties(property, 3);
   const primaryImage = property.images.find((i) => i.isPrimary) ?? property.images[0];
   const secondaryImages = property.images.filter((i) => !i.isPrimary);
 
-  const statusConfig = {
-    disponible: { label: 'Disponible', classes: 'bg-emerald-100 text-emerald-800' },
-    reservado: { label: 'Reservado', classes: 'bg-amber-100 text-amber-800' },
-    vendido: { label: 'Vendido', classes: 'bg-red-100 text-red-800' },
-    alquilado: { label: 'Alquilado', classes: 'bg-blue-100 text-blue-800' },
+  const statusClasses: Record<string, string> = {
+    disponible: 'bg-emerald-100 text-emerald-800',
+    reservado: 'bg-amber-100 text-amber-800',
+    vendido: 'bg-red-100 text-red-800',
+    alquilado: 'bg-blue-100 text-blue-800',
   };
-  const status = statusConfig[property.status];
+
+  const amenities = [
+    { key: 'hasGarage', label: t('garage'), icon: '🚗' },
+    { key: 'hasPool', label: t('pool'), icon: '🏊' },
+    { key: 'hasTerrace', label: t('terrace'), icon: '🌅' },
+    { key: 'hasGarden', label: t('garden'), icon: '🌳' },
+    { key: 'hasElevator', label: t('elevator'), icon: '🛗' },
+    { key: 'hasAirConditioning', label: t('ac'), icon: '❄️' },
+    { key: 'hasHeating', label: t('heating'), icon: '🔥' },
+    { key: 'hasStorageRoom', label: t('storage'), icon: '📦' },
+  ];
 
   return (
     <div className="pt-20 bg-[#faf8f3] min-h-screen">
@@ -43,7 +58,7 @@ export default async function PropertyDetailPage({ params }: Props) {
         <nav className="flex items-center gap-2 text-sm text-gray-400">
           <Link href="/" className="hover:text-[#c9a84c] transition-colors">Inicio</Link>
           <span>/</span>
-          <Link href="/propiedades" className="hover:text-[#c9a84c] transition-colors">Propiedades</Link>
+          <Link href="/propiedades" className="hover:text-[#c9a84c] transition-colors">{t('back').replace('← ', '')}</Link>
           <span>/</span>
           <span className="text-[#0f1f3d] font-medium truncate max-w-xs">{property.title}</span>
         </nav>
@@ -52,19 +67,11 @@ export default async function PropertyDetailPage({ params }: Props) {
       {/* Image gallery */}
       <div className="max-w-7xl mx-auto px-6 mb-10">
         <div className="grid grid-cols-4 gap-3 rounded-2xl overflow-hidden h-96 md:h-[500px]">
-          {/* Main image */}
           <div className="col-span-4 md:col-span-3 relative">
             {primaryImage && (
-              <Image
-                src={primaryImage.url}
-                alt={primaryImage.alt}
-                fill
-                className="object-cover"
-                priority
-              />
+              <Image src={primaryImage.url} alt={primaryImage.alt} fill className="object-cover" priority />
             )}
           </div>
-          {/* Secondary images */}
           <div className="hidden md:flex flex-col gap-3">
             {secondaryImages.slice(0, 2).map((img) => (
               <div key={img.id} className="relative flex-1">
@@ -76,7 +83,7 @@ export default async function PropertyDetailPage({ params }: Props) {
                 <Image src={secondaryImages[2].url} alt={secondaryImages[2].alt} fill className="object-cover" />
                 {secondaryImages.length > 3 && (
                   <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                    <span className="text-white font-semibold text-lg">+{secondaryImages.length - 3} fotos</span>
+                    <span className="text-white font-semibold text-lg">+{secondaryImages.length - 3}</span>
                   </div>
                 )}
               </div>
@@ -90,14 +97,13 @@ export default async function PropertyDetailPage({ params }: Props) {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
           {/* Left — Details */}
           <div className="lg:col-span-2">
-            {/* Header */}
             <div className="mb-6">
               <div className="flex flex-wrap items-center gap-3 mb-3">
-                <span className={`text-xs font-semibold px-3 py-1 rounded-full ${status.classes}`}>
-                  {status.label}
+                <span className={`text-xs font-semibold px-3 py-1 rounded-full ${statusClasses[property.status]}`}>
+                  {t(`status.${property.status}`)}
                 </span>
                 <span className="text-xs font-semibold px-3 py-1 rounded-full gold-gradient text-[#0f1f3d] uppercase">
-                  {property.operation}
+                  {t(`operation.${property.operation}`)}
                 </span>
                 {property.isNewDevelopment && (
                   <span className="text-xs font-semibold px-3 py-1 rounded-full bg-[#0f1f3d] text-[#c9a84c]">
@@ -106,10 +112,7 @@ export default async function PropertyDetailPage({ params }: Props) {
                 )}
               </div>
 
-              <h1
-                className="text-[#0f1f3d] font-bold text-3xl md:text-4xl leading-tight mb-2"
-                style={{ fontFamily: 'var(--font-playfair)' }}
-              >
+              <h1 className="text-[#0f1f3d] font-bold text-3xl md:text-4xl leading-tight mb-2" style={{ fontFamily: 'var(--font-playfair)' }}>
                 {property.title}
               </h1>
 
@@ -127,34 +130,34 @@ export default async function PropertyDetailPage({ params }: Props) {
               </p>
               {property.pricePerM2 && (
                 <p className="text-gray-400 text-sm mt-1">
-                  {new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(property.pricePerM2)}/m²
+                  {new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(property.pricePerM2)}{t('pricePerM2')}
                 </p>
               )}
             </div>
 
             {/* Quick features */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-white rounded-xl p-5 shadow-sm mb-8">
-              <FeatureStat icon="🛏️" label="Habitaciones" value={String(property.features.bedrooms)} />
-              <FeatureStat icon="🚿" label="Baños" value={String(property.features.bathrooms)} />
-              <FeatureStat icon="📐" label="Superficie" value={`${property.features.area} m²`} />
+              <FeatureStat icon="🛏️" label={t('features')} value={String(property.features.bedrooms)} />
+              <FeatureStat icon="🚿" label={t('bathrooms', { n: '' }).replace(' ', '')} value={String(property.features.bathrooms)} />
+              <FeatureStat icon="📐" label={t('area', { n: '' }).replace(' ', '')} value={`${property.features.area} m²`} />
               {property.features.plotArea && (
-                <FeatureStat icon="🌿" label="Parcela" value={`${property.features.plotArea} m²`} />
+                <FeatureStat icon="🌿" label={t('plotArea')} value={`${property.features.plotArea} m²`} />
               )}
               {property.features.floor !== undefined && (
-                <FeatureStat icon="🏢" label="Planta" value={String(property.features.floor)} />
+                <FeatureStat icon="🏢" label={t('floor', { n: '' }).replace(' ', '')} value={String(property.features.floor)} />
               )}
               {property.features.energyCertificate && (
-                <FeatureStat icon="⚡" label="Certificado" value={property.features.energyCertificate} />
+                <FeatureStat icon="⚡" label={t('energy')} value={property.features.energyCertificate} />
               )}
               {property.features.orientation && (
-                <FeatureStat icon="🧭" label="Orientación" value={property.features.orientation} />
+                <FeatureStat icon="🧭" label={t('orientation')} value={property.features.orientation} />
               )}
             </div>
 
             {/* Description */}
             <div className="mb-8">
               <h2 className="text-[#0f1f3d] font-bold text-xl mb-4" style={{ fontFamily: 'var(--font-playfair)' }}>
-                Descripción
+                {t('description')}
               </h2>
               <p className="text-gray-600 leading-relaxed whitespace-pre-line">{property.description}</p>
             </div>
@@ -162,19 +165,10 @@ export default async function PropertyDetailPage({ params }: Props) {
             {/* Amenities */}
             <div className="mb-8">
               <h2 className="text-[#0f1f3d] font-bold text-xl mb-4" style={{ fontFamily: 'var(--font-playfair)' }}>
-                Características
+                {t('features')}
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                {[
-                  { key: 'hasGarage', label: 'Garaje', icon: '🚗' },
-                  { key: 'hasPool', label: 'Piscina', icon: '🏊' },
-                  { key: 'hasTerrace', label: 'Terraza', icon: '🌅' },
-                  { key: 'hasGarden', label: 'Jardín', icon: '🌳' },
-                  { key: 'hasElevator', label: 'Ascensor', icon: '🛗' },
-                  { key: 'hasAirConditioning', label: 'Aire acondicionado', icon: '❄️' },
-                  { key: 'hasHeating', label: 'Calefacción', icon: '🔥' },
-                  { key: 'hasStorageRoom', label: 'Trastero', icon: '📦' },
-                ].map(({ key, label, icon }) => {
+                {amenities.map(({ key, label, icon }) => {
                   const has = property.features[key as keyof typeof property.features] === true;
                   return (
                     <div
@@ -191,9 +185,9 @@ export default async function PropertyDetailPage({ params }: Props) {
               </div>
             </div>
 
-            {/* Ref & dates */}
+            {/* Ref */}
             <div className="text-xs text-gray-400 border-t border-gray-100 pt-4 flex flex-wrap gap-4">
-              <span>Ref: <strong>{property.reference}</strong></span>
+              <span>{t('reference')} <strong>{property.reference}</strong></span>
               <span>Publicado: {new Date(property.publishedAt).toLocaleDateString('es-ES')}</span>
               <span>Actualizado: {new Date(property.updatedAt).toLocaleDateString('es-ES')}</span>
             </div>
@@ -203,46 +197,44 @@ export default async function PropertyDetailPage({ params }: Props) {
           <div>
             <div className="sticky top-24">
               <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-                {/* Agent */}
                 <div className="luxury-gradient p-6">
-                  <p className="text-[#c9a84c] text-xs font-semibold tracking-widest uppercase mb-3">Tu asesor</p>
+                  <p className="text-[#c9a84c] text-xs font-semibold tracking-widest uppercase mb-3">{t('advisor')}</p>
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 rounded-full gold-gradient flex items-center justify-center text-[#0f1f3d] font-bold">
-                      AM
+                      LH
                     </div>
                     <div>
-                      <p className="text-white font-semibold">Ana Martínez</p>
-                      <p className="text-white/60 text-xs">Asesora · LuxHome</p>
+                      <p className="text-white font-semibold">LuxHome</p>
+                      <p className="text-white/60 text-xs">+34 931 05 79 65</p>
                     </div>
                   </div>
                   <div className="flex gap-3 mt-4">
                     <a
-                      href="tel:+34932000000"
+                      href="tel:+34931057965"
                       className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-white/10 rounded-lg text-white text-sm hover:bg-white/20 transition-colors"
                     >
-                      📞 Llamar
+                      📞 {t('callButton')}
                     </a>
                     <a
-                      href="https://wa.me/34932000000"
+                      href="https://wa.me/34931057965"
                       className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-[#25d366]/20 rounded-lg text-white text-sm hover:bg-[#25d366]/30 transition-colors"
                     >
-                      💬 WhatsApp
+                      💬 {t('whatsappButton')}
                     </a>
                   </div>
                 </div>
 
-                {/* Contact form */}
                 <div className="p-6">
-                  <h3 className="font-bold text-[#0f1f3d] mb-4">Solicitar información</h3>
+                  <h3 className="font-bold text-[#0f1f3d] mb-1">{t('contact')}</h3>
+                  <p className="text-gray-400 text-sm mb-4">{t('contactSubtitle')}</p>
                   <ContactForm propertyRef={property.reference} />
                 </div>
               </div>
 
-              {/* Share */}
               <div className="mt-4 bg-white rounded-xl shadow p-4 flex items-center justify-between">
-                <p className="text-sm text-gray-500">Ref: {property.reference}</p>
+                <p className="text-sm text-gray-500">{t('reference')} {property.reference}</p>
                 <button className="text-[#c9a84c] text-sm font-medium hover:underline">
-                  Compartir ↗
+                  {t('share')} ↗
                 </button>
               </div>
             </div>
@@ -253,7 +245,7 @@ export default async function PropertyDetailPage({ params }: Props) {
         {related.length > 0 && (
           <div className="mt-16">
             <h2 className="text-[#0f1f3d] font-bold text-2xl mb-6" style={{ fontFamily: 'var(--font-playfair)' }}>
-              Propiedades similares
+              {t('related')}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {related.map((p) => (
@@ -266,8 +258,6 @@ export default async function PropertyDetailPage({ params }: Props) {
     </div>
   );
 }
-
-// ─── Sub-components ────────────────────────────────────────────────────────────
 
 function FeatureStat({ icon, label, value }: { icon: string; label: string; value: string }) {
   return (
@@ -283,42 +273,19 @@ function ContactForm({ propertyRef }: { propertyRef: string }) {
   return (
     <form className="space-y-3">
       <input type="hidden" name="ref" value={propertyRef} />
-      <input
-        type="text"
-        name="nombre"
-        placeholder="Tu nombre"
-        required
-        className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#c9a84c]"
-      />
-      <input
-        type="email"
-        name="email"
-        placeholder="Tu email"
-        required
-        className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#c9a84c]"
-      />
-      <input
-        type="tel"
-        name="telefono"
-        placeholder="Teléfono (opcional)"
-        className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#c9a84c]"
-      />
-      <textarea
-        name="mensaje"
-        rows={3}
-        placeholder="Me interesa esta propiedad..."
+      <input type="text" name="nombre" placeholder="Nombre" required
+        className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#c9a84c]" />
+      <input type="email" name="email" placeholder="Email" required
+        className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#c9a84c]" />
+      <input type="tel" name="telefono" placeholder="Teléfono (opcional)"
+        className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#c9a84c]" />
+      <textarea name="mensaje" rows={3}
         className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-[#c9a84c]"
-        defaultValue={`Hola, me interesa la propiedad ${propertyRef}. ¿Podríais darme más información?`}
-      />
-      <button
-        type="submit"
-        className="w-full py-3 gold-gradient text-[#0f1f3d] font-semibold rounded-lg hover:opacity-90 transition-opacity"
-      >
+        defaultValue={`Hola, me interesa la propiedad ${propertyRef}. ¿Podríais darme más información?`} />
+      <button type="submit"
+        className="w-full py-3 gold-gradient text-[#0f1f3d] font-semibold rounded-lg hover:opacity-90 transition-opacity">
         Enviar consulta
       </button>
-      <p className="text-xs text-gray-400 text-center">
-        Te responderemos en menos de 24 horas
-      </p>
     </form>
   );
 }

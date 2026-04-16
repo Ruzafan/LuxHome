@@ -1,7 +1,28 @@
-import Link from 'next/link';
+import { getTranslations } from 'next-intl/server';
+import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
 
-export default function Footer() {
+export default async function Footer() {
+  const t = await getTranslations('footer');
+
+  const propertyLinks = [
+    { label: t('sale'), href: '/propiedades?operacion=venta' },
+    { label: t('rental'), href: '/propiedades?operacion=alquiler' },
+    { label: t('newBuild'), href: '/propiedades?tipo=nueva' },
+    { label: t('villas'), href: '/propiedades?tipo=chalet' },
+    { label: t('apartments'), href: '/propiedades?tipo=piso' },
+    { label: t('penthouses'), href: '/propiedades?tipo=atico' },
+  ];
+
+  const zones = [
+    'Santa Perpètua de Mogoda',
+    'Montcada i Reixac',
+    'Vilanova del Vallès',
+    'Castelldefels',
+    'Sant Adrià de Besòs',
+    'Les Franqueses del Vallès',
+  ];
+
   return (
     <footer className="bg-[#0f1f3d] text-white">
       <div className="max-w-7xl mx-auto px-6 py-16">
@@ -17,9 +38,7 @@ export default function Footer() {
                 className="h-14 w-auto object-contain brightness-0 invert"
               />
             </div>
-            <p className="text-white/60 text-sm leading-relaxed">
-              Nuestros asesores cuentan con años de experiencia en el sector inmobiliario del Vallès Occidental y alrededores. Cercanos, honestos y profesionales.
-            </p>
+            <p className="text-white/60 text-sm leading-relaxed">{t('description')}</p>
             <div className="flex gap-3 mt-6">
               <a
                 href="https://www.instagram.com/luxhome_inmob/"
@@ -38,22 +57,12 @@ export default function Footer() {
           {/* Propiedades */}
           <div>
             <h3 className="text-[#c9a84c] font-semibold text-sm tracking-widest uppercase mb-4">
-              Propiedades
+              {t('properties')}
             </h3>
             <ul className="space-y-2">
-              {[
-                { label: 'Venta', href: '/propiedades?operacion=venta' },
-                { label: 'Alquiler', href: '/propiedades?operacion=alquiler' },
-                { label: 'Obra nueva', href: '/propiedades?tipo=nueva' },
-                { label: 'Chalets', href: '/propiedades?tipo=chalet' },
-                { label: 'Pisos', href: '/propiedades?tipo=piso' },
-                { label: 'Áticos', href: '/propiedades?tipo=atico' },
-              ].map(({ label, href }) => (
-                <li key={label}>
-                  <Link
-                    href={href}
-                    className="text-white/60 hover:text-[#c9a84c] text-sm transition-colors"
-                  >
+              {propertyLinks.map(({ label, href }) => (
+                <li key={href}>
+                  <Link href={href} className="text-white/60 hover:text-[#c9a84c] text-sm transition-colors">
                     {label}
                   </Link>
                 </li>
@@ -64,32 +73,30 @@ export default function Footer() {
           {/* Zonas */}
           <div>
             <h3 className="text-[#c9a84c] font-semibold text-sm tracking-widest uppercase mb-4">
-              Zonas
+              {t('zones')}
             </h3>
             <ul className="space-y-2">
-              {['Santa Perpètua de Mogoda', 'Montcada i Reixac', 'Vilanova del Vallès', 'Castelldefels', 'Sant Adrià de Besòs', 'Les Franqueses del Vallès'].map(
-                (zone) => (
-                  <li key={zone}>
-                    <Link
-                      href={`/propiedades?ciudad=${encodeURIComponent(zone)}`}
-                      className="text-white/60 hover:text-[#c9a84c] text-sm transition-colors"
-                    >
-                      {zone}
-                    </Link>
-                  </li>
-                )
-              )}
+              {zones.map((zone) => (
+                <li key={zone}>
+                  <Link
+                    href={`/propiedades?ciudad=${encodeURIComponent(zone)}`}
+                    className="text-white/60 hover:text-[#c9a84c] text-sm transition-colors"
+                  >
+                    {zone}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
           {/* Contacto */}
           <div>
             <h3 className="text-[#c9a84c] font-semibold text-sm tracking-widest uppercase mb-4">
-              Contacto
+              {t('contact')}
             </h3>
             <ul className="space-y-3 text-sm text-white/60">
               <li>
-                <span className="block text-white/40 text-xs mb-1">Oficina</span>
+                <span className="block text-white/40 text-xs mb-1">{t('office')}</span>
                 Rambla 27<br />08130 Santa Perpètua de Mogoda
               </li>
               <li>
@@ -103,19 +110,19 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <span className="block text-white/40 text-xs mb-1">Horario</span>
-                Lun–Vie 9:30–19:00
+                <span className="block text-white/40 text-xs mb-1">{t('schedule')}</span>
+                {t('hours')}
               </li>
             </ul>
           </div>
         </div>
 
         <div className="border-t border-white/10 mt-12 pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-white/40">
-          <p>© {new Date().getFullYear()} LuxHome. Todos los derechos reservados.</p>
+          <p>{t('rights', { year: new Date().getFullYear() })}</p>
           <div className="flex gap-6">
-            <Link href="/privacidad" className="hover:text-white/70 transition-colors">Política de Privacidad</Link>
-            <Link href="/cookies" className="hover:text-white/70 transition-colors">Cookies</Link>
-            <Link href="/aviso-legal" className="hover:text-white/70 transition-colors">Aviso Legal</Link>
+            <Link href="/privacidad" className="hover:text-white/70 transition-colors">{t('privacy')}</Link>
+            <Link href="/cookies" className="hover:text-white/70 transition-colors">{t('cookies')}</Link>
+            <Link href="/aviso-legal" className="hover:text-white/70 transition-colors">{t('legal')}</Link>
           </div>
         </div>
       </div>

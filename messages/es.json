@@ -1,0 +1,245 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "properties": "Propiedades",
+    "about": "Sobre Nosotros",
+    "contact": "Contacto",
+    "requestVisit": "Solicitar Visita"
+  },
+  "home": {
+    "badge": "Inmobiliaria · Santa Perpètua de Mogoda & Vallès Occidental",
+    "title": "Tu hogar, nuestra misión",
+    "subtitle": "Mónica, Vanesa y Bego te acompañan en cada paso de la compra o venta de tu propiedad. Especialistas en el Vallès Occidental y alrededores.",
+    "search": {
+      "operation": "Comprar o alquilar",
+      "buy": "Comprar",
+      "rent": "Alquilar",
+      "type": "Tipo de propiedad",
+      "apartment": "Piso",
+      "villa": "Chalet",
+      "penthouse": "Ático",
+      "house": "Casa",
+      "location": "Ciudad o zona",
+      "button": "Buscar"
+    },
+    "stats": {
+      "properties": "Propiedades activas",
+      "experts": "Expertas a tu lado",
+      "zones": "Zonas de actuación"
+    },
+    "scrollHint": "Descubre más",
+    "featured": {
+      "badge": "Nuestras propiedades",
+      "title": "Propiedades Destacadas",
+      "viewAll": "Ver todas las propiedades"
+    },
+    "services": {
+      "badge": "Nuestros valores",
+      "title": "Por qué elegir LuxHome",
+      "sale": {
+        "title": "Compra y venta",
+        "desc": "Te ayudamos a encontrar el inmueble que buscas o a vender el tuyo al mejor precio, con total transparencia en cada paso."
+      },
+      "personal": {
+        "title": "Trato cercano y profesional",
+        "desc": "Mónica, Vanesa y Bego te acompañan personalmente desde la primera visita hasta la firma ante notario."
+      },
+      "rental": {
+        "title": "Alquiler",
+        "desc": "Gestionamos el alquiler de tu propiedad o te ayudamos a encontrar el piso o casa que necesitas en la zona."
+      },
+      "newBuild": {
+        "title": "Obra nueva",
+        "desc": "Acceso a las mejores promociones de obra nueva del Vallès Occidental con condiciones preferentes."
+      },
+      "mortgage": {
+        "title": "Asesoría hipotecaria",
+        "desc": "Te orientamos con las mejores opciones de financiación para que tu compra sea sencilla y sin sorpresas."
+      },
+      "docs": {
+        "title": "Gestión documental",
+        "desc": "Nos ocupamos de toda la tramitación: contratos, certificados, cambios de titularidad y coordinación con notaría."
+      }
+    },
+    "zones": {
+      "badge": "Nuestras zonas",
+      "title": "Dónde operamos",
+      "properties": "propiedades"
+    },
+    "testimonials": {
+      "badge": "Testimonios",
+      "title": "Lo que dicen nuestros clientes"
+    },
+    "cta": {
+      "title": "¿Buscas algo especial?",
+      "subtitle": "Cuéntanos qué propiedad buscas y nuestros asesores te contactarán en menos de 24 horas.",
+      "button": "Hablar con un asesor"
+    }
+  },
+  "properties": {
+    "title": "Propiedades",
+    "subtitle": "Explora nuestra selección de propiedades en el Vallès Occidental",
+    "filters": {
+      "title": "Filtros",
+      "operation": "Operación",
+      "allOperations": "Comprar o alquilar",
+      "buy": "Comprar",
+      "rent": "Alquilar",
+      "type": "Tipo",
+      "allTypes": "Todos los tipos",
+      "apartment": "Piso",
+      "house": "Casa",
+      "villa": "Chalet",
+      "penthouse": "Ático",
+      "location": "Zona",
+      "bedrooms": "Habitaciones",
+      "anyBedrooms": "Cualquiera",
+      "search": "Buscar",
+      "clear": "Limpiar filtros"
+    },
+    "results": "{count} propiedades encontradas",
+    "noResults": "No se han encontrado propiedades con estos filtros.",
+    "noResultsHint": "Prueba a ampliar los criterios de búsqueda.",
+    "page": "Página {current} de {total}",
+    "prev": "Anterior",
+    "next": "Siguiente"
+  },
+  "property": {
+    "contact": "¿Te interesa esta propiedad?",
+    "contactSubtitle": "Contacta con nosotros y te respondemos en menos de 24h.",
+    "callButton": "Llamar",
+    "whatsappButton": "WhatsApp",
+    "advisor": "Tu asesora",
+    "features": "Características",
+    "location": "Ubicación",
+    "description": "Descripción",
+    "related": "Propiedades similares",
+    "back": "Volver a propiedades",
+    "share": "Compartir",
+    "reference": "Ref.",
+    "bedrooms": "{n} hab.",
+    "bathrooms": "{n} baños",
+    "area": "{n} m²",
+    "floor": "Planta {n}",
+    "garage": "Garaje",
+    "pool": "Piscina",
+    "terrace": "Terraza",
+    "garden": "Jardín",
+    "elevator": "Ascensor",
+    "ac": "Aire acondicionado",
+    "heating": "Calefacción",
+    "storage": "Trastero",
+    "orientation": "Orientación",
+    "energy": "Certificado energético",
+    "plotArea": "Parcela",
+    "pricePerM2": "€/m²",
+    "notFound": "Propiedad no encontrada",
+    "notFoundHint": "Es posible que ya no esté disponible.",
+    "operation": {
+      "venta": "Venta",
+      "alquiler": "Alquiler"
+    },
+    "status": {
+      "disponible": "Disponible",
+      "reservado": "Reservado",
+      "vendido": "Vendido",
+      "alquilado": "Alquilado"
+    },
+    "type": {
+      "piso": "Piso",
+      "casa": "Casa",
+      "chalet": "Chalet",
+      "atico": "Ático",
+      "local": "Local",
+      "terreno": "Terreno",
+      "garaje": "Garaje"
+    }
+  },
+  "about": {
+    "badge": "Quiénes somos",
+    "title": "Sobre Nosotros",
+    "subtitle": "Un equipo cercano, honesto y comprometido con encontrar la propiedad perfecta para ti.",
+    "values": {
+      "badge": "Lo que nos define",
+      "title": "Nuestros valores",
+      "proximity": { "title": "Cercanía", "desc": "Tratamos a cada cliente de forma personal. Entendemos que comprar o vender una casa es una de las decisiones más importantes de tu vida." },
+      "honesty": { "title": "Honestidad", "desc": "Siempre te diremos la verdad sobre el mercado y tu propiedad, aunque no sea lo que esperas escuchar." },
+      "rigor": { "title": "Rigor", "desc": "Cada operación la gestionamos con máxima profesionalidad: documentación, plazos y coordinación sin sorpresas." },
+      "communication": { "title": "Comunicación", "desc": "Te mantenemos informado en todo momento. Nada de esperas ni silencio: sabrás cómo avanza tu proceso." }
+    },
+    "team": {
+      "badge": "El equipo",
+      "title": "Las personas detrás de LuxHome"
+    },
+    "zones": {
+      "badge": "Dónde trabajamos",
+      "title": "Nuestras zonas de actuación",
+      "properties": "propiedades"
+    },
+    "cta": {
+      "title": "¿Hablamos?",
+      "subtitle": "Cuéntanos qué necesitas y te asesoramos sin compromiso.",
+      "button": "Contactar ahora"
+    }
+  },
+  "contact": {
+    "badge": "Estamos aquí para ti",
+    "title": "Contacto",
+    "subtitle": "Cuéntanos qué buscas y un asesor te responderá en menos de 24 horas.",
+    "form": {
+      "title": "Envíanos un mensaje",
+      "subtitle": "Todos los campos son obligatorios salvo donde se indique.",
+      "name": "Nombre",
+      "surname": "Apellidos",
+      "email": "Email",
+      "phone": "Teléfono",
+      "phoneOptional": "(opcional)",
+      "subject": "Motivo de consulta",
+      "subjectPlaceholder": "Selecciona un motivo...",
+      "subjectBuy": "Quiero comprar una propiedad",
+      "subjectRent": "Quiero alquilar una propiedad",
+      "subjectSell": "Quiero vender mi propiedad",
+      "subjectInvest": "Asesoramiento de inversión",
+      "subjectValuation": "Solicitar valoración gratuita",
+      "subjectOther": "Otro",
+      "budget": "Presupuesto aproximado",
+      "budgetNone": "Sin especificar",
+      "message": "Mensaje",
+      "messagePlaceholder": "Cuéntanos qué buscas, la zona de preferencia, características importantes...",
+      "privacy": "He leído y acepto la {link}. Consiento el tratamiento de mis datos para gestionar mi consulta.",
+      "privacyLink": "Política de Privacidad",
+      "submit": "Enviar mensaje"
+    },
+    "office": "Oficina",
+    "hours": "Lun–Vie 9:30–19:00",
+    "whatsapp": {
+      "title": "¿Prefieres WhatsApp?",
+      "subtitle": "Escríbenos directamente y te atendemos al momento.",
+      "button": "Abrir WhatsApp"
+    }
+  },
+  "footer": {
+    "description": "Nuestros asesores cuentan con años de experiencia en el sector inmobiliario del Vallès Occidental y alrededores. Cercanos, honestos y profesionales.",
+    "properties": "Propiedades",
+    "zones": "Zonas",
+    "contact": "Contacto",
+    "sale": "Venta",
+    "rental": "Alquiler",
+    "newBuild": "Obra nueva",
+    "villas": "Chalets",
+    "apartments": "Pisos",
+    "penthouses": "Áticos",
+    "office": "Oficina",
+    "schedule": "Horario",
+    "rights": "© {year} LuxHome. Todos los derechos reservados.",
+    "privacy": "Política de Privacidad",
+    "cookies": "Cookies",
+    "legal": "Aviso Legal"
+  },
+  "cookies": {
+    "message": "Usamos cookies técnicas propias para recordar tus preferencias. {link}.",
+    "moreInfo": "Más información",
+    "accept": "Aceptar",
+    "reject": "Rechazar"
+  }
+}

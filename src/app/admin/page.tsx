@@ -6,6 +6,7 @@ import type { SyncLog } from '@prisma/client';
 import UploadForm from '@/components/admin/UploadForm';
 import SyncButton from '@/components/admin/SyncButton';
 import LogoutButton from '@/components/admin/LogoutButton';
+import TranslationEditor from '@/components/admin/TranslationEditor';
 
 export const metadata = { title: 'Panel Admin | LuxHome' };
 
@@ -125,6 +126,9 @@ export default async function AdminPage() {
             <SyncButton />
           </section>
         </div>
+
+        {/* ── Traducciones ──────────────────────────────────────────────── */}
+        <TranslationEditor />
 
         {/* ── Historial ─────────────────────────────────────────────────── */}
         <section>

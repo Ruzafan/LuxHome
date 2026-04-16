@@ -1,18 +1,9 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Playfair_Display } from 'next/font/google';
 import './globals.css';
-import SiteShell from '@/components/layout/SiteShell';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-});
-
+const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] });
+const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin'] });
 const playfair = Playfair_Display({
   variable: '--font-playfair',
   subsets: ['latin'],
@@ -34,8 +25,6 @@ export const metadata: Metadata = {
     'comprar piso santa perpètua de mogoda',
     'vender casa vallès occidental',
     'alquiler piso barcelona nord',
-    'inmobiliaria montcada i reixac',
-    'chalets vilanova del vallès',
   ],
   openGraph: {
     type: 'website',
@@ -44,26 +33,15 @@ export const metadata: Metadata = {
     siteName: 'LuxHome Inmobiliaria',
     title: 'LuxHome — Inmobiliaria en el Vallès Occidental',
     description:
-      'Inmobiliaria en el Vallès Occidental. Mónica, Vanesa y Bego te ayudan a comprar, vender o alquilar en Santa Perpètua, Castelldefels y alrededores.',
-    images: [
-      {
-        url: '/og-image.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'LuxHome Inmobiliaria — Vallès Occidental',
-      },
-    ],
+      'Compra, vende o alquila con Mónica, Vanesa y Bego. Especialistas en el Vallès Occidental y alrededores.',
+    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'LuxHome Inmobiliaria' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'LuxHome — Inmobiliaria en el Vallès Occidental',
-    description:
-      'Compra, vende o alquila con Mónica, Vanesa y Bego. Especialistas en el Vallès Occidental y alrededores.',
+    description: 'Compra, vende o alquila con Mónica, Vanesa y Bego. Especialistas en el Vallès Occidental.',
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  robots: { index: true, follow: true },
 };
 
 const localBusinessSchema = {
@@ -105,7 +83,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
         />
-        <SiteShell>{children}</SiteShell>
+        {children}
       </body>
     </html>
   );

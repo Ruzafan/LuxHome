@@ -88,6 +88,19 @@ model PropertyImage {
   order      Int      @default(0)
 }
 
+// ─── Traducciones editables desde el panel de admin ──────────────────────────
+
+model Translation {
+  id        String   @id @default(cuid())
+  locale    String   // es | ca | en
+  key       String   // Ej: "home.hero.title"
+  value     String   @db.Text
+  updatedAt DateTime @updatedAt
+
+  @@unique([locale, key])
+  @@index([locale])
+}
+
 // ─── Log de sincronización ────────────────────────────────────────────────────
 // Permite auditar cuándo y qué se sincronizó desde Inmovilla
 

@@ -1,24 +1,10 @@
-import Link from 'next/link';
+'use client';
+
+import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 import { Property } from '@/types/property';
-import { formatPrice } from '@/lib/propertyService';
-
-const typeLabels: Record<Property['type'], string> = {
-  piso: 'Piso',
-  casa: 'Casa',
-  chalet: 'Chalet',
-  atico: 'Ático',
-  local: 'Local',
-  terreno: 'Terreno',
-  garaje: 'Garaje',
-};
-
-const statusConfig: Record<Property['status'], { label: string; classes: string }> = {
-  disponible: { label: 'Disponible', classes: 'bg-emerald-100 text-emerald-800' },
-  reservado: { label: 'Reservado', classes: 'bg-amber-100 text-amber-800' },
-  vendido: { label: 'Vendido', classes: 'bg-red-100 text-red-800' },
-  alquilado: { label: 'Alquilado', classes: 'bg-blue-100 text-blue-800' },
-};
+import { formatPrice } from '@/lib/propertyUtils';
 
 interface Props {
   property: Property;
@@ -26,8 +12,16 @@ interface Props {
 }
 
 export default function PropertyCard({ property, featured = false }: Props) {
+  const t = useTranslations('property');
+
   const primaryImage = property.images.find((i) => i.isPrimary) ?? property.images[0];
-  const status = statusConfig[property.status];
+
+  const statusClasses: Record<Property['status'], string> = {
+    disponible: 'bg-emerald-100 text-emerald-800',
+    reservado: 'bg-amber-100 text-amber-800',
+    vendido: 'bg-red-100 text-red-800',
+    alquilado: 'bg-blue-100 text-blue-800',
+  };
 
   return (
     <Link href={`/propiedades/${property.id}`} className="block group">
@@ -44,7 +38,7 @@ export default function PropertyCard({ property, featured = false }: Props) {
             />
           ) : (
             <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-              <span className="text-gray-400 text-sm">Sin imagen</span>
+              <span className="text-gray-400 text-sm">—</span>
             </div>
           )}
 
@@ -53,12 +47,12 @@ export default function PropertyCard({ property, featured = false }: Props) {
 
           {/* Badges top */}
           <div className="absolute top-3 left-3 flex gap-2">
-            <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${status.classes}`}>
-              {status.label}
+            <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${statusClasses[property.status]}`}>
+              {t(`status.${property.status}`)}
             </span>
             {property.isNewDevelopment && (
               <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-[#0f1f3d] text-[#c9a84c]">
-                Obra nueva
+                {t('type.nueva')}
               </span>
             )}
           </div>
@@ -66,7 +60,7 @@ export default function PropertyCard({ property, featured = false }: Props) {
           {/* Operation tag */}
           <div className="absolute top-3 right-3">
             <span className="text-xs font-semibold px-2.5 py-1 rounded-full gold-gradient text-[#0f1f3d] uppercase tracking-wide">
-              {property.operation}
+              {t(`operation.${property.operation}`)}
             </span>
           </div>
 
@@ -82,7 +76,7 @@ export default function PropertyCard({ property, featured = false }: Props) {
         <div className="p-4">
           <div className="flex items-center gap-2 mb-1">
             <span className="text-xs text-[#c9a84c] font-medium uppercase tracking-wide">
-              {typeLabels[property.type]}
+              {t(`type.${property.type}`)}
             </span>
             <span className="text-gray-300">·</span>
             <span className="text-xs text-gray-400">{property.reference}</span>
@@ -101,20 +95,20 @@ export default function PropertyCard({ property, featured = false }: Props) {
           <div className="flex items-center gap-4 text-sm text-gray-600 border-t border-gray-100 pt-3">
             <span className="flex items-center gap-1">
               <BedIcon />
-              {property.features.bedrooms} hab.
+              {t('bedrooms', { n: property.features.bedrooms })}
             </span>
             <span className="flex items-center gap-1">
               <BathIcon />
-              {property.features.bathrooms} baños
+              {t('bathrooms', { n: property.features.bathrooms })}
             </span>
             <span className="flex items-center gap-1">
               <AreaIcon />
-              {property.features.area} m²
+              {t('area', { n: property.features.area })}
             </span>
             {property.features.hasGarage && (
               <span className="flex items-center gap-1 text-[#c9a84c]">
                 <GarageIcon />
-                Garaje
+                {t('garage')}
               </span>
             )}
           </div>

@@ -1,0 +1,245 @@
+{
+  "nav": {
+    "home": "Inici",
+    "properties": "Propietats",
+    "about": "Sobre Nosaltres",
+    "contact": "Contacte",
+    "requestVisit": "Sol·licitar Visita"
+  },
+  "home": {
+    "badge": "Immobiliària · Santa Perpètua de Mogoda & Vallès Occidental",
+    "title": "La teva llar, la nostra missió",
+    "subtitle": "Mònica, Vanesa i Bego t'acompanyen en cada pas de la compra o venda de la teva propietat. Especialistes al Vallès Occidental i rodalies.",
+    "search": {
+      "operation": "Comprar o llogar",
+      "buy": "Comprar",
+      "rent": "Llogar",
+      "type": "Tipus de propietat",
+      "apartment": "Pis",
+      "villa": "Xalet",
+      "penthouse": "Àtic",
+      "house": "Casa",
+      "location": "Ciutat o zona",
+      "button": "Cercar"
+    },
+    "stats": {
+      "properties": "Propietats actives",
+      "experts": "Expertes al teu costat",
+      "zones": "Zones d'actuació"
+    },
+    "scrollHint": "Descobreix més",
+    "featured": {
+      "badge": "Les nostres propietats",
+      "title": "Propietats Destacades",
+      "viewAll": "Veure totes les propietats"
+    },
+    "services": {
+      "badge": "Els nostres valors",
+      "title": "Per què triar LuxHome",
+      "sale": {
+        "title": "Compra i venda",
+        "desc": "T'ajudem a trobar l'immoble que busques o a vendre el teu al millor preu, amb total transparència en cada pas."
+      },
+      "personal": {
+        "title": "Tracte proper i professional",
+        "desc": "Mònica, Vanesa i Bego t'acompanyen personalment des de la primera visita fins a la firma davant notari."
+      },
+      "rental": {
+        "title": "Lloguer",
+        "desc": "Gestionem el lloguer de la teva propietat o t'ajudem a trobar el pis o casa que necessites a la zona."
+      },
+      "newBuild": {
+        "title": "Obra nova",
+        "desc": "Accés a les millors promocions d'obra nova del Vallès Occidental amb condicions preferents."
+      },
+      "mortgage": {
+        "title": "Assessoria hipotecària",
+        "desc": "T'orientem amb les millors opcions de finançament perquè la teva compra sigui senzilla i sense sorpreses."
+      },
+      "docs": {
+        "title": "Gestió documental",
+        "desc": "Ens ocupem de tota la tramitació: contractes, certificats, canvis de titularitat i coordinació amb notaria."
+      }
+    },
+    "zones": {
+      "badge": "Les nostres zones",
+      "title": "On operem",
+      "properties": "propietats"
+    },
+    "testimonials": {
+      "badge": "Testimonis",
+      "title": "El que diuen els nostres clients"
+    },
+    "cta": {
+      "title": "Busques alguna cosa especial?",
+      "subtitle": "Explica'ns quina propietat busques i els nostres assessors et contactaran en menys de 24 hores.",
+      "button": "Parlar amb un assessor"
+    }
+  },
+  "properties": {
+    "title": "Propietats",
+    "subtitle": "Explora la nostra selecció de propietats al Vallès Occidental",
+    "filters": {
+      "title": "Filtres",
+      "operation": "Operació",
+      "allOperations": "Comprar o llogar",
+      "buy": "Comprar",
+      "rent": "Llogar",
+      "type": "Tipus",
+      "allTypes": "Tots els tipus",
+      "apartment": "Pis",
+      "house": "Casa",
+      "villa": "Xalet",
+      "penthouse": "Àtic",
+      "location": "Zona",
+      "bedrooms": "Habitacions",
+      "anyBedrooms": "Qualsevol",
+      "search": "Cercar",
+      "clear": "Netejar filtres"
+    },
+    "results": "{count} propietats trobades",
+    "noResults": "No s'han trobat propietats amb aquests filtres.",
+    "noResultsHint": "Prova d'ampliar els criteris de cerca.",
+    "page": "Pàgina {current} de {total}",
+    "prev": "Anterior",
+    "next": "Següent"
+  },
+  "property": {
+    "contact": "T'interessa aquesta propietat?",
+    "contactSubtitle": "Contacta'ns i et responem en menys de 24h.",
+    "callButton": "Trucar",
+    "whatsappButton": "WhatsApp",
+    "advisor": "La teva assessora",
+    "features": "Característiques",
+    "location": "Ubicació",
+    "description": "Descripció",
+    "related": "Propietats similars",
+    "back": "Tornar a propietats",
+    "share": "Compartir",
+    "reference": "Ref.",
+    "bedrooms": "{n} hab.",
+    "bathrooms": "{n} banys",
+    "area": "{n} m²",
+    "floor": "Planta {n}",
+    "garage": "Garatge",
+    "pool": "Piscina",
+    "terrace": "Terrassa",
+    "garden": "Jardí",
+    "elevator": "Ascensor",
+    "ac": "Aire condicionat",
+    "heating": "Calefacció",
+    "storage": "Traster",
+    "orientation": "Orientació",
+    "energy": "Certificat energètic",
+    "plotArea": "Parcel·la",
+    "pricePerM2": "€/m²",
+    "notFound": "Propietat no trobada",
+    "notFoundHint": "És possible que ja no estigui disponible.",
+    "operation": {
+      "venta": "Venda",
+      "alquiler": "Lloguer"
+    },
+    "status": {
+      "disponible": "Disponible",
+      "reservado": "Reservat",
+      "vendido": "Venut",
+      "alquilado": "Llogat"
+    },
+    "type": {
+      "piso": "Pis",
+      "casa": "Casa",
+      "chalet": "Xalet",
+      "atico": "Àtic",
+      "local": "Local",
+      "terreno": "Terreny",
+      "garaje": "Garatge"
+    }
+  },
+  "about": {
+    "badge": "Qui som",
+    "title": "Sobre Nosaltres",
+    "subtitle": "Un equip proper, honest i compromès a trobar la propietat perfecta per a tu.",
+    "values": {
+      "badge": "El que ens defineix",
+      "title": "Els nostres valors",
+      "proximity": { "title": "Proximitat", "desc": "Tractem cada client de forma personal. Entenem que comprar o vendre una casa és una de les decisions més importants de la teva vida." },
+      "honesty": { "title": "Honestedat", "desc": "Sempre et direm la veritat sobre el mercat i la teva propietat, encara que no sigui el que esperes escoltar." },
+      "rigor": { "title": "Rigor", "desc": "Cada operació la gestionem amb màxima professionalitat: documentació, terminis i coordinació sense sorpreses." },
+      "communication": { "title": "Comunicació", "desc": "Et mantenim informat en tot moment. Res d'esperes ni silenci: sabràs com avança el teu procés." }
+    },
+    "team": {
+      "badge": "L'equip",
+      "title": "Les persones darrere de LuxHome"
+    },
+    "zones": {
+      "badge": "On treballem",
+      "title": "Les nostres zones d'actuació",
+      "properties": "propietats"
+    },
+    "cta": {
+      "title": "Parlem?",
+      "subtitle": "Explica'ns què necessites i t'assessorem sense compromís.",
+      "button": "Contactar ara"
+    }
+  },
+  "contact": {
+    "badge": "Som aquí per a tu",
+    "title": "Contacte",
+    "subtitle": "Explica'ns què busques i un assessor et respondrà en menys de 24 hores.",
+    "form": {
+      "title": "Envia'ns un missatge",
+      "subtitle": "Tots els camps són obligatoris excepte on s'indiqui.",
+      "name": "Nom",
+      "surname": "Cognoms",
+      "email": "Correu electrònic",
+      "phone": "Telèfon",
+      "phoneOptional": "(opcional)",
+      "subject": "Motiu de consulta",
+      "subjectPlaceholder": "Selecciona un motiu...",
+      "subjectBuy": "Vull comprar una propietat",
+      "subjectRent": "Vull llogar una propietat",
+      "subjectSell": "Vull vendre la meva propietat",
+      "subjectInvest": "Assessorament d'inversió",
+      "subjectValuation": "Sol·licitar valoració gratuïta",
+      "subjectOther": "Altres",
+      "budget": "Pressupost aproximat",
+      "budgetNone": "Sense especificar",
+      "message": "Missatge",
+      "messagePlaceholder": "Explica'ns què busques, la zona de preferència, característiques importants...",
+      "privacy": "He llegit i accepto la {link}. Consento el tractament de les meves dades per gestionar la meva consulta.",
+      "privacyLink": "Política de Privadesa",
+      "submit": "Enviar missatge"
+    },
+    "office": "Oficina",
+    "hours": "Dl–Dv 9:30–19:00",
+    "whatsapp": {
+      "title": "Prefereixes WhatsApp?",
+      "subtitle": "Escriu-nos directament i t'atenem al moment.",
+      "button": "Obrir WhatsApp"
+    }
+  },
+  "footer": {
+    "description": "Els nostres assessors compten amb anys d'experiència en el sector immobiliari del Vallès Occidental i rodalies. Propers, honestos i professionals.",
+    "properties": "Propietats",
+    "zones": "Zones",
+    "contact": "Contacte",
+    "sale": "Venda",
+    "rental": "Lloguer",
+    "newBuild": "Obra nova",
+    "villas": "Xalets",
+    "apartments": "Pisos",
+    "penthouses": "Àtics",
+    "office": "Oficina",
+    "schedule": "Horari",
+    "rights": "© {year} LuxHome. Tots els drets reservats.",
+    "privacy": "Política de Privadesa",
+    "cookies": "Cookies",
+    "legal": "Avís Legal"
+  },
+  "cookies": {
+    "message": "Usem cookies tècniques pròpies per recordar les teves preferències. {link}.",
+    "moreInfo": "Més informació",
+    "accept": "Acceptar",
+    "reject": "Rebutjar"
+  }
+}

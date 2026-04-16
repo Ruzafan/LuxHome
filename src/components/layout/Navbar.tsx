@@ -1,19 +1,19 @@
 'use client';
 
-import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import { Link, usePathname, useRouter } from '@/i18n/navigation';
 import { useState, useEffect } from 'react';
+import { useTranslations, useLocale } from 'next-intl';
+import type { Locale } from '@/i18n/routing';
 
-const links = [
-  { href: '/', label: 'Inicio' },
-  { href: '/propiedades', label: 'Propiedades' },
-  { href: '/sobre-nosotros', label: 'Sobre Nosotros' },
-  { href: '/contacto', label: 'Contacto' },
-];
+const localeNames: Record<Locale, string> = { es: 'ES', ca: 'CA', en: 'EN' };
+const locales: Locale[] = ['es', 'ca', 'en'];
 
 export default function Navbar() {
+  const t = useTranslations('nav');
+  const locale = useLocale() as Locale;
   const pathname = usePathname();
+  const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -26,12 +26,21 @@ export default function Navbar() {
   const isHome = pathname === '/';
   const transparent = isHome && !scrolled && !menuOpen;
 
+  const links = [
+    { href: '/' as const, label: t('home') },
+    { href: '/propiedades' as const, label: t('properties') },
+    { href: '/sobre-nosotros' as const, label: t('about') },
+    { href: '/contacto' as const, label: t('contact') },
+  ];
+
+  function switchLocale(newLocale: Locale) {
+    router.replace(pathname, { locale: newLocale });
+  }
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        transparent
-          ? 'bg-transparent'
-          : 'bg-[#0f1f3d] shadow-lg'
+        transparent ? 'bg-transparent' : 'bg-[#0f1f3d] shadow-lg'
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-20">
@@ -56,9 +65,7 @@ export default function Navbar() {
                 key={href}
                 href={href}
                 className={`text-sm font-medium tracking-wide transition-colors duration-200 ${
-                  active
-                    ? 'text-[#c9a84c]'
-                    : 'text-white/80 hover:text-[#c9a84c]'
+                  active ? 'text-[#c9a84c]' : 'text-white/80 hover:text-[#c9a84c]'
                 }`}
               >
                 {label}
@@ -67,10 +74,27 @@ export default function Navbar() {
           })}
           <Link
             href="/contacto"
-            className="ml-4 px-5 py-2.5 rounded text-sm font-semibold tracking-wide text-[#0f1f3d] gold-gradient hover:opacity-90 transition-opacity"
+            className="ml-2 px-5 py-2.5 rounded text-sm font-semibold tracking-wide text-[#0f1f3d] gold-gradient hover:opacity-90 transition-opacity"
           >
-            Solicitar Visita
+            {t('requestVisit')}
           </Link>
+
+          {/* Locale switcher */}
+          <div className="flex items-center border border-white/20 rounded-lg overflow-hidden ml-2">
+            {locales.map((loc) => (
+              <button
+                key={loc}
+                onClick={() => switchLocale(loc)}
+                className={`px-2.5 py-1.5 text-xs font-semibold uppercase transition-colors ${
+                  locale === loc
+                    ? 'bg-[#c9a84c] text-[#0f1f3d]'
+                    : 'text-white/60 hover:text-white'
+                }`}
+              >
+                {localeNames[loc]}
+              </button>
+            ))}
+          </div>
         </nav>
 
         {/* Mobile hamburger */}
@@ -103,8 +127,24 @@ export default function Navbar() {
             onClick={() => setMenuOpen(false)}
             className="mt-2 text-center px-5 py-2.5 rounded text-sm font-semibold text-[#0f1f3d] gold-gradient"
           >
-            Solicitar Visita
+            {t('requestVisit')}
           </Link>
+          {/* Locale switcher mobile */}
+          <div className="flex items-center gap-2 mt-1">
+            {locales.map((loc) => (
+              <button
+                key={loc}
+                onClick={() => { switchLocale(loc); setMenuOpen(false); }}
+                className={`px-3 py-1.5 text-xs font-semibold uppercase rounded-lg transition-colors ${
+                  locale === loc
+                    ? 'bg-[#c9a84c] text-[#0f1f3d]'
+                    : 'text-white/60 border border-white/20 hover:text-white'
+                }`}
+              >
+                {localeNames[loc]}
+              </button>
+            ))}
+          </div>
         </div>
       )}
     </header>
