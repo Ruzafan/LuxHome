@@ -124,6 +124,7 @@
     "shareCopied": "Link copied to clipboard",
     "reference": "Ref.",
     "bedrooms": "{n} bed.",
+    "bedroomsLabel": "Bedrooms",
     "bathrooms": "{n} baths",
     "area": "{n} m²",
     "floor": "Floor {n}",

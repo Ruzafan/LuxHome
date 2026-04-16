@@ -124,6 +124,7 @@
     "shareCopied": "Enlace copiado al portapapeles",
     "reference": "Ref.",
     "bedrooms": "{n} hab.",
+    "bedroomsLabel": "Habitaciones",
     "bathrooms": "{n} baños",
     "area": "{n} m²",
     "floor": "Planta {n}",

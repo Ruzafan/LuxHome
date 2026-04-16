@@ -172,7 +172,7 @@ export default async function PropertyDetailPage({ params }: Props) {
 
             {/* Quick features */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-white rounded-xl p-5 shadow-sm mb-8">
-              <FeatureStat icon="🛏️" label={t('features')} value={String(property.features.bedrooms)} />
+              <FeatureStat icon="🛏️" label={t('bedroomsLabel')} value={String(property.features.bedrooms)} />
               <FeatureStat icon="🚿" label={t('bathrooms', { n: '' }).replace(' ', '')} value={String(property.features.bathrooms)} />
               <FeatureStat icon="📐" label={t('area', { n: '' }).replace(' ', '')} value={`${property.features.area} m²`} />
               {property.features.plotArea && (

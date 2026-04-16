@@ -124,6 +124,7 @@
     "shareCopied": "Enllaç copiat al porta-retalls",
     "reference": "Ref.",
     "bedrooms": "{n} hab.",
+    "bedroomsLabel": "Habitacions",
     "bathrooms": "{n} banys",
     "area": "{n} m²",
     "floor": "Planta {n}",
