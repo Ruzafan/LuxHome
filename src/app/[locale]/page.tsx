@@ -107,7 +107,7 @@ export default async function HomePage() {
           </div>
         </div>
 
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2 text-white/40 text-xs">
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/40 text-xs">
           <span>{t('scrollHint')}</span>
           <div className="w-px h-8 bg-white/30 animate-bounce" />
         </div>
