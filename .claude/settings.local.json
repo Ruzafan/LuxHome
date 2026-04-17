@@ -25,7 +25,26 @@
       "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('messages/ca.json','utf8'\\)\\); console.log\\('ca OK'\\)\")",
       "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('messages/en.json','utf8'\\)\\); console.log\\('en OK'\\)\")",
       "Bash(xargs sed *)",
-      "Bash(grep -v \"style={{ fontFamily: 'var\\(--font-playfair\\)', \")"
+      "Bash(grep -v \"style={{ fontFamily: 'var\\(--font-playfair\\)', \")",
+      "WebFetch(domain:procesos.apinmo.com)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://procesos.apinmo.com/apiweb/apiinmovilla.php\")",
+      "Bash(curl -s -w '\\\\n---HTTP:%{http_code}---\\\\n' 'https://procesos.apinmo.com/apiweb/apiclient.php?numagencia=2&password=82ku9xz2aw3&json=1')",
+      "Bash(curl -s -w '\\\\n---HTTP:%{http_code}---\\\\n' 'https://procesos.inmovilla.com/api/v1/propiedades/?listado' -H 'Token: 2')",
+      "Bash(curl -s -w '\\\\n---HTTP:%{http_code}---\\\\n' https://procesos.apinmo.com/apiweb/getData.php -d 'numagencia=2&password=82ku9xz2aw3&json=1')",
+      "Bash(curl -s -w '\\\\n---HTTP:%{http_code}---\\\\n' 'https://procesos.apinmo.com/apiweb/api.php?numagencia=2&password=82ku9xz2aw3&tipo=paginacion&json=1')",
+      "Bash(curl -s -w '\\\\n---HTTP:%{http_code}---\\\\n' 'https://procesos.inmovilla.com/api/v1/propiedades/?listado' -H 'Token: 82ku9xz2aw3')",
+      "Bash(curl -s -w '\\\\n---HTTP:%{http_code}---\\\\n' 'https://procesos.apinmo.com/api/v1/propiedades/?listado' -H 'Token: 82ku9xz2aw3')",
+      "Bash(curl -s -w '\\\\n---HTTP:%{http_code}---\\\\n' 'https://procesos.apinmo.com/api/v1/propiedades/?listado' -H 'Content-Type: application/json' -H 'Token: 82ku9xz2aw3' -H 'numagencia: 2')",
+      "WebFetch(domain:procesos.inmovilla.com)",
+      "Bash(npm list *)",
+      "Bash(node -e ' *)",
+      "Bash(npx tsx -e ' *)",
+      "Bash(npx tsx --tsconfig tsconfig.json -e ' *)",
+      "Bash(npx tsx --import ./src/lib/db.ts -e ' *)",
+      "Bash(cat)",
+      "Bash(node /tmp/check.mjs)",
+      "Bash(curl -s http://localhost:3001/api/sync -H \"Authorization: Bearer dsdasdasdasdasdasdas\")",
+      "Bash(taskkill /F /IM node.exe)"
     ],
     "defaultMode": "bypassPermissions"
   }

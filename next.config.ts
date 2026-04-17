@@ -20,12 +20,12 @@ const nextConfig: NextConfig = {
       // Fotos de propiedades Inmovilla (el número del servidor puede variar: fotos1–fotos99)
       {
         protocol: 'https',
-        hostname: '*.apinmo.com',
+        hostname: '**.apinmo.com',
         pathname: '/**',
       },
       {
         protocol: 'https',
-        hostname: '*.inmovilla.com',
+        hostname: '**.inmovilla.com',
         pathname: '/**',
       },
     ],
