@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { verifySessionToken, SESSION_COOKIE } from '@/lib/auth';
-import { syncAllProperties } from '@/lib/inmovilla/sync';
+import { syncFromXml, syncAllProperties } from '@/lib/inmovilla/sync';
 import { db } from '@/lib/db';
 
 export async function POST() {
@@ -13,7 +13,9 @@ export async function POST() {
   }
 
   try {
-    const stats = await syncAllProperties();
+    const stats = process.env.INMOVILLA_XML_URL
+      ? { ...(await syncFromXml()), skipped: 0 }
+      : await syncAllProperties();
 
     await db.syncLog.create({
       data: {

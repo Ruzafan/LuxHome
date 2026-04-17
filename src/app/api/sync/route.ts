@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
-import { syncAllProperties } from '@/lib/inmovilla/sync';
+import { syncFromXml, syncAllProperties } from '@/lib/inmovilla/sync';
 
 /**
  * GET /api/sync
@@ -11,6 +11,10 @@ import { syncAllProperties } from '@/lib/inmovilla/sync';
  *   - Manualmente por el administrador con la cabecera Authorization correcta
  *
  * Protegido con CRON_SECRET para que nadie externo pueda dispararlo.
+ *
+ * Prioridad de método:
+ *   1. Feed XML  → si INMOVILLA_XML_URL está definida (recomendado)
+ *   2. API REST  → si INMOVILLA_TOKEN está definida
  */
 export async function GET(req: NextRequest) {
   const authHeader = req.headers.get('authorization');
@@ -19,23 +23,28 @@ export async function GET(req: NextRequest) {
   }
 
   const start = Date.now();
+  const source = process.env.INMOVILLA_XML_URL ? 'xml' : 'api';
 
   try {
-    const { created, updated, deactivated } = await syncAllProperties();
+    const stats =
+      source === 'xml'
+        ? { ...(await syncFromXml()), skipped: 0 }
+        : await syncAllProperties();
+
     const elapsed = Date.now() - start;
 
     await db.syncLog.create({
       data: {
-        source:             'cron',
-        status:             'ok',
-        message:            `Sync completada en ${elapsed}ms`,
-        propertiesCreated:  created,
-        propertiesUpdated:  updated,
-        propertiesDeleted:  deactivated,
+        source:            'cron',
+        status:            'ok',
+        message:           `[${source.toUpperCase()}] Sync completada en ${elapsed}ms`,
+        propertiesCreated: stats.created,
+        propertiesUpdated: stats.updated,
+        propertiesDeleted: stats.deactivated,
       },
     });
 
-    return NextResponse.json({ ok: true, created, updated, deactivated, ms: elapsed });
+    return NextResponse.json({ ok: true, source, ...stats, ms: elapsed });
   } catch (err) {
     await db.syncLog.create({
       data: {

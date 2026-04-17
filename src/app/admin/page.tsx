@@ -102,30 +102,22 @@ export default async function AdminPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Subir fichero */}
           <section className="bg-white/5 border border-white/10 rounded-xl p-6">
-            <h2
-              className="text-white font-semibold text-lg mb-1"
-             
-            >
-              Subir fichero Inmovilla
+            <h2 className="text-white font-semibold text-lg mb-1">
+              Subir fichero XML
             </h2>
             <p className="text-white/50 text-sm mb-5">
-              Sube un fichero JSON exportado desde Inmovilla para importar
-              o actualizar inmuebles manualmente.
+              Sube el fichero XML de Inmovilla (<code className="text-white/70 bg-white/10 px-1 rounded text-xs">2-web.xml</code>) para una carga inicial o actualización manual.
             </p>
             <UploadForm />
           </section>
 
           {/* Sincronización completa */}
           <section className="bg-white/5 border border-white/10 rounded-xl p-6">
-            <h2
-              className="text-white font-semibold text-lg mb-1"
-             
-            >
-              Sincronización completa
+            <h2 className="text-white font-semibold text-lg mb-1">
+              Sincronización automática
             </h2>
             <p className="text-white/50 text-sm mb-5">
-              Conecta con la API de Inmovilla y descarga todos los inmuebles
-              activos. Requiere las credenciales de API configuradas.
+              Descarga el feed XML de Inmovilla y sincroniza todos los inmuebles activos. También se ejecuta automáticamente cada noche.
             </p>
             <SyncButton />
           </section>
