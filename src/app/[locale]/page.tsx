@@ -50,9 +50,9 @@ export default async function HomePage() {
   ];
 
   const testimonials = [
-    { name: 'Jordi P.', role: 'Comprador — Santa Perpètua de Mogoda', text: 'Mónica nos ayudó a encontrar exactamente lo que buscábamos. Trato cercano, muy profesional y siempre disponible para resolver nuestras dudas. Totalmente recomendable.', stars: 5 },
-    { name: 'Marta G.', role: 'Vendedora — Ático Santa Perpètua', text: 'Vendieron mi piso mucho más rápido de lo que esperaba y al precio que pedíamos. El equipo de Lux Home conoce muy bien la zona y saben cómo llegar a los compradores.', stars: 5 },
-    { name: 'Família Soler', role: 'Compradores — Casa adosada Vallès', text: 'Vanesa y Bego fueron un apoyo fundamental durante todo el proceso. Gestionaron todo, desde la visita hasta la firma. Nos sentimos acompañados en todo momento.', stars: 5 },
+    { name: 'Jordi P.', initials: 'JP', color: '#4f7dcb', role: 'Comprador — Santa Perpètua de Mogoda', text: 'Mónica nos ayudó a encontrar exactamente lo que buscábamos. Trato cercano, muy profesional y siempre disponible para resolver nuestras dudas. Totalmente recomendable.', stars: 5 },
+    { name: 'Marta G.', initials: 'MG', color: '#7b5ea7', role: 'Vendedora — Ático Santa Perpètua', text: 'Vendieron mi piso mucho más rápido de lo que esperaba y al precio que pedíamos. El equipo de Lux Home conoce muy bien la zona y saben cómo llegar a los compradores.', stars: 5 },
+    { name: 'Família Soler', initials: 'FS', color: '#3a8a6e', role: 'Compradores — Casa adosada Vallès', text: 'Vanesa y Bego fueron un apoyo fundamental durante todo el proceso. Gestionaron todo, desde la visita hasta la firma. Nos sentimos acompañados en todo momento.', stars: 5 },
   ];
 
   return (
@@ -228,17 +228,25 @@ export default async function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-            {testimonials.map(({ name, role, text, stars }) => (
-              <div key={name} className="bg-white rounded-xl p-6 shadow-md">
+            {testimonials.map(({ name, initials, color, role, text, stars }) => (
+              <div key={name} className="bg-white rounded-xl p-6 shadow-md flex flex-col">
                 <div className="flex gap-1 mb-4">
                   {Array.from({ length: stars }).map((_, i) => (
                     <span key={i} className="text-[#c9a84c] text-lg">★</span>
                   ))}
                 </div>
-                <p className="text-gray-600 text-sm leading-relaxed mb-4 italic">&ldquo;{text}&rdquo;</p>
-                <div>
-                  <p className="font-semibold text-[#0f1f3d] text-sm">{name}</p>
-                  <p className="text-gray-400 text-xs">{role}</p>
+                <p className="text-gray-600 text-sm leading-relaxed mb-6 italic flex-1">&ldquo;{text}&rdquo;</p>
+                <div className="flex items-center gap-3">
+                  <div
+                    className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm shrink-0"
+                    style={{ backgroundColor: color }}
+                  >
+                    {initials}
+                  </div>
+                  <div>
+                    <p className="font-semibold text-[#0f1f3d] text-sm">{name}</p>
+                    <p className="text-gray-400 text-xs">{role}</p>
+                  </div>
                 </div>
               </div>
             ))}
