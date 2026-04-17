@@ -17,6 +17,17 @@ const nextConfig: NextConfig = {
         hostname: 'images.pexels.com',
         pathname: '/**',
       },
+      // Fotos de propiedades Inmovilla (el número del servidor puede variar: fotos1–fotos99)
+      {
+        protocol: 'https',
+        hostname: '*.apinmo.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.inmovilla.com',
+        pathname: '/**',
+      },
     ],
   },
 };
