@@ -143,23 +143,27 @@ export default async function PropiedadesPage({
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 {properties.map((property) => (
                   <PropertyCard key={property.id} property={property} />
                 ))}
               </div>
 
               {totalPages > 1 && (
-                <div className="flex justify-center gap-2 mt-10">
-                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-                    <PaginationLink
-                      key={p}
-                      page={p}
-                      currentPage={page}
-                      params={rawParams}
-                      baseUrl={baseUrl}
-                    />
-                  ))}
+                <div className="flex justify-center items-center gap-2 mt-10 flex-wrap">
+                  {buildPageList(page, totalPages).map((p, i) =>
+                    p === '...' ? (
+                      <span key={`ellipsis-${i}`} className="w-10 h-10 flex items-center justify-center text-gray-400 text-sm">…</span>
+                    ) : (
+                      <PaginationLink
+                        key={p}
+                        page={p}
+                        currentPage={page}
+                        params={rawParams}
+                        baseUrl={baseUrl}
+                      />
+                    )
+                  )}
                 </div>
               )}
             </>
@@ -349,6 +353,35 @@ function ActiveFilters({ params, baseUrl, t }: { params: SearchParams; baseUrl: 
       })}
     </div>
   );
+}
+
+// ─── Pagination helpers ────────────────────────────────────────────────────────
+
+function buildPageList(current: number, total: number): (number | '...')[] {
+  const maxVisible = 10;
+  const pages: (number | '...')[] = [];
+
+  if (total <= maxVisible + 1) {
+    for (let i = 1; i <= total; i++) pages.push(i);
+    return pages;
+  }
+
+  // Always show first maxVisible pages
+  for (let i = 1; i <= maxVisible; i++) pages.push(i);
+
+  // If current page is beyond maxVisible, insert ellipsis and it
+  if (current > maxVisible) {
+    pages.push('...');
+    pages.push(current);
+  }
+
+  // Always show last page if not already included
+  if (current < total) {
+    if (current !== maxVisible) pages.push('...');
+    pages.push(total);
+  }
+
+  return pages;
 }
 
 // ─── Pagination Link ───────────────────────────────────────────────────────────

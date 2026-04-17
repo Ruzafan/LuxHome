@@ -232,14 +232,26 @@ function fichaToProperty(resp: FichaResponse, codOfer: string): Property | null 
 }
 
 // ─── Helpers de lectura de la respuesta paginada ──────────────────────────────
+//
+// La API devuelve bloques con esta estructura:
+//   [0] → { posicion, elementos, total }   ← metadatos
+//   [1..elementos] → items                 ← 1-indexed
+//
+type RawBlock  = Record<number, unknown>;
+interface BlockMeta { posicion: number; elementos: number; total: number }
 
-type PaginatedBlock = { posicion: number; elementos: number; total: number } & Record<number, PaginacionItem>;
+function getMeta(block: RawBlock): BlockMeta {
+  return (block[0] ?? { posicion: 0, elementos: 0, total: 0 }) as BlockMeta;
+}
 
-function extractItems(block: PaginatedBlock): PaginacionItem[] {
+function extractItems(block: RawBlock): PaginacionItem[] {
+  const { elementos } = getMeta(block);
   const items: PaginacionItem[] = [];
-  for (let i = 0; i < (block.elementos ?? 0); i++) {
-    const item = block[i] as PaginacionItem | undefined;
-    if (item && typeof item === 'object' && 'cod_ofer' in item) items.push(item);
+  for (let i = 1; i <= elementos; i++) {
+    const item = block[i];
+    if (item && typeof item === 'object' && 'cod_ofer' in item) {
+      items.push(item as PaginacionItem);
+    }
   }
   return items;
 }
@@ -259,12 +271,12 @@ export async function getProperties(
     .paginacion(pos, pageSize, where, orden)
     .fetch();
 
-  const pag = resp.paginacion as PaginatedBlock | undefined;
+  const pag = resp.paginacion as RawBlock | undefined;
   if (!pag) {
     return { properties: [], total: 0, page, pageSize, totalPages: 0 };
   }
 
-  const total = pag.total ?? 0;
+  const { total } = getMeta(pag);
   let properties = extractItems(pag).map((item) => paginacionToProperty(item));
 
   // Filtro de tipo: post-fetch (no hay WHERE directo por tipo_key en la API)
@@ -296,7 +308,7 @@ export async function getFeaturedProperties(limit = 4): Promise<Property[]> {
     .destacados(1, limit)
     .fetch();
 
-  const dest = resp.destacados as PaginatedBlock | undefined;
+  const dest = resp.destacados as RawBlock | undefined;
   if (!dest) return [];
 
   return extractItems(dest).map((item) => paginacionToProperty(item, true));
@@ -310,7 +322,7 @@ export async function getRelatedProperties(property: Property, limit = 3): Promi
     .paginacion(1, limit + 5, where, 'destacado DESC, fechaact DESC')
     .fetch();
 
-  const pag = resp.paginacion as PaginatedBlock | undefined;
+  const pag = resp.paginacion as RawBlock | undefined;
   if (!pag) return [];
 
   return extractItems(pag)
@@ -321,14 +333,15 @@ export async function getRelatedProperties(property: Property, limit = 3): Promi
 
 export async function getAllLocations(): Promise<string[]> {
   const resp = await inmovillaClient.query().ciudades(1, 500).fetch();
-  const cities = resp.ciudades;
-  if (!cities) return [];
+  const block = resp.ciudades as RawBlock | undefined;
+  if (!block) return [];
 
+  const { elementos } = getMeta(block);
   const seen   = new Set<string>();
   const result: string[] = [];
 
-  for (const key of Object.keys(cities)) {
-    const item = (cities as Record<string, unknown>)[key];
+  for (let i = 1; i <= elementos; i++) {
+    const item = block[i];
     if (item && typeof item === 'object' && 'city' in item) {
       const city = String((item as Record<string, unknown>).city ?? '').trim();
       if (city && !seen.has(city)) {
@@ -347,8 +360,8 @@ export async function getStats(): Promise<{ total: number; zones: number }> {
     inmovillaClient.query().ciudades(1, 500).fetch(),
   ]);
 
-  const total = (pagResp.paginacion as PaginatedBlock | undefined)?.total ?? 0;
-  const zones = Object.keys(citiesResp.ciudades ?? {}).length;
+  const total = getMeta(pagResp.paginacion as RawBlock ?? {}).total ?? 0;
+  const zones = getMeta(citiesResp.ciudades as RawBlock ?? {}).elementos ?? 0;
   return { total, zones };
 }
 
@@ -370,7 +383,7 @@ export async function getPropertyCountByCity(): Promise<Record<string, number>> 
         const resp = await inmovillaClient.query()
           .paginacion(1, 1, `ciudad='${safeCity}'`)
           .fetch();
-        const count = (resp.paginacion as PaginatedBlock | undefined)?.total ?? 0;
+        const count = getMeta(resp.paginacion as RawBlock ?? {}).total ?? 0;
         return [city, count];
       } catch {
         return [city, 0];
