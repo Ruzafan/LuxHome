@@ -95,7 +95,7 @@ export default function TranslationEditor() {
 
   return (
     <section className="bg-white/5 border border-white/10 rounded-xl p-6">
-      <h2 className="text-white font-semibold text-lg mb-1" style={{ fontFamily: 'var(--font-playfair)' }}>
+      <h2 className="text-white font-semibold text-lg mb-1">
         Editor de traducciones
       </h2>
       <p className="text-white/50 text-sm mb-5">

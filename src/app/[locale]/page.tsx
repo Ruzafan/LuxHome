@@ -98,7 +98,7 @@ export default async function HomePage() {
               { value: String(stats.zones), label: t('stats.zones') },
             ].map(({ value, label }) => (
               <div key={label} className="text-center">
-                <p className="text-[#c9a84c] font-bold text-2xl md:text-4xl" style={{ fontFamily: 'var(--font-playfair)' }}>
+                <p className="text-[#c9a84c] font-bold text-2xl md:text-4xl">
                   {value}
                 </p>
                 <p className="text-white/60 text-xs md:text-sm mt-1">{label}</p>
@@ -119,8 +119,8 @@ export default async function HomePage() {
           <div className="text-center mb-12">
             <p className="text-[#c9a84c] text-sm font-semibold tracking-[0.3em] uppercase mb-2">{t('featured.badge')}</p>
             <h2
-              className="text-[#0f1f3d] font-bold text-4xl gold-line gold-line-center"
-              style={{ fontFamily: 'var(--font-playfair)' }}
+              className="text-[#0f1f3d] font-bold text-4xl gold-line gold-line-center font-playfair"
+             
             >
               {t('featured.title')}
             </h2>
@@ -151,7 +151,7 @@ export default async function HomePage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-14">
             <p className="text-[#c9a84c] text-sm font-semibold tracking-[0.3em] uppercase mb-2">{t('services.badge')}</p>
-            <h2 className="text-white font-bold text-4xl" style={{ fontFamily: 'var(--font-playfair)' }}>
+            <h2 className="text-white font-bold text-4xl font-playfair">
               {t('services.title')}
             </h2>
           </div>
@@ -165,7 +165,7 @@ export default async function HomePage() {
                 <div className="w-14 h-14 rounded-full gold-gradient flex items-center justify-center mx-auto mb-5 text-[#0f1f3d]">
                   {serviceIcons[key]}
                 </div>
-                <h3 className="text-white font-semibold text-xl mb-3" style={{ fontFamily: 'var(--font-playfair)' }}>
+                <h3 className="text-white font-semibold text-xl mb-3">
                   {t(`services.${key}.title`)}
                 </h3>
                 <p className="text-white/60 text-sm leading-relaxed">{t(`services.${key}.desc`)}</p>
@@ -181,8 +181,8 @@ export default async function HomePage() {
           <div className="text-center mb-12">
             <p className="text-[#c9a84c] text-sm font-semibold tracking-[0.3em] uppercase mb-2">{t('zones.badge')}</p>
             <h2
-              className="text-[#0f1f3d] font-bold text-4xl gold-line gold-line-center"
-              style={{ fontFamily: 'var(--font-playfair)' }}
+              className="text-[#0f1f3d] font-bold text-4xl gold-line gold-line-center font-playfair"
+             
             >
               {t('zones.title')}
             </h2>
@@ -220,8 +220,8 @@ export default async function HomePage() {
           <div className="text-center mb-12">
             <p className="text-[#c9a84c] text-sm font-semibold tracking-[0.3em] uppercase mb-2">{t('testimonials.badge')}</p>
             <h2
-              className="text-[#0f1f3d] font-bold text-4xl gold-line gold-line-center"
-              style={{ fontFamily: 'var(--font-playfair)' }}
+              className="text-[#0f1f3d] font-bold text-4xl gold-line gold-line-center font-playfair"
+             
             >
               {t('testimonials.title')}
             </h2>
@@ -249,7 +249,7 @@ export default async function HomePage() {
       {/* ─── CTA ──────────────────────────────────────────────────────────────── */}
       <section className="py-20 px-6 gold-gradient">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-[#0f1f3d] font-bold text-4xl mb-4" style={{ fontFamily: 'var(--font-playfair)' }}>
+          <h2 className="text-[#0f1f3d] font-bold text-4xl mb-4">
             {t('cta.title')}
           </h2>
           <p className="text-[#0f1f3d]/70 text-lg mb-8">{t('cta.subtitle')}</p>

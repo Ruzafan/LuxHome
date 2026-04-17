@@ -41,7 +41,7 @@ export default function AdminLoginPage() {
           </p>
           <h1
             className="text-white font-bold text-3xl"
-            style={{ fontFamily: 'var(--font-playfair)' }}
+           
           >
             Administración
           </h1>

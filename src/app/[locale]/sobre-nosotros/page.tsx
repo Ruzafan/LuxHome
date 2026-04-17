@@ -72,7 +72,7 @@ export default async function SobreNosotrosPage() {
         <div className="absolute inset-0 flex items-center justify-center text-center px-6">
           <div>
             <p className="text-[#c9a84c] text-sm font-semibold tracking-[0.3em] uppercase mb-3">{t('badge')}</p>
-            <h1 className="text-white font-bold text-4xl md:text-5xl" style={{ fontFamily: 'var(--font-playfair)' }}>
+            <h1 className="text-white font-bold text-4xl md:text-5xl font-playfair">
               {t('title')}
             </h1>
           </div>
@@ -82,7 +82,7 @@ export default async function SobreNosotrosPage() {
       {/* Intro */}
       <section className="py-20 px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-[#0f1f3d] font-bold text-3xl md:text-4xl mb-6 gold-line gold-line-center" style={{ fontFamily: 'var(--font-playfair)' }}>
+          <h2 className="text-[#0f1f3d] font-bold text-3xl md:text-4xl mb-6 gold-line gold-line-center font-playfair">
             {t('subtitle')}
           </h2>
         </div>
@@ -99,7 +99,7 @@ export default async function SobreNosotrosPage() {
               { value: '3', label: 'Idiomas (ES, CAT, EN)' },
             ].map(({ value, label }) => (
               <div key={label} className="text-center">
-                <p className="text-[#c9a84c] font-bold text-4xl" style={{ fontFamily: 'var(--font-playfair)' }}>
+                <p className="text-[#c9a84c] font-bold text-4xl font-playfair">
                   {value}
                 </p>
                 <p className="text-white/60 text-sm mt-2">{label}</p>
@@ -114,7 +114,7 @@ export default async function SobreNosotrosPage() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <p className="text-[#c9a84c] text-sm font-semibold tracking-[0.3em] uppercase mb-2">{t('team.badge')}</p>
-            <h2 className="text-[#0f1f3d] font-bold text-4xl gold-line gold-line-center" style={{ fontFamily: 'var(--font-playfair)' }}>
+            <h2 className="text-[#0f1f3d] font-bold text-4xl gold-line gold-line-center font-playfair">
               {t('team.title')}
             </h2>
           </div>
@@ -125,7 +125,7 @@ export default async function SobreNosotrosPage() {
                 <div className="relative w-40 h-40 rounded-full overflow-hidden mx-auto mb-4 ring-4 ring-[#faf8f3] group-hover:ring-[#c9a84c] transition-all duration-300">
                   <Image src={img} alt={name} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
                 </div>
-                <h3 className="font-bold text-[#0f1f3d] text-lg" style={{ fontFamily: 'var(--font-playfair)' }}>{name}</h3>
+                <h3 className="font-bold text-[#0f1f3d] text-lg font-playfair">{name}</h3>
                 <p className="text-[#c9a84c] text-sm font-medium mb-3">{role}</p>
                 <p className="text-gray-500 text-sm leading-relaxed">{bio}</p>
               </div>
@@ -139,7 +139,7 @@ export default async function SobreNosotrosPage() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <p className="text-[#c9a84c] text-sm font-semibold tracking-[0.3em] uppercase mb-2">{t('values.badge')}</p>
-            <h2 className="text-[#0f1f3d] font-bold text-4xl gold-line gold-line-center" style={{ fontFamily: 'var(--font-playfair)' }}>
+            <h2 className="text-[#0f1f3d] font-bold text-4xl gold-line gold-line-center font-playfair">
               {t('values.title')}
             </h2>
           </div>
@@ -150,7 +150,7 @@ export default async function SobreNosotrosPage() {
                 <div className="w-12 h-12 rounded-xl gold-gradient flex items-center justify-center text-[#0f1f3d] mb-4">
                   {valueIcons[key]}
                 </div>
-                <h3 className="text-[#0f1f3d] font-bold text-lg mb-2" style={{ fontFamily: 'var(--font-playfair)' }}>
+                <h3 className="text-[#0f1f3d] font-bold text-lg mb-2">
                   {t(`values.${key}.title`)}
                 </h3>
                 <p className="text-gray-500 text-sm leading-relaxed">{t(`values.${key}.desc`)}</p>
@@ -165,7 +165,7 @@ export default async function SobreNosotrosPage() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <p className="text-[#c9a84c] text-sm font-semibold tracking-[0.3em] uppercase mb-2">{t('zones.badge')}</p>
-            <h2 className="text-[#0f1f3d] font-bold text-4xl gold-line gold-line-center" style={{ fontFamily: 'var(--font-playfair)' }}>
+            <h2 className="text-[#0f1f3d] font-bold text-4xl gold-line gold-line-center font-playfair">
               {t('zones.title')}
             </h2>
           </div>
@@ -191,7 +191,7 @@ export default async function SobreNosotrosPage() {
       {/* CTA */}
       <section className="py-16 px-6 gold-gradient">
         <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-[#0f1f3d] font-bold text-3xl mb-4" style={{ fontFamily: 'var(--font-playfair)' }}>
+          <h2 className="text-[#0f1f3d] font-bold text-3xl mb-4 font-playfair">
             {t('cta.title')}
           </h2>
           <p className="text-[#0f1f3d]/70 mb-6">{t('cta.subtitle')}</p>

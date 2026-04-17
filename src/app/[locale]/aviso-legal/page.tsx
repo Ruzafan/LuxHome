@@ -10,7 +10,7 @@ export default function AvisoLegalPage() {
     <div className="pt-20 bg-[#faf8f3]">
       <div className="luxury-gradient py-16 px-6 text-center">
         <p className="text-[#c9a84c] text-sm font-semibold tracking-[0.3em] uppercase mb-2">Información legal</p>
-        <h1 className="text-white font-bold text-4xl" style={{ fontFamily: 'var(--font-playfair)' }}>
+        <h1 className="text-white font-bold text-4xl font-playfair">
           Aviso Legal
         </h1>
       </div>
@@ -18,7 +18,7 @@ export default function AvisoLegalPage() {
       <div className="max-w-3xl mx-auto px-6 py-16 space-y-10 text-gray-700 text-sm leading-relaxed">
 
         <section>
-          <h2 className="text-[#0f1f3d] font-bold text-xl mb-3" style={{ fontFamily: 'var(--font-playfair)' }}>
+          <h2 className="text-[#0f1f3d] font-bold text-xl mb-3 font-playfair">
             1. Datos identificativos del titular
           </h2>
           <p>En cumplimiento del artículo 10 de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y de Comercio Electrónico (LSSI-CE), se informa de los datos identificativos del titular de este sitio web:</p>
@@ -34,28 +34,28 @@ export default function AvisoLegalPage() {
         </section>
 
         <section>
-          <h2 className="text-[#0f1f3d] font-bold text-xl mb-3" style={{ fontFamily: 'var(--font-playfair)' }}>
+          <h2 className="text-[#0f1f3d] font-bold text-xl mb-3 font-playfair">
             2. Objeto y ámbito de aplicación
           </h2>
           <p>El presente Aviso Legal regula el acceso y uso del sitio web <strong>luxhomein.com</strong>, titularidad de Lux Home Inmobiliaria, con domicilio en Santa Perpètua de Mogoda (Barcelona). El acceso al sitio web implica la aceptación plena y sin reservas de las presentes condiciones.</p>
         </section>
 
         <section>
-          <h2 className="text-[#0f1f3d] font-bold text-xl mb-3" style={{ fontFamily: 'var(--font-playfair)' }}>
+          <h2 className="text-[#0f1f3d] font-bold text-xl mb-3 font-playfair">
             3. Propiedad intelectual e industrial
           </h2>
           <p>Los contenidos de este sitio web —textos, imágenes, logotipos, diseño y código— son propiedad de Lux Home Inmobiliaria o de terceros que han autorizado su uso. Queda prohibida su reproducción, distribución o modificación sin autorización expresa y por escrito del titular.</p>
         </section>
 
         <section>
-          <h2 className="text-[#0f1f3d] font-bold text-xl mb-3" style={{ fontFamily: 'var(--font-playfair)' }}>
+          <h2 className="text-[#0f1f3d] font-bold text-xl mb-3 font-playfair">
             4. Responsabilidad
           </h2>
           <p>Lux Home Inmobiliaria no se responsabiliza de los daños derivados del uso del sitio web, de posibles errores en los contenidos ni de la disponibilidad técnica del mismo. Los precios e información de los inmuebles son orientativos y pueden estar sujetos a cambios sin previo aviso.</p>
         </section>
 
         <section>
-          <h2 className="text-[#0f1f3d] font-bold text-xl mb-3" style={{ fontFamily: 'var(--font-playfair)' }}>
+          <h2 className="text-[#0f1f3d] font-bold text-xl mb-3 font-playfair">
             5. Legislación aplicable y jurisdicción
           </h2>
           <p>Las presentes condiciones se rigen por la legislación española. Para cualquier controversia, las partes se someten a los juzgados y tribunales de Barcelona, con renuncia expresa a cualquier otro fuero que pudiera corresponderles.</p>

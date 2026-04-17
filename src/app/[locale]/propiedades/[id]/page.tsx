@@ -148,7 +148,7 @@ export default async function PropertyDetailPage({ params }: Props) {
                 )}
               </div>
 
-              <h1 className="text-[#0f1f3d] font-bold text-3xl md:text-4xl leading-tight mb-2" style={{ fontFamily: 'var(--font-playfair)' }}>
+              <h1 className="text-[#0f1f3d] font-bold text-3xl md:text-4xl leading-tight mb-2 font-playfair">
                 {property.title}
               </h1>
 
@@ -192,7 +192,7 @@ export default async function PropertyDetailPage({ params }: Props) {
 
             {/* Description */}
             <div className="mb-8">
-              <h2 className="text-[#0f1f3d] font-bold text-xl mb-4" style={{ fontFamily: 'var(--font-playfair)' }}>
+              <h2 className="text-[#0f1f3d] font-bold text-xl mb-4 font-playfair">
                 {t('description')}
               </h2>
               <p className="text-gray-600 leading-relaxed whitespace-pre-line">{property.description}</p>
@@ -200,7 +200,7 @@ export default async function PropertyDetailPage({ params }: Props) {
 
             {/* Amenities */}
             <div className="mb-8">
-              <h2 className="text-[#0f1f3d] font-bold text-xl mb-4" style={{ fontFamily: 'var(--font-playfair)' }}>
+              <h2 className="text-[#0f1f3d] font-bold text-xl mb-4 font-playfair">
                 {t('features')}
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -261,7 +261,7 @@ export default async function PropertyDetailPage({ params }: Props) {
                 </div>
 
                 <div className="p-6">
-                  <h3 className="font-bold text-[#0f1f3d] mb-1">{t('contact')}</h3>
+                  <h3 className="font-bold text-[#0f1f3d] mb-1 font-playfair">{t('contact')}</h3>
                   <p className="text-gray-400 text-sm mb-4">{t('contactSubtitle')}</p>
                   <PropertyContactForm propertyRef={property.reference} propertyTitle={property.title} />
                 </div>
@@ -281,7 +281,7 @@ export default async function PropertyDetailPage({ params }: Props) {
         {/* Related */}
         {related.length > 0 && (
           <div className="mt-16">
-            <h2 className="text-[#0f1f3d] font-bold text-2xl mb-6" style={{ fontFamily: 'var(--font-playfair)' }}>
+            <h2 className="text-[#0f1f3d] font-bold text-2xl mb-6 font-playfair">
               {t('related')}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

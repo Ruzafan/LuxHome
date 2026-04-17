@@ -47,7 +47,7 @@ export default async function AdminPage() {
           <p className="text-[#c9a84c] text-xs font-semibold tracking-[0.3em] uppercase">LuxHome</p>
           <h1
             className="text-white font-bold text-xl"
-            style={{ fontFamily: 'var(--font-playfair)' }}
+           
           >
             Panel de Administración
           </h1>
@@ -88,7 +88,7 @@ export default async function AdminPage() {
               >
                 <p
                   className="text-[#c9a84c] font-bold text-3xl"
-                  style={{ fontFamily: 'var(--font-playfair)' }}
+                 
                 >
                   {value}
                 </p>
@@ -104,7 +104,7 @@ export default async function AdminPage() {
           <section className="bg-white/5 border border-white/10 rounded-xl p-6">
             <h2
               className="text-white font-semibold text-lg mb-1"
-              style={{ fontFamily: 'var(--font-playfair)' }}
+             
             >
               Subir fichero Inmovilla
             </h2>
@@ -119,7 +119,7 @@ export default async function AdminPage() {
           <section className="bg-white/5 border border-white/10 rounded-xl p-6">
             <h2
               className="text-white font-semibold text-lg mb-1"
-              style={{ fontFamily: 'var(--font-playfair)' }}
+             
             >
               Sincronización completa
             </h2>

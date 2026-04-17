@@ -76,7 +76,7 @@ export default async function PropiedadesPage({
           <p className="text-[#c9a84c] text-sm font-semibold tracking-[0.3em] uppercase mb-2">
             {t('title')}
           </p>
-          <h1 className="text-white font-bold text-4xl mb-2" style={{ fontFamily: 'var(--font-playfair)' }}>
+          <h1 className="text-white font-bold text-4xl mb-2 font-playfair">
             {t('title')}
           </h1>
           <p className="text-white/60 text-sm">
