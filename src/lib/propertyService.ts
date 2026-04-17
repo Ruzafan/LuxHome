@@ -102,7 +102,7 @@ export async function getProperties(
   sort: SortOption = 'relevance'
 ): Promise<PropertySearchResult> {
   // Filtros que pueden resolverse en SQL
-  const where: Prisma.PropertyWhereInput = {};
+  const where: Prisma.PropertyWhereInput = { status: { not: 'vendido' } };
   if (filters.operation) where.operation = filters.operation;
   if (filters.type) where.type = filters.type;
   if (filters.minPrice !== undefined || filters.maxPrice !== undefined) {
@@ -159,7 +159,7 @@ export async function getPropertyById(id: string): Promise<Property | null> {
 
 export async function getFeaturedProperties(limit = 4): Promise<Property[]> {
   const rows = await db.property.findMany({
-    where: { isFeatured: true },
+    where: { isFeatured: true, status: { not: 'vendido' } },
     include: { features: true, location: true, images: true },
     orderBy: { publishedAt: 'desc' },
     take: limit,
@@ -173,6 +173,7 @@ export async function getRelatedProperties(property: Property, limit = 3): Promi
       id: { not: property.id },
       type: property.type,
       operation: property.operation,
+      status: { not: 'vendido' },
     },
     include: { features: true, location: true, images: true },
     take: limit,
