@@ -179,17 +179,15 @@ export class InmovillaQuery {
     const { numagencia, password, idioma = 1, addnumagencia = '', domain = 'localhost' } = this.config;
 
     // Construir el parámetro texto.
-    // Formato: numagencia;password;idioma;tipo;pos;num;where;orden;...
-    // Nota: "lostipos" eliminado — el PHP lo trata como tipo de query y corrompe el parsing.
-    let texto = `${numagencia}${addnumagencia};${password};${idioma}`;
+    // Formato: numagencia;password;idioma;lostipos;tipo;pos;num;where;orden;...
+    // "lostipos" es un token fijo requerido por el PHP antes de las queries.
+    let texto = `${numagencia}${addnumagencia};${password};${idioma};lostipos`;
     for (const p of this.procesos) {
       texto += `;${p.tipo};${p.posinicial};${p.numelementos};${p.where};${p.orden}`;
     }
 
     const encodedTexto = encodeURIComponent(texto); // equivale a rawurlencode en PHP
     const body = `param=${encodedTexto}&elDominio=${domain}&ia=${clientIp}&json=1`;
-
-    console.log('[Inmovilla] texto →', texto);
 
     const res = await fetch(API_URL, {
       method:  'POST',
