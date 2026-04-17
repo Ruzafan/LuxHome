@@ -86,8 +86,9 @@ export default function PropertyCard({ property, featured = false }: Props) {
             {property.title}
           </h3>
 
-          <p className="text-gray-500 text-sm mb-4">
-            📍 {property.location.neighborhood ? `${property.location.neighborhood}, ` : ''}
+          <p className="text-gray-500 text-sm mb-4 flex items-center gap-1">
+            <svg className="w-3.5 h-3.5 text-[#c9a84c] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
+            {property.location.neighborhood ? `${property.location.neighborhood}, ` : ''}
             {property.location.city}
           </p>
 
