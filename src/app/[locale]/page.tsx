@@ -6,12 +6,14 @@ import { Link } from '@/i18n/navigation';
 import { getFeaturedProperties, getAllLocations, getStats, getPropertyCountByCity } from '@/lib/propertyService';
 import PropertyCard from '@/components/properties/PropertyCard';
 import QuickSearch from '@/components/ui/QuickSearch';
+import { getAlternates } from '@/lib/seo';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('home');
   return {
     title: 'LuxHome — Inmobiliaria en el Vallès Occidental',
     description: t('subtitle'),
+    alternates: getAlternates('/'),
     openGraph: {
       title: 'LuxHome — Inmobiliaria en el Vallès Occidental',
       description: t('subtitle'),

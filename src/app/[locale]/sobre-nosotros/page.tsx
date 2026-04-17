@@ -4,12 +4,14 @@ import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { getStats } from '@/lib/propertyService';
+import { getAlternates } from '@/lib/seo';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('about');
   return {
     title: t('title'),
     description: t('subtitle'),
+    alternates: getAlternates('/sobre-nosotros'),
   };
 }
 

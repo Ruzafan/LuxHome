@@ -8,6 +8,7 @@ import PropertyCard from '@/components/properties/PropertyCard';
 import LocationAutocomplete from '@/components/ui/LocationAutocomplete';
 import SortSelect from '@/components/properties/SortSelect';
 import FilterDrawer from '@/components/properties/FilterDrawer';
+import { getAlternates } from '@/lib/seo';
 
 export async function generateMetadata({
   params,
@@ -19,6 +20,7 @@ export async function generateMetadata({
   return {
     title: t('title'),
     description: t('subtitle'),
+    alternates: getAlternates('/propiedades'),
   };
 }
 

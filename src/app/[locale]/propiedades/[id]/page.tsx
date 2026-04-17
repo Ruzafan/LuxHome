@@ -8,6 +8,7 @@ import PropertyCard from '@/components/properties/PropertyCard';
 import PropertyContactForm from '@/components/properties/PropertyContactForm';
 import PropertyGallery from '@/components/properties/PropertyGallery';
 import ShareButton from '@/components/properties/ShareButton';
+import { getAlternates } from '@/lib/seo';
 
 interface Props {
   params: Promise<{ id: string; locale: string }>;
@@ -24,6 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: property.title,
     description,
+    alternates: getAlternates(`/propiedades/${property.id}`),
     openGraph: {
       title: `${property.title} | LuxHome`,
       description,
