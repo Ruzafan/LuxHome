@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import { getPathname } from '@/i18n/navigation';
 import { Link } from '@/i18n/navigation';
-import { getProperties, getAllLocations } from '@/lib/propertyApiService';
+import { getProperties, getAllLocations } from '@/lib/propertyService';
 import { PropertyFilters, PropertyType, OperationType } from '@/types/property';
 import PropertyCard from '@/components/properties/PropertyCard';
 import LocationAutocomplete from '@/components/ui/LocationAutocomplete';
@@ -150,19 +150,27 @@ export default async function PropiedadesPage({
               </div>
 
               {totalPages > 1 && (
-                <div className="flex justify-center items-center gap-2 mt-10 flex-wrap">
+                <div className="flex justify-center items-center gap-1 mt-10 flex-wrap">
+                  {/* Flecha anterior */}
+                  {page > 1 ? (
+                    <PaginationLink page={page - 1} currentPage={page} params={rawParams} baseUrl={baseUrl} label="‹" />
+                  ) : (
+                    <span className="w-10 h-10 flex items-center justify-center text-gray-300 text-lg select-none">‹</span>
+                  )}
+
                   {buildPageList(page, totalPages).map((p, i) =>
                     p === '...' ? (
-                      <span key={`ellipsis-${i}`} className="w-10 h-10 flex items-center justify-center text-gray-400 text-sm">…</span>
+                      <span key={`ellipsis-${i}`} className="w-10 h-10 flex items-center justify-center text-gray-400 text-sm select-none">…</span>
                     ) : (
-                      <PaginationLink
-                        key={p}
-                        page={p}
-                        currentPage={page}
-                        params={rawParams}
-                        baseUrl={baseUrl}
-                      />
+                      <PaginationLink key={p} page={p} currentPage={page} params={rawParams} baseUrl={baseUrl} />
                     )
+                  )}
+
+                  {/* Flecha siguiente */}
+                  {page < totalPages ? (
+                    <PaginationLink page={page + 1} currentPage={page} params={rawParams} baseUrl={baseUrl} label="›" />
+                  ) : (
+                    <span className="w-10 h-10 flex items-center justify-center text-gray-300 text-lg select-none">›</span>
                   )}
                 </div>
               )}
@@ -358,28 +366,22 @@ function ActiveFilters({ params, baseUrl, t }: { params: SearchParams; baseUrl: 
 // ─── Pagination helpers ────────────────────────────────────────────────────────
 
 function buildPageList(current: number, total: number): (number | '...')[] {
-  const maxVisible = 10;
+  const delta = 3; // páginas a cada lado del actual
   const pages: (number | '...')[] = [];
 
-  if (total <= maxVisible + 1) {
+  if (total <= 2 * delta + 3) {
     for (let i = 1; i <= total; i++) pages.push(i);
     return pages;
   }
 
-  // Always show first maxVisible pages
-  for (let i = 1; i <= maxVisible; i++) pages.push(i);
+  const rangeStart = Math.max(2, current - delta);
+  const rangeEnd   = Math.min(total - 1, current + delta);
 
-  // If current page is beyond maxVisible, insert ellipsis and it
-  if (current > maxVisible) {
-    pages.push('...');
-    pages.push(current);
-  }
-
-  // Always show last page if not already included
-  if (current < total) {
-    if (current !== maxVisible) pages.push('...');
-    pages.push(total);
-  }
+  pages.push(1);
+  if (rangeStart > 2) pages.push('...');
+  for (let i = rangeStart; i <= rangeEnd; i++) pages.push(i);
+  if (rangeEnd < total - 1) pages.push('...');
+  pages.push(total);
 
   return pages;
 }
@@ -391,11 +393,13 @@ function PaginationLink({
   currentPage,
   params,
   baseUrl,
+  label,
 }: {
   page: number;
   currentPage: number;
   params: SearchParams;
   baseUrl: string;
+  label?: string;
 }) {
   const qs = Object.entries({ ...params, pagina: String(page) })
     .filter(([, v]) => v !== undefined && v !== '')
@@ -413,7 +417,7 @@ function PaginationLink({
           : 'bg-white text-[#0f1f3d] border border-gray-200 hover:border-[#c9a84c]'
       }`}
     >
-      {page}
+      {label ?? page}
     </Link>
   );
 }
