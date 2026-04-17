@@ -178,14 +178,18 @@ export class InmovillaQuery {
   async fetch(clientIp = '127.0.0.1'): Promise<ApiResponse> {
     const { numagencia, password, idioma = 1, addnumagencia = '', domain = 'localhost' } = this.config;
 
-    // Construir el parámetro texto exactamente igual que el PHP
-    let texto = `${numagencia}${addnumagencia};${password};${idioma};lostipos`;
+    // Construir el parámetro texto.
+    // Formato: numagencia;password;idioma;tipo;pos;num;where;orden;...
+    // Nota: "lostipos" eliminado — el PHP lo trata como tipo de query y corrompe el parsing.
+    let texto = `${numagencia}${addnumagencia};${password};${idioma}`;
     for (const p of this.procesos) {
       texto += `;${p.tipo};${p.posinicial};${p.numelementos};${p.where};${p.orden}`;
     }
 
     const encodedTexto = encodeURIComponent(texto); // equivale a rawurlencode en PHP
     const body = `param=${encodedTexto}&elDominio=${domain}&ia=${clientIp}&json=1`;
+
+    console.log('[Inmovilla] texto →', texto);
 
     const res = await fetch(API_URL, {
       method:  'POST',
@@ -202,6 +206,7 @@ export class InmovillaQuery {
     try {
       return JSON.parse(text) as ApiResponse;
     } catch {
+      console.error('[Inmovilla] respuesta no-JSON:', text.slice(0, 500));
       throw new Error(`Inmovilla API returned non-JSON: ${text.slice(0, 200)}`);
     }
   }

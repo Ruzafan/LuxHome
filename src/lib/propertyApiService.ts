@@ -81,8 +81,7 @@ function buildQuery(filters: PropertyFilters, sort: SortOption) {
   const orden =
     sort === 'price_asc'  ? 'precioinmo ASC' :
     sort === 'price_desc' ? 'precioinmo DESC' :
-    sort === 'newest'     ? 'fechaact DESC' :
-    'destacado DESC, fechaact DESC';
+    'fechaact DESC';
 
   return { where, orden };
 }
