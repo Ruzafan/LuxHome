@@ -27,7 +27,10 @@ export default function PropertyCard({ property, featured = false }: Props) {
     <Link href={`/propiedades/${property.id}`} className="block group">
       <article className={`bg-white rounded-xl overflow-hidden card-hover ${featured ? 'shadow-lg' : 'shadow-md'}`}>
         {/* Image */}
-        <div className={`relative overflow-hidden ${featured ? 'h-64' : 'h-52'}`}>
+        <div
+          className={featured ? 'relative overflow-hidden h-64' : 'relative overflow-hidden h-52'}
+          style={{ height: featured ? '16rem' : '13rem' }}
+        >
           {primaryImage ? (
             <Image
               src={primaryImage.url}
