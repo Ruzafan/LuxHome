@@ -90,6 +90,31 @@ export default async function PropertyDetailPage({ params }: Props) {
     numberOfBathroomsTotal: property.features.bathrooms,
   };
 
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: t('home'),
+        item: 'https://luxhomein.com',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: t('back').replace('← ', ''),
+        item: 'https://luxhomein.com/propiedades',
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: property.title,
+        item: `https://luxhomein.com/propiedades/${property.id}`,
+      },
+    ],
+  };
+
   const statusClasses: Record<string, string> = {
     disponible: 'bg-emerald-100 text-emerald-800',
     reservado: 'bg-amber-100 text-amber-800',
@@ -113,6 +138,10 @@ export default async function PropertyDetailPage({ params }: Props) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(listingSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       {/* Breadcrumb */}
       <div className="max-w-7xl mx-auto px-6 py-4">
