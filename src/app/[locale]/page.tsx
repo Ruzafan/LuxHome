@@ -3,7 +3,7 @@ import React from 'react';
 import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
-import { getFeaturedProperties, getAllLocations, getStats, getPropertyCountByCity } from '@/lib/propertyService';
+import { getFeaturedProperties, getAllLocations, getStats, getPropertyCountByCity } from '@/lib/propertyApiService';
 import PropertyCard from '@/components/properties/PropertyCard';
 import QuickSearch from '@/components/ui/QuickSearch';
 import { getAlternates } from '@/lib/seo';

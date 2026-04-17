@@ -114,7 +114,7 @@ function asBool(val: unknown): boolean {
 }
 
 function extractPhotos(p: XmlProperty): InmovillaProperty['imagenes'] {
-  const count = Math.min(asNum(p.numfotos), 19);
+  const count = Math.min(asNum(p.numfotos), 36);
   const photos: InmovillaProperty['imagenes'] = [];
   for (let i = 1; i <= count; i++) {
     const raw = p[`foto${i}`];

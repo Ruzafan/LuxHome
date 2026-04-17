@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import { getPathname } from '@/i18n/navigation';
 import { Link } from '@/i18n/navigation';
-import { getProperties, getAllLocations } from '@/lib/propertyService';
+import { getProperties, getAllLocations } from '@/lib/propertyApiService';
 import { PropertyFilters, PropertyType, OperationType } from '@/types/property';
 import PropertyCard from '@/components/properties/PropertyCard';
 import LocationAutocomplete from '@/components/ui/LocationAutocomplete';
