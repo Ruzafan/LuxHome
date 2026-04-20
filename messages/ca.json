@@ -9,7 +9,7 @@
   "home": {
     "badge": "Immobiliària · Santa Perpètua de Mogoda & Vallès Occidental",
     "title": "La teva llar, la nostra missió",
-    "subtitle": "Mònica, Vanesa i Bego t'acompanyen en cada pas de la compra o venda de la teva propietat. Especialistes al Vallès Occidental i rodalies.",
+    "subtitle": "Mònica, Vanesa, Bego i Josep t'acompanyen en cada pas de la compra o venda de la teva propietat. Especialistes al Vallès Occidental i rodalies.",
     "search": {
       "operation": "Comprar o llogar",
       "buy": "Comprar",
@@ -42,7 +42,7 @@
       },
       "personal": {
         "title": "Tracte proper i professional",
-        "desc": "Mònica, Vanesa i Bego t'acompanyen personalment des de la primera visita fins a la firma davant notari."
+        "desc": "Mònica, Vanesa, Bego i Josep t'acompanyen personalment des de la primera visita fins a la firma davant notari."
       },
       "rental": {
         "title": "Lloguer",
@@ -233,7 +233,7 @@
       "errorMessage": "No s'ha pogut enviar el missatge. Torna-ho a intentar o escriu-nos per WhatsApp."
     },
     "office": "Oficina",
-    "hours": "Dl–Dv 9:30–19:00",
+    "hours": "Dl–Dv 9:30–13:30 i 16:00–19:00",
     "whatsapp": {
       "title": "Prefereixes WhatsApp?",
       "subtitle": "Escriu-nos directament i t'atenem al moment.",
@@ -253,7 +253,7 @@
     "penthouses": "Àtics",
     "office": "Oficina",
     "schedule": "Horari",
-    "hours": "Dl–Dv: 9:00–19:00",
+    "hours": "Dl–Dv: 9:30–13:30 i 16:00–19:00",
     "rights": "© {year} LuxHome. Tots els drets reservats.",
     "privacy": "Política de Privadesa",
     "cookies": "Cookies",

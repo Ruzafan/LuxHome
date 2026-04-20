@@ -3,7 +3,7 @@
 export default function WhatsAppButton() {
   return (
     <a
-      href="https://wa.me/34931057965?text=Hola,%20me%20interesa%20una%20propiedad%20de%20LuxHome"
+      href="https://wa.me/34691294443?text=Hola,%20me%20interesa%20una%20propiedad%20de%20LuxHome"
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Contactar por WhatsApp"

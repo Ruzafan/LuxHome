@@ -134,7 +134,7 @@ export default async function PropertyDetailPage({ params }: Props) {
   ];
 
   return (
-    <div className="pt-20 bg-[#faf8f3] min-h-screen">
+    <div className="pt-20 bg-[var(--cream)] min-h-screen">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(listingSchema) }}
@@ -146,11 +146,11 @@ export default async function PropertyDetailPage({ params }: Props) {
       {/* Breadcrumb */}
       <div className="max-w-7xl mx-auto px-6 py-4">
         <nav className="flex items-center gap-2 text-sm text-gray-400">
-          <Link href="/" className="hover:text-[#c9a84c] transition-colors">{t('home')}</Link>
+          <Link href="/" className="hover:text-[var(--gold)] transition-colors">{t('home')}</Link>
           <span>/</span>
-          <Link href="/propiedades" className="hover:text-[#c9a84c] transition-colors">{t('back').replace('← ', '')}</Link>
+          <Link href="/propiedades" className="hover:text-[var(--gold)] transition-colors">{t('back').replace('← ', '')}</Link>
           <span>/</span>
-          <span className="text-[#0f1f3d] font-medium truncate max-w-xs">{property.title}</span>
+          <span className="text-[var(--navy)] font-medium truncate max-w-xs">{property.title}</span>
         </nav>
       </div>
 
@@ -169,22 +169,22 @@ export default async function PropertyDetailPage({ params }: Props) {
                 <span className={`text-xs font-semibold px-3 py-1 rounded-full ${statusClasses[property.status]}`}>
                   {t(`status.${property.status}`)}
                 </span>
-                <span className="text-xs font-semibold px-3 py-1 rounded-full gold-gradient text-[#0f1f3d] uppercase">
+                <span className="text-xs font-semibold px-3 py-1 rounded-full gold-gradient text-[var(--navy)] uppercase">
                   {t(`operation.${property.operation}`)}
                 </span>
                 {property.isNewDevelopment && (
-                  <span className="text-xs font-semibold px-3 py-1 rounded-full bg-[#0f1f3d] text-[#c9a84c]">
+                  <span className="text-xs font-semibold px-3 py-1 rounded-full bg-[var(--navy)] text-[var(--gold)]">
                     {t('newDevelopment')}
                   </span>
                 )}
               </div>
 
-              <h1 className="text-[#0f1f3d] font-bold text-3xl md:text-4xl leading-tight mb-2 font-playfair">
+              <h1 className="text-[var(--navy)] font-bold text-3xl md:text-4xl leading-tight mb-2 font-playfair">
                 {property.title}
               </h1>
 
               <p className="text-gray-500 flex items-center gap-1.5 mb-4">
-                <svg className="w-4 h-4 text-[#c9a84c]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg className="w-4 h-4 text-[var(--gold)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
@@ -192,7 +192,7 @@ export default async function PropertyDetailPage({ params }: Props) {
                 {property.location.city}, {property.location.province}
               </p>
 
-              <p className="text-[#c9a84c] font-bold text-3xl">
+              <p className="text-[var(--gold)] font-bold text-3xl">
                 {formatPrice(property.price, property.operation)}
               </p>
               {property.pricePerM2 && (
@@ -223,7 +223,7 @@ export default async function PropertyDetailPage({ params }: Props) {
 
             {/* Description */}
             <div className="mb-8">
-              <h2 className="text-[#0f1f3d] font-bold text-xl mb-4 font-playfair">
+              <h2 className="text-[var(--navy)] font-bold text-xl mb-4 font-playfair">
                 {t('description')}
               </h2>
               <p className="text-gray-600 leading-relaxed whitespace-pre-line">{property.description}</p>
@@ -231,7 +231,7 @@ export default async function PropertyDetailPage({ params }: Props) {
 
             {/* Amenities */}
             <div className="mb-8">
-              <h2 className="text-[#0f1f3d] font-bold text-xl mb-4 font-playfair">
+              <h2 className="text-[var(--navy)] font-bold text-xl mb-4 font-playfair">
                 {t('features')}
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -265,25 +265,25 @@ export default async function PropertyDetailPage({ params }: Props) {
             <div className="sticky top-24">
               <div className="bg-white rounded-xl shadow-lg overflow-hidden">
                 <div className="luxury-gradient p-6">
-                  <p className="text-[#c9a84c] text-xs font-semibold tracking-widest uppercase mb-3">{t('advisor')}</p>
+                  <p className="text-[var(--gold)] text-xs font-semibold tracking-widest uppercase mb-3">{t('advisor')}</p>
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-full gold-gradient flex items-center justify-center text-[#0f1f3d] font-bold">
+                    <div className="w-12 h-12 rounded-full gold-gradient flex items-center justify-center text-[var(--navy)] font-bold">
                       LH
                     </div>
                     <div>
                       <p className="text-white font-semibold">LuxHome</p>
-                      <p className="text-white/60 text-xs">+34 931 05 79 65</p>
+                      <p className="text-white/60 text-xs">+34 691 294 443</p>
                     </div>
                   </div>
                   <div className="flex gap-3 mt-4">
                     <a
-                      href="tel:+34931057965"
+                      href="tel:+34691294443"
                       className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-white/10 rounded-lg text-white text-sm hover:bg-white/20 transition-colors"
                     >
                       📞 {t('callButton')}
                     </a>
                     <a
-                      href="https://wa.me/34931057965"
+                      href="https://wa.me/34691294443"
                       className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-[#25d366]/20 rounded-lg text-white text-sm hover:bg-[#25d366]/30 transition-colors"
                     >
                       💬 {t('whatsappButton')}
@@ -292,7 +292,7 @@ export default async function PropertyDetailPage({ params }: Props) {
                 </div>
 
                 <div className="p-6">
-                  <h3 className="font-bold text-[#0f1f3d] mb-1 font-playfair">{t('contact')}</h3>
+                  <h3 className="font-bold text-[var(--navy)] mb-1 font-playfair">{t('contact')}</h3>
                   <p className="text-gray-400 text-sm mb-4">{t('contactSubtitle')}</p>
                   <PropertyContactForm propertyRef={property.reference} propertyTitle={property.title} />
                 </div>
@@ -312,7 +312,7 @@ export default async function PropertyDetailPage({ params }: Props) {
         {/* Related */}
         {related.length > 0 && (
           <div className="mt-16">
-            <h2 className="text-[#0f1f3d] font-bold text-2xl mb-6 font-playfair">
+            <h2 className="text-[var(--navy)] font-bold text-2xl mb-6 font-playfair">
               {t('related')}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -331,7 +331,7 @@ function FeatureStat({ icon, label, value }: { icon: string; label: string; valu
   return (
     <div className="text-center">
       <span className="text-2xl">{icon}</span>
-      <p className="text-[#0f1f3d] font-bold text-lg mt-1">{value}</p>
+      <p className="text-[var(--navy)] font-bold text-lg mt-1">{value}</p>
       <p className="text-gray-400 text-xs">{label}</p>
     </div>
   );

@@ -33,7 +33,7 @@ export default function QuickSearch({ locations }: Props) {
     >
       <select
         name="operacion"
-        className="flex-1 bg-white rounded-xl pl-4 pr-10 py-3 text-[#0f1f3d] text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#c9a84c]"
+        className="flex-1 bg-white rounded-xl pl-4 pr-10 py-3 text-[var(--navy)] text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
         defaultValue=""
       >
         <option value="">{t('operation')}</option>
@@ -43,7 +43,7 @@ export default function QuickSearch({ locations }: Props) {
 
       <select
         name="tipo"
-        className="flex-1 bg-white rounded-xl pl-4 pr-10 py-3 text-[#0f1f3d] text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#c9a84c]"
+        className="flex-1 bg-white rounded-xl pl-4 pr-10 py-3 text-[var(--navy)] text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
         defaultValue=""
       >
         <option value="">{t('type')}</option>
@@ -57,12 +57,12 @@ export default function QuickSearch({ locations }: Props) {
         suggestions={locations}
         placeholder={t('location')}
         name="ciudad"
-        inputClassName="w-full bg-white rounded-xl px-4 py-3 text-[#0f1f3d] text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#c9a84c]"
+        inputClassName="w-full bg-white rounded-xl px-4 py-3 text-[var(--navy)] text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
       />
 
       <button
         type="submit"
-        className="gold-gradient text-[#0f1f3d] font-semibold px-6 py-3 rounded-xl hover:opacity-90 transition-opacity whitespace-nowrap"
+        className="gold-gradient text-[var(--navy)] font-semibold px-6 py-3 rounded-xl hover:opacity-90 transition-opacity whitespace-nowrap"
       >
         {t('button')}
       </button>

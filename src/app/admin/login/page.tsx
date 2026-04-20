@@ -32,11 +32,11 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0f1f3d] flex items-center justify-center px-4">
+    <div className="min-h-screen bg-[var(--navy)] flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
         {/* Cabecera */}
         <div className="text-center mb-8">
-          <p className="text-[#c9a84c] text-sm font-semibold tracking-[0.3em] uppercase mb-1">
+          <p className="text-[var(--gold)] text-sm font-semibold tracking-[0.3em] uppercase mb-1">
             Panel de
           </p>
           <h1
@@ -45,7 +45,7 @@ export default function AdminLoginPage() {
           >
             Administración
           </h1>
-          <div className="w-12 h-0.5 bg-[#c9a84c] mx-auto mt-3" />
+          <div className="w-12 h-0.5 bg-[var(--gold)] mx-auto mt-3" />
         </div>
 
         {/* Formulario */}
@@ -61,7 +61,7 @@ export default function AdminLoginPage() {
               onChange={(e) => setUsername(e.target.value)}
               required
               autoComplete="username"
-              className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2.5 text-white placeholder-white/30 focus:outline-none focus:border-[#c9a84c] transition"
+              className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2.5 text-white placeholder-white/30 focus:outline-none focus:border-[var(--gold)] transition"
               placeholder="admin"
             />
           </div>
@@ -74,7 +74,7 @@ export default function AdminLoginPage() {
               onChange={(e) => setPassword(e.target.value)}
               required
               autoComplete="current-password"
-              className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2.5 text-white placeholder-white/30 focus:outline-none focus:border-[#c9a84c] transition"
+              className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2.5 text-white placeholder-white/30 focus:outline-none focus:border-[var(--gold)] transition"
               placeholder="••••••••"
             />
           </div>
@@ -86,7 +86,7 @@ export default function AdminLoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-[#c9a84c] text-[#0f1f3d] font-semibold py-2.5 rounded-lg hover:bg-[#b8943f] transition disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-[var(--gold)] text-[var(--navy)] font-semibold py-2.5 rounded-lg hover:bg-[#b8943f] transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? 'Entrando...' : 'Entrar'}
           </button>

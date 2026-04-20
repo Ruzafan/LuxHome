@@ -40,7 +40,7 @@ export default function Navbar() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        transparent ? 'bg-transparent' : 'bg-[#0f1f3d] shadow-lg'
+        transparent ? 'bg-transparent' : 'bg-[var(--navy)] shadow-lg'
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-20">
@@ -65,7 +65,7 @@ export default function Navbar() {
                 key={href}
                 href={href}
                 className={`text-sm font-medium tracking-wide transition-colors duration-200 ${
-                  active ? 'text-[#c9a84c]' : 'text-white/80 hover:text-[#c9a84c]'
+                  active ? 'text-[var(--gold)]' : 'text-white/80 hover:text-[var(--gold)]'
                 }`}
               >
                 {label}
@@ -74,7 +74,7 @@ export default function Navbar() {
           })}
           <Link
             href="/contacto"
-            className="ml-2 px-5 py-2.5 rounded text-sm font-semibold tracking-wide text-[#0f1f3d] gold-gradient hover:opacity-90 transition-opacity"
+            className="ml-2 px-5 py-2.5 rounded text-sm font-semibold tracking-wide text-[var(--navy)] gold-gradient hover:opacity-90 transition-opacity"
           >
             {t('requestVisit')}
           </Link>
@@ -87,7 +87,7 @@ export default function Navbar() {
                 onClick={() => switchLocale(loc)}
                 className={`px-2.5 py-1.5 text-xs font-semibold uppercase transition-colors ${
                   locale === loc
-                    ? 'bg-[#c9a84c] text-[#0f1f3d]'
+                    ? 'bg-[var(--gold)] text-[var(--navy)]'
                     : 'text-white/60 hover:text-white'
                 }`}
               >
@@ -111,13 +111,13 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden bg-[#0f1f3d] border-t border-white/10 px-6 py-4 flex flex-col gap-4">
+        <div className="md:hidden bg-[var(--navy)] border-t border-white/10 px-6 py-4 flex flex-col gap-4">
           {links.map(({ href, label }) => (
             <Link
               key={href}
               href={href}
               onClick={() => setMenuOpen(false)}
-              className="text-white/80 hover:text-[#c9a84c] text-sm font-medium py-2 border-b border-white/10"
+              className="text-white/80 hover:text-[var(--gold)] text-sm font-medium py-2 border-b border-white/10"
             >
               {label}
             </Link>
@@ -125,7 +125,7 @@ export default function Navbar() {
           <Link
             href="/contacto"
             onClick={() => setMenuOpen(false)}
-            className="mt-2 text-center px-5 py-2.5 rounded text-sm font-semibold text-[#0f1f3d] gold-gradient"
+            className="mt-2 text-center px-5 py-2.5 rounded text-sm font-semibold text-[var(--navy)] gold-gradient"
           >
             {t('requestVisit')}
           </Link>
@@ -137,7 +137,7 @@ export default function Navbar() {
                 onClick={() => { switchLocale(loc); setMenuOpen(false); }}
                 className={`px-3 py-1.5 text-xs font-semibold uppercase rounded-lg transition-colors ${
                   locale === loc
-                    ? 'bg-[#c9a84c] text-[#0f1f3d]'
+                    ? 'bg-[var(--gold)] text-[var(--navy)]'
                     : 'text-white/60 border border-white/20 hover:text-white'
                 }`}
               >

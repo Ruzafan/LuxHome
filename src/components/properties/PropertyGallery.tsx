@@ -160,7 +160,7 @@ export default function PropertyGallery({ images }: Props) {
                 key={img.id}
                 onClick={(e) => { e.stopPropagation(); setLightboxIndex(i); }}
                 className={`relative w-12 h-12 shrink-0 rounded overflow-hidden border-2 transition-colors ${
-                  i === lightboxIndex ? 'border-[#c9a84c]' : 'border-transparent opacity-60 hover:opacity-100'
+                  i === lightboxIndex ? 'border-[var(--gold)]' : 'border-transparent opacity-60 hover:opacity-100'
                 }`}
               >
                 <Image src={img.url} alt={img.alt} fill className="object-cover" sizes="48px" />

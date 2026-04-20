@@ -2,8 +2,8 @@ import Link from 'next/link';
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-[#0f1f3d] flex flex-col items-center justify-center px-6 text-center">
-      <p className="text-[#c9a84c] text-sm font-semibold tracking-[0.3em] uppercase mb-4">
+    <div className="min-h-screen bg-[var(--navy)] flex flex-col items-center justify-center px-6 text-center">
+      <p className="text-[var(--gold)] text-sm font-semibold tracking-[0.3em] uppercase mb-4">
         Error 404
       </p>
       <h1
@@ -19,7 +19,7 @@ export default function NotFound() {
       <div className="flex flex-col sm:flex-row gap-4">
         <Link
           href="/propiedades"
-          className="px-8 py-3.5 gold-gradient text-[#0f1f3d] font-semibold rounded hover:opacity-90 transition-opacity"
+          className="px-8 py-3.5 gold-gradient text-[var(--navy)] font-semibold rounded hover:opacity-90 transition-opacity"
         >
           Ver propiedades
         </Link>
@@ -33,7 +33,7 @@ export default function NotFound() {
 
       <div className="mt-16 text-white/20 text-sm">
         <p>¿Necesitas ayuda? Llámanos al{' '}
-          <a href="tel:+34931057965" className="text-[#c9a84c] hover:underline">+34 931 05 79 65</a>
+          <a href="tel:+34691294443" className="text-[var(--gold)] hover:underline">+34 691 294 443</a>
         </p>
       </div>
     </div>

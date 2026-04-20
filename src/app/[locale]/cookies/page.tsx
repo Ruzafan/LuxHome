@@ -7,9 +7,9 @@ export const metadata: Metadata = {
 
 export default function CookiesPage() {
   return (
-    <div className="pt-20 bg-[#faf8f3]">
+    <div className="pt-20 bg-[var(--cream)]">
       <div className="luxury-gradient py-16 px-6 text-center">
-        <p className="text-[#c9a84c] text-sm font-semibold tracking-[0.3em] uppercase mb-2">Transparencia</p>
+        <p className="text-[var(--gold)] text-sm font-semibold tracking-[0.3em] uppercase mb-2">Transparencia</p>
         <h1 className="text-white font-bold text-4xl font-playfair">
           Política de Cookies
         </h1>
@@ -18,21 +18,21 @@ export default function CookiesPage() {
       <div className="max-w-3xl mx-auto px-6 py-16 space-y-10 text-gray-700 text-sm leading-relaxed">
 
         <section>
-          <h2 className="text-[#0f1f3d] font-bold text-xl mb-3 font-playfair">
+          <h2 className="text-[var(--navy)] font-bold text-xl mb-3 font-playfair">
             ¿Qué son las cookies?
           </h2>
           <p>Las cookies son pequeños archivos de texto que un sitio web almacena en tu dispositivo cuando lo visitas. Permiten que el sitio recuerde información sobre tu visita para mejorar tu experiencia de navegación.</p>
         </section>
 
         <section>
-          <h2 className="text-[#0f1f3d] font-bold text-xl mb-3 font-playfair">
+          <h2 className="text-[var(--navy)] font-bold text-xl mb-3 font-playfair">
             Cookies que utilizamos
           </h2>
 
           <div className="overflow-x-auto">
             <table className="w-full border-collapse text-xs mt-2">
               <thead>
-                <tr className="bg-[#0f1f3d] text-white">
+                <tr className="bg-[var(--navy)] text-white">
                   <th className="px-3 py-2 text-left font-semibold">Nombre</th>
                   <th className="px-3 py-2 text-left font-semibold">Tipo</th>
                   <th className="px-3 py-2 text-left font-semibold">Finalidad</th>
@@ -56,7 +56,7 @@ export default function CookiesPage() {
         </section>
 
         <section>
-          <h2 className="text-[#0f1f3d] font-bold text-xl mb-3 font-playfair">
+          <h2 className="text-[var(--navy)] font-bold text-xl mb-3 font-playfair">
             Cómo gestionar las cookies
           </h2>
           <p>Puedes configurar tu navegador para bloquear o eliminar cookies. Ten en cuenta que esto puede afectar al funcionamiento del sitio. Instrucciones por navegador:</p>
@@ -69,17 +69,17 @@ export default function CookiesPage() {
         </section>
 
         <section>
-          <h2 className="text-[#0f1f3d] font-bold text-xl mb-3 font-playfair">
+          <h2 className="text-[var(--navy)] font-bold text-xl mb-3 font-playfair">
             Actualizaciones de esta política
           </h2>
           <p>Podemos actualizar esta política cuando incorporemos nuevas funcionalidades o servicios que impliquen el uso de cookies. Te informaremos de cualquier cambio relevante mediante un aviso en el sitio web.</p>
         </section>
 
         <section>
-          <h2 className="text-[#0f1f3d] font-bold text-xl mb-3 font-playfair">
+          <h2 className="text-[var(--navy)] font-bold text-xl mb-3 font-playfair">
             Contacto
           </h2>
-          <p>Para cualquier consulta sobre esta política, puedes contactarnos en <a href="mailto:monica@luxhomein.com" className="text-[#c9a84c] hover:underline">monica@luxhomein.com</a>.</p>
+          <p>Para cualquier consulta sobre esta política, puedes contactarnos en <a href="mailto:bego@luxhomein.com" className="text-[var(--gold)] hover:underline">bego@luxhomein.com</a>.</p>
         </section>
 
         <p className="text-xs text-gray-400 border-t border-gray-200 pt-6">

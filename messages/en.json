@@ -9,7 +9,7 @@
   "home": {
     "badge": "Real Estate Agency · Santa Perpètua de Mogoda & Vallès Occidental",
     "title": "Your home, our mission",
-    "subtitle": "Mónica, Vanesa and Bego guide you through every step of buying or selling your property. Specialists in the Vallès Occidental area and surroundings.",
+    "subtitle": "Mónica, Vanesa, Bego and Josep guide you through every step of buying or selling your property. Specialists in the Vallès Occidental area and surroundings.",
     "search": {
       "operation": "Buy or rent",
       "buy": "Buy",
@@ -42,7 +42,7 @@
       },
       "personal": {
         "title": "Personal & Professional",
-        "desc": "Mónica, Vanesa and Bego accompany you personally from the first visit to signing at the notary."
+        "desc": "Mónica, Vanesa, Bego and Josep accompany you personally from the first visit to signing at the notary."
       },
       "rental": {
         "title": "Rentals",
@@ -233,7 +233,7 @@
       "errorMessage": "Could not send the message. Please try again or contact us via WhatsApp."
     },
     "office": "Office",
-    "hours": "Mon–Fri 9:30–19:00",
+    "hours": "Mon–Fri 9:30–13:30 and 16:00–19:00",
     "whatsapp": {
       "title": "Prefer WhatsApp?",
       "subtitle": "Message us directly and we will get back to you right away.",
@@ -253,7 +253,7 @@
     "penthouses": "Penthouses",
     "office": "Office",
     "schedule": "Hours",
-    "hours": "Mon–Fri: 9:00–19:00",
+    "hours": "Mon–Fri: 9:30–13:30 and 16:00–19:00",
     "rights": "© {year} LuxHome. All rights reserved.",
     "privacy": "Privacy Policy",
     "cookies": "Cookies",

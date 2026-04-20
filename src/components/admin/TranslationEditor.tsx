@@ -110,7 +110,7 @@ export default function TranslationEditor() {
               key={loc}
               onClick={() => setLocale(loc)}
               className={`px-4 py-2 text-sm font-medium transition-colors ${
-                locale === loc ? 'bg-[#c9a84c] text-[#0f1f3d]' : 'text-white/60 hover:text-white'
+                locale === loc ? 'bg-[var(--gold)] text-[var(--navy)]' : 'text-white/60 hover:text-white'
               }`}
             >
               {LOCALE_NAMES[loc]}
@@ -122,7 +122,7 @@ export default function TranslationEditor() {
           placeholder="Buscar clave o texto..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="flex-1 bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-white/30 text-sm focus:outline-none focus:border-[#c9a84c]"
+          className="flex-1 bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-white/30 text-sm focus:outline-none focus:border-[var(--gold)]"
         />
       </div>
 
@@ -143,11 +143,11 @@ export default function TranslationEditor() {
             <div
               key={key}
               className={`rounded-lg border px-4 py-3 ${
-                isOverridden ? 'border-[#c9a84c]/40 bg-[#c9a84c]/5' : 'border-white/10 bg-white/5'
+                isOverridden ? 'border-[var(--gold)]/40 bg-[var(--gold)]/5' : 'border-white/10 bg-white/5'
               }`}
             >
               <div className="flex items-start justify-between gap-3 mb-1.5">
-                <p className="text-[#c9a84c] text-xs font-mono">{key}</p>
+                <p className="text-[var(--gold)] text-xs font-mono">{key}</p>
                 {isOverridden && (
                   <span className="text-xs text-amber-400 shrink-0">personalizado</span>
                 )}
@@ -156,13 +156,13 @@ export default function TranslationEditor() {
                 value={current}
                 onChange={(e) => setEditValues((prev) => ({ ...prev, [key]: e.target.value }))}
                 rows={current.length > 80 ? 3 : 1}
-                className="w-full bg-white/10 border border-white/10 rounded px-3 py-2 text-white text-sm resize-y focus:outline-none focus:border-[#c9a84c] mb-2"
+                className="w-full bg-white/10 border border-white/10 rounded px-3 py-2 text-white text-sm resize-y focus:outline-none focus:border-[var(--gold)] mb-2"
               />
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => save(key)}
                   disabled={saving === key || (!changed && !isOverridden)}
-                  className="px-3 py-1 text-xs font-medium bg-[#c9a84c] text-[#0f1f3d] rounded hover:opacity-90 disabled:opacity-40 transition-opacity"
+                  className="px-3 py-1 text-xs font-medium bg-[var(--gold)] text-[var(--navy)] rounded hover:opacity-90 disabled:opacity-40 transition-opacity"
                 >
                   {saving === key ? '...' : 'Guardar'}
                 </button>

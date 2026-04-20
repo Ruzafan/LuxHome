@@ -46,7 +46,7 @@ export default function UploadForm() {
     <form onSubmit={handleSubmit} className="space-y-4">
       {/* Drop zone */}
       <div
-        className="border-2 border-dashed border-white/20 rounded-lg p-6 text-center hover:border-[#c9a84c]/50 transition cursor-pointer"
+        className="border-2 border-dashed border-white/20 rounded-lg p-6 text-center hover:border-[var(--gold)]/50 transition cursor-pointer"
         onClick={() => inputRef.current?.click()}
       >
         <input
@@ -64,7 +64,7 @@ export default function UploadForm() {
           <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m6.75 12l-3-3m0 0l-3 3m3-3v6m-1.5-15H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
         </svg>
         {file ? (
-          <p className="text-[#c9a84c] text-sm font-medium">{file.name}</p>
+          <p className="text-[var(--gold)] text-sm font-medium">{file.name}</p>
         ) : (
           <>
             <p className="text-white/60 text-sm">Haz clic para seleccionar el fichero</p>
@@ -94,7 +94,7 @@ export default function UploadForm() {
       <button
         type="submit"
         disabled={!file || loading}
-        className="w-full bg-[#c9a84c] text-[#0f1f3d] font-semibold py-2.5 rounded-lg hover:bg-[#b8943f] transition disabled:opacity-40 disabled:cursor-not-allowed"
+        className="w-full bg-[var(--gold)] text-[var(--navy)] font-semibold py-2.5 rounded-lg hover:bg-[#b8943f] transition disabled:opacity-40 disabled:cursor-not-allowed"
       >
         {loading ? 'Procesando...' : 'Subir e importar'}
       </button>

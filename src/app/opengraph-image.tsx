@@ -10,7 +10,7 @@ export default function OgImage() {
     (
       <div
         style={{
-          background: '#0f1f3d',
+          background: 'var(--navy)',
           width: '100%',
           height: '100%',
           display: 'flex',
@@ -21,9 +21,9 @@ export default function OgImage() {
         }}
       >
         {/* Gold accent line */}
-        <div style={{ width: 80, height: 3, background: '#c9a84c', marginBottom: 32 }} />
+        <div style={{ width: 80, height: 3, background: 'var(--gold)', marginBottom: 32 }} />
 
-        <div style={{ color: '#c9a84c', fontSize: 18, letterSpacing: 8, textTransform: 'uppercase', marginBottom: 20 }}>
+        <div style={{ color: 'var(--gold)', fontSize: 18, letterSpacing: 8, textTransform: 'uppercase', marginBottom: 20 }}>
           Inmobiliaria
         </div>
 
@@ -36,10 +36,10 @@ export default function OgImage() {
         </div>
 
         {/* Gold accent line */}
-        <div style={{ width: 80, height: 3, background: '#c9a84c', marginTop: 32 }} />
+        <div style={{ width: 80, height: 3, background: 'var(--gold)', marginTop: 32 }} />
 
         <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 16, marginTop: 24 }}>
-          luxhomein.com · +34 931 05 79 65
+          luxhomein.com · +34 691 294 443
         </div>
       </div>
     ),

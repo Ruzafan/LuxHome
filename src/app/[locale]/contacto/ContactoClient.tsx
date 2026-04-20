@@ -29,10 +29,10 @@ export default function ContactoClient() {
   }
 
   return (
-    <div className="pt-20 bg-[#faf8f3]">
+    <div className="pt-20 bg-[var(--cream)]">
       {/* Hero */}
       <div className="luxury-gradient py-16 px-6 text-center">
-        <p className="text-[#c9a84c] text-sm font-semibold tracking-[0.3em] uppercase mb-2">{t('badge')}</p>
+        <p className="text-[var(--gold)] text-sm font-semibold tracking-[0.3em] uppercase mb-2">{t('badge')}</p>
         <h1 className="text-white font-bold text-4xl font-playfair">
           {t('title')}
         </h1>
@@ -43,7 +43,7 @@ export default function ContactoClient() {
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-10">
           {/* Contact Form — order-2 on mobile so info panel appears first */}
           <div className="lg:col-span-3 order-2 lg:order-1 bg-white rounded-2xl shadow-lg p-8">
-            <h2 className="text-[#0f1f3d] font-bold text-2xl mb-1 font-playfair">
+            <h2 className="text-[var(--navy)] font-bold text-2xl mb-1 font-playfair">
               {t('form.title')}
             </h2>
             <p className="text-gray-400 text-sm mb-6">{t('form.subtitle')}</p>
@@ -51,7 +51,7 @@ export default function ContactoClient() {
             {status === 'ok' ? (
               <div className="flex flex-col items-center justify-center py-16 gap-4 text-center">
                 <div className="w-14 h-14 rounded-full bg-emerald-100 flex items-center justify-center text-2xl">✓</div>
-                <p className="text-[#0f1f3d] font-semibold text-lg">{t('form.successTitle')}</p>
+                <p className="text-[var(--navy)] font-semibold text-lg">{t('form.successTitle')}</p>
                 <p className="text-gray-400 text-sm">{t('form.successSubtitle')}</p>
               </div>
             ) : (
@@ -62,14 +62,14 @@ export default function ContactoClient() {
                       {t('form.name')}
                     </label>
                     <input id="nombre" type="text" name="nombre" required
-                      className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#c9a84c]" />
+                      className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--gold)]" />
                   </div>
                   <div>
                     <label htmlFor="apellidos" className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">
                       {t('form.surname')}
                     </label>
                     <input id="apellidos" type="text" name="apellidos" required
-                      className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#c9a84c]" />
+                      className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--gold)]" />
                   </div>
                 </div>
 
@@ -79,14 +79,14 @@ export default function ContactoClient() {
                       {t('form.email')}
                     </label>
                     <input id="email" type="email" name="email" required
-                      className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#c9a84c]" />
+                      className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--gold)]" />
                   </div>
                   <div>
                     <label htmlFor="telefono" className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">
                       {t('form.phone')} <span className="text-gray-300 font-normal">{t('form.phoneOptional')}</span>
                     </label>
                     <input id="telefono" type="tel" name="telefono"
-                      className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#c9a84c]" />
+                      className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--gold)]" />
                   </div>
                 </div>
 
@@ -95,7 +95,7 @@ export default function ContactoClient() {
                     {t('form.subject')}
                   </label>
                   <select id="asunto" name="asunto" defaultValue=""
-                    className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#c9a84c]">
+                    className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
                     <option value="" disabled>{t('form.subjectPlaceholder')}</option>
                     <option value="comprar">{t('form.subjectBuy')}</option>
                     <option value="alquilar">{t('form.subjectRent')}</option>
@@ -111,7 +111,7 @@ export default function ContactoClient() {
                     {t('form.budget')}
                   </label>
                   <select id="presupuesto" name="presupuesto" defaultValue=""
-                    className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#c9a84c]">
+                    className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--gold)]">
                     <option value="">{t('form.budgetNone')}</option>
                     <option value="100k-200k">100.000€ – 200.000€</option>
                     <option value="200k-400k">200.000€ – 400.000€</option>
@@ -126,15 +126,15 @@ export default function ContactoClient() {
                   </label>
                   <textarea id="mensaje" name="mensaje" rows={4} required
                     placeholder={t('form.messagePlaceholder')}
-                    className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-[#c9a84c]" />
+                    className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-[var(--gold)]" />
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <input type="checkbox" id="privacidad" name="privacidad" required className="mt-1 accent-[#c9a84c]" />
+                  <input type="checkbox" id="privacidad" name="privacidad" required className="mt-1 accent-[var(--gold)]" />
                   <label htmlFor="privacidad" className="text-xs text-gray-400 leading-relaxed">
                     {t.rich('form.privacy', {
                       link: (chunks) => (
-                        <Link href="/privacidad" className="text-[#c9a84c] hover:underline">
+                        <Link href="/privacidad" className="text-[var(--gold)] hover:underline">
                           {chunks}
                         </Link>
                       ),
@@ -149,7 +149,7 @@ export default function ContactoClient() {
                 <button
                   type="submit"
                   disabled={status === 'sending'}
-                  className="w-full py-4 gold-gradient text-[#0f1f3d] font-bold rounded-lg hover:opacity-90 transition-opacity text-sm tracking-wide disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="w-full py-4 gold-gradient text-[var(--navy)] font-bold rounded-lg hover:opacity-90 transition-opacity text-sm tracking-wide disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   {status === 'sending' ? t('form.sending') : t('form.submit')}
                 </button>
@@ -160,26 +160,26 @@ export default function ContactoClient() {
           {/* Info panel — order-1 on mobile so it appears above the form */}
           <div className="lg:col-span-2 order-1 lg:order-2 space-y-6">
             <div className="bg-white rounded-2xl shadow p-6">
-              <h3 className="font-bold text-[#0f1f3d] text-base mb-4 pb-3 border-b border-gray-100 font-playfair">
+              <h3 className="font-bold text-[var(--navy)] text-base mb-4 pb-3 border-b border-gray-100 font-playfair">
                 {t('office')}
               </h3>
               <ul className="space-y-3 text-sm text-gray-600">
                 <li className="flex items-start gap-3">
-                  <svg className="w-4 h-4 text-[#c9a84c] shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
+                  <svg className="w-4 h-4 text-[var(--gold)] shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
                   <span>Rambla 27<br />08130 Santa Perpètua de Mogoda (Barcelona)</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <svg className="w-4 h-4 text-[#c9a84c] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>
-                  <a href="tel:+34931057965" className="hover:text-[#c9a84c] transition-colors">+34 931 05 79 65</a>
+                  <svg className="w-4 h-4 text-[var(--gold)] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>
+                  <a href="tel:+34691294443" className="hover:text-[var(--gold)] transition-colors">+34 691 294 443</a>
                 </li>
                 <li className="flex items-center gap-3">
-                  <svg className="w-4 h-4 text-[#c9a84c] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>
-                  <a href="mailto:monica@luxhomein.com" className="hover:text-[#c9a84c] transition-colors">
-                    monica@luxhomein.com
+                  <svg className="w-4 h-4 text-[var(--gold)] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>
+                  <a href="mailto:bego@luxhomein.com" className="hover:text-[var(--gold)] transition-colors">
+                    bego@luxhomein.com
                   </a>
                 </li>
                 <li className="flex items-start gap-3">
-                  <svg className="w-4 h-4 text-[#c9a84c] shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  <svg className="w-4 h-4 text-[var(--gold)] shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                   <span className="text-gray-400 text-xs">{t('hours')}</span>
                 </li>
               </ul>
@@ -189,7 +189,7 @@ export default function ContactoClient() {
               <h3 className="font-bold text-lg mb-2">{t('whatsapp.title')}</h3>
               <p className="text-white/80 text-sm mb-4">{t('whatsapp.subtitle')}</p>
               <a
-                href="https://wa.me/34931057965?text=Hola,%20me%20interesa%20una%20propiedad%20de%20LuxHome"
+                href="https://wa.me/34691294443?text=Hola,%20me%20interesa%20una%20propiedad%20de%20LuxHome"
                 className="flex items-center justify-center gap-2 bg-white text-[#25d366] font-semibold px-5 py-3 rounded-lg text-sm hover:bg-green-50 transition-colors"
               >
                 💬 {t('whatsapp.button')}

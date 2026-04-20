@@ -52,9 +52,9 @@ export default async function HomePage() {
   ];
 
   const testimonials = [
-    { name: 'Jordi P.', initials: 'JP', color: '#4f7dcb', role: 'Comprador — Santa Perpètua de Mogoda', text: 'Mónica nos ayudó a encontrar exactamente lo que buscábamos. Trato cercano, muy profesional y siempre disponible para resolver nuestras dudas. Totalmente recomendable.', stars: 5 },
-    { name: 'Marta G.', initials: 'MG', color: '#7b5ea7', role: 'Vendedora — Ático Santa Perpètua', text: 'Vendieron mi piso mucho más rápido de lo que esperaba y al precio que pedíamos. El equipo de Lux Home conoce muy bien la zona y saben cómo llegar a los compradores.', stars: 5 },
-    { name: 'Família Soler', initials: 'FS', color: '#3a8a6e', role: 'Compradores — Casa adosada Vallès', text: 'Vanesa y Bego fueron un apoyo fundamental durante todo el proceso. Gestionaron todo, desde la visita hasta la firma. Nos sentimos acompañados en todo momento.', stars: 5 },
+    { name: 'Fernando R.', initials: 'FR', color: '#4f7dcb', role: 'Vendedor — Google', text: 'Ya conocía a Begoña y a su equipo desde hace más de 5 años, que vendieron el piso de mi madre en tiempo récord. Hace dos meses volví a confiar en ellas para vender mi piso y ha sido una grata experiencia: se han encargado de todo haciendo que sea fácil y rápido. Son muy buenas profesionales, con experiencia y gran conocimiento del mercado inmobiliario, transmitiendo confianza, seguridad y claridad. Cien por cien recomendables, un valor seguro y un éxito asegurado respaldado por el trabajo bien hecho.', stars: 5 },
+    { name: 'Desiré A.', initials: 'DA', color: '#7b5ea7', role: 'Compradores — Google', text: 'Somos Desiré y Rubén y hemos comprado nuestro primer hogar con esta encantadora agencia inmobiliaria. Un 10 desde el principio hasta el final. El trato de las chicas, tanto de Begoña como de Mónica, ha sido una maravilla: amabilidad total y súper profesionales. Remarcar a Begoña, que ha estado a nuestro lado durante TODO el proceso, aclarándonos las mil y una dudas que nos surgían, siempre disponible y con una paciencia y positivismo increíbles. Gracias por hacernos sentir cómodos desde el minuto 1. Sin duda volveríamos a repetir.', stars: 5 },
+    { name: 'Karol F.', initials: 'KF', color: '#3a8a6e', role: 'Vendedora — Google', text: '100% recomendable. Este equipo no solo sabe hacer bien su trabajo de manera eficaz e impecable, sino que además todo lo que conlleva la venta de una casa (papeles, burocracia, visitas y seguimiento…), algo que a mí se me escapa totalmente, es un gran alivio y ayuda cuando lo dejas en manos de profesionales. Si mañana tuviera que hacer de nuevo una gestión de tal envergadura, sin lugar a dudas las elegiría a ellas.', stars: 5 },
   ];
 
   return (
@@ -73,7 +73,7 @@ export default async function HomePage() {
         </div>
 
         <div className="relative z-10 text-center px-6 max-w-4xl mx-auto pb-20 md:pb-0">
-          <p className="text-[#c9a84c] text-sm font-semibold tracking-[0.3em] uppercase mb-4 animate-fade-in">
+          <p className="text-[var(--gold)] text-sm font-semibold tracking-[0.3em] uppercase mb-4 animate-fade-in">
             {t('badge')}
           </p>
           <h1
@@ -96,11 +96,11 @@ export default async function HomePage() {
           <div className="grid grid-cols-3 gap-4 md:gap-8 mt-8 md:mt-16 animate-fade-in" style={{ animationDelay: '0.5s' }}>
             {[
               { value: String(stats.total), label: t('stats.properties') },
-              { value: '3', label: t('stats.experts') },
+              { value: '4', label: t('stats.experts') },
               { value: String(stats.zones), label: t('stats.zones') },
             ].map(({ value, label }) => (
               <div key={label} className="text-center">
-                <p className="text-[#c9a84c] font-bold text-2xl md:text-4xl">
+                <p className="text-[var(--gold)] font-bold text-2xl md:text-4xl">
                   {value}
                 </p>
                 <p className="text-white/60 text-xs md:text-sm mt-1">{label}</p>
@@ -116,12 +116,12 @@ export default async function HomePage() {
       </section>
 
       {/* ─── Featured Properties ───────────────────────────────────────────────── */}
-      <section className="py-24 px-6 bg-[#faf8f3]">
+      <section className="py-24 px-6 bg-[var(--cream)]">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <p className="text-[#c9a84c] text-sm font-semibold tracking-[0.3em] uppercase mb-2">{t('featured.badge')}</p>
+            <p className="text-[var(--gold)] text-sm font-semibold tracking-[0.3em] uppercase mb-2">{t('featured.badge')}</p>
             <h2
-              className="text-[#0f1f3d] font-bold text-4xl gold-line gold-line-center font-playfair"
+              className="text-[var(--navy)] font-bold text-4xl gold-line gold-line-center font-playfair"
              
             >
               {t('featured.title')}
@@ -137,7 +137,7 @@ export default async function HomePage() {
           <div className="text-center mt-12">
             <Link
               href="/propiedades"
-              className="inline-flex items-center gap-2 px-8 py-3.5 rounded border-2 border-[#0f1f3d] text-[#0f1f3d] font-semibold hover:bg-[#0f1f3d] hover:text-white transition-all duration-300"
+              className="inline-flex items-center gap-2 px-8 py-3.5 rounded border-2 border-[var(--navy)] text-[var(--navy)] font-semibold hover:bg-[var(--navy)] hover:text-white transition-all duration-300"
             >
               {t('featured.viewAll')}
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -152,7 +152,7 @@ export default async function HomePage() {
       <section className="py-24 px-6 luxury-gradient">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-14">
-            <p className="text-[#c9a84c] text-sm font-semibold tracking-[0.3em] uppercase mb-2">{t('services.badge')}</p>
+            <p className="text-[var(--gold)] text-sm font-semibold tracking-[0.3em] uppercase mb-2">{t('services.badge')}</p>
             <h2 className="text-white font-bold text-4xl font-playfair">
               {t('services.title')}
             </h2>
@@ -164,7 +164,7 @@ export default async function HomePage() {
                 key={key}
                 className="text-center p-8 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors"
               >
-                <div className="w-14 h-14 rounded-full gold-gradient flex items-center justify-center mx-auto mb-5 text-[#0f1f3d]">
+                <div className="w-14 h-14 rounded-full gold-gradient flex items-center justify-center mx-auto mb-5 text-[var(--navy)]">
                   {serviceIcons[key]}
                 </div>
                 <h3 className="text-white font-semibold text-xl mb-3">
@@ -181,9 +181,9 @@ export default async function HomePage() {
       <section className="py-24 px-6 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <p className="text-[#c9a84c] text-sm font-semibold tracking-[0.3em] uppercase mb-2">{t('zones.badge')}</p>
+            <p className="text-[var(--gold)] text-sm font-semibold tracking-[0.3em] uppercase mb-2">{t('zones.badge')}</p>
             <h2
-              className="text-[#0f1f3d] font-bold text-4xl gold-line gold-line-center font-playfair"
+              className="text-[var(--navy)] font-bold text-4xl gold-line gold-line-center font-playfair"
              
             >
               {t('zones.title')}
@@ -207,7 +207,7 @@ export default async function HomePage() {
                 <div className="absolute bottom-0 left-0 right-0 p-3">
                   <p className="text-white font-semibold text-sm">{label}</p>
                   {(cityCount[label] ?? 0) > 0 && (
-                    <p className="text-[#c9a84c] text-xs">{cityCount[label]} {t('zones.properties')}</p>
+                    <p className="text-[var(--gold)] text-xs">{cityCount[label]} {t('zones.properties')}</p>
                   )}
                 </div>
               </Link>
@@ -217,12 +217,12 @@ export default async function HomePage() {
       </section>
 
       {/* ─── Testimonials ─────────────────────────────────────────────────────── */}
-      <section className="py-24 px-6 bg-[#faf8f3]">
+      <section className="py-24 px-6 bg-[var(--cream)]">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
-            <p className="text-[#c9a84c] text-sm font-semibold tracking-[0.3em] uppercase mb-2">{t('testimonials.badge')}</p>
+            <p className="text-[var(--gold)] text-sm font-semibold tracking-[0.3em] uppercase mb-2">{t('testimonials.badge')}</p>
             <h2
-              className="text-[#0f1f3d] font-bold text-4xl gold-line gold-line-center font-playfair"
+              className="text-[var(--navy)] font-bold text-4xl gold-line gold-line-center font-playfair"
              
             >
               {t('testimonials.title')}
@@ -234,7 +234,7 @@ export default async function HomePage() {
               <div key={name} className="bg-white rounded-xl p-6 shadow-md flex flex-col">
                 <div className="flex gap-1 mb-4">
                   {Array.from({ length: stars }).map((_, i) => (
-                    <span key={i} className="text-[#c9a84c] text-lg">★</span>
+                    <span key={i} className="text-[var(--gold)] text-lg">★</span>
                   ))}
                 </div>
                 <p className="text-gray-600 text-sm leading-relaxed mb-6 italic flex-1">&ldquo;{text}&rdquo;</p>
@@ -246,7 +246,7 @@ export default async function HomePage() {
                     {initials}
                   </div>
                   <div>
-                    <p className="font-semibold text-[#0f1f3d] text-sm">{name}</p>
+                    <p className="font-semibold text-[var(--navy)] text-sm">{name}</p>
                     <p className="text-gray-400 text-xs">{role}</p>
                   </div>
                 </div>
@@ -259,13 +259,13 @@ export default async function HomePage() {
       {/* ─── CTA ──────────────────────────────────────────────────────────────── */}
       <section className="py-20 px-6 gold-gradient">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-[#0f1f3d] font-bold text-4xl mb-4">
+          <h2 className="text-[var(--navy)] font-bold text-4xl mb-4">
             {t('cta.title')}
           </h2>
-          <p className="text-[#0f1f3d]/70 text-lg mb-8">{t('cta.subtitle')}</p>
+          <p className="text-[var(--navy)]/70 text-lg mb-8">{t('cta.subtitle')}</p>
           <Link
             href="/contacto"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-[#0f1f3d] text-white font-semibold rounded hover:bg-[#1a3260] transition-colors"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--navy)] text-white font-semibold rounded hover:bg-[var(--navy-light)] transition-colors"
           >
             {t('cta.button')}
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

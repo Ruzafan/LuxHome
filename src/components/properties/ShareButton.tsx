@@ -27,7 +27,7 @@ export default function ShareButton({ title, url }: Props) {
   return (
     <button
       onClick={handleShare}
-      className="text-[#c9a84c] text-sm font-medium hover:underline flex items-center gap-1"
+      className="text-[var(--gold)] text-sm font-medium hover:underline flex items-center gap-1"
     >
       {t('share')} ↗
     </button>

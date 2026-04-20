@@ -40,11 +40,11 @@ export default async function AdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0f1f3d]">
+    <div className="min-h-screen bg-[var(--navy)]">
       {/* Header */}
       <header className="border-b border-white/10 px-6 py-4 flex items-center justify-between">
         <div>
-          <p className="text-[#c9a84c] text-xs font-semibold tracking-[0.3em] uppercase">LuxHome</p>
+          <p className="text-[var(--gold)] text-xs font-semibold tracking-[0.3em] uppercase">LuxHome</p>
           <h1
             className="text-white font-bold text-xl"
            
@@ -87,7 +87,7 @@ export default async function AdminPage() {
                 className="bg-white/5 border border-white/10 rounded-xl p-5"
               >
                 <p
-                  className="text-[#c9a84c] font-bold text-3xl"
+                  className="text-[var(--gold)] font-bold text-3xl"
                  
                 >
                   {value}
@@ -154,7 +154,7 @@ export default async function AdminPage() {
                           {lead.nombre}{lead.apellidos ? ` ${lead.apellidos}` : ''}
                         </td>
                         <td className="px-5 py-3">
-                          <a href={`mailto:${lead.email}`} className="text-[#c9a84c] hover:underline">{lead.email}</a>
+                          <a href={`mailto:${lead.email}`} className="text-[var(--gold)] hover:underline">{lead.email}</a>
                         </td>
                         <td className="text-white/60 px-5 py-3 whitespace-nowrap">{lead.telefono ?? '—'}</td>
                         <td className="px-5 py-3">

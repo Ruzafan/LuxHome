@@ -54,7 +54,7 @@ export default function PropertyCard({ property, featured = false }: Props) {
               {t(`status.${property.status}`)}
             </span>
             {property.isNewDevelopment && (
-              <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-[#0f1f3d] text-[#c9a84c]">
+              <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-[var(--navy)] text-[var(--gold)]">
                 {t('newDevelopment')}
               </span>
             )}
@@ -62,7 +62,7 @@ export default function PropertyCard({ property, featured = false }: Props) {
 
           {/* Operation tag */}
           <div className="absolute top-3 right-3">
-            <span className="text-xs font-semibold px-2.5 py-1 rounded-full gold-gradient text-[#0f1f3d] uppercase tracking-wide">
+            <span className="text-xs font-semibold px-2.5 py-1 rounded-full gold-gradient text-[var(--navy)] uppercase tracking-wide">
               {t(`operation.${property.operation}`)}
             </span>
           </div>
@@ -78,14 +78,14 @@ export default function PropertyCard({ property, featured = false }: Props) {
         {/* Content */}
         <div className="p-4">
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-xs text-[#c9a84c] font-medium uppercase tracking-wide">
+            <span className="text-xs text-[var(--gold)] font-medium uppercase tracking-wide">
               {t(`type.${property.type}`)}
             </span>
             <span className="text-gray-300">·</span>
             <span className="text-xs text-gray-400">{property.reference}</span>
           </div>
 
-          <h3 className="font-semibold text-[#0f1f3d] text-base leading-snug line-clamp-2 mb-2 group-hover:text-[#c9a84c] transition-colors">
+          <h3 className="font-semibold text-[var(--navy)] text-base leading-snug line-clamp-2 mb-2 group-hover:text-[var(--gold)] transition-colors">
             {property.title}
           </h3>
 
@@ -109,7 +109,7 @@ export default function PropertyCard({ property, featured = false }: Props) {
               {t('area', { n: property.features.area })}
             </span>
             {property.features.hasGarage && (
-              <span className="flex items-center gap-1 text-[#c9a84c]">
+              <span className="flex items-center gap-1 text-[var(--gold)]">
                 <GarageIcon />
                 {t('garage')}
               </span>
@@ -123,7 +123,7 @@ export default function PropertyCard({ property, featured = false }: Props) {
 
 function BedIcon() {
   return (
-    <svg className="w-4 h-4 text-[#c9a84c]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+    <svg className="w-4 h-4 text-[var(--gold)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
       <path strokeLinecap="round" strokeLinejoin="round" d="M2 12h20M2 12V8a2 2 0 012-2h16a2 2 0 012 2v4M2 12v4a2 2 0 002 2h16a2 2 0 002-2v-4" />
     </svg>
   );
@@ -131,7 +131,7 @@ function BedIcon() {
 
 function BathIcon() {
   return (
-    <svg className="w-4 h-4 text-[#c9a84c]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+    <svg className="w-4 h-4 text-[var(--gold)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
       <path strokeLinecap="round" strokeLinejoin="round" d="M4 12h16M4 12V7a3 3 0 016 0M4 12v5a2 2 0 002 2h12a2 2 0 002-2v-5" />
     </svg>
   );
@@ -139,7 +139,7 @@ function BathIcon() {
 
 function AreaIcon() {
   return (
-    <svg className="w-4 h-4 text-[#c9a84c]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+    <svg className="w-4 h-4 text-[var(--gold)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
       <path strokeLinecap="round" strokeLinejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
     </svg>
   );

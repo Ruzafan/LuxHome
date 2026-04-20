@@ -1,6 +1,6 @@
 export default function PropertiesLoading() {
   return (
-    <div className="pt-20 bg-[#faf8f3] min-h-screen">
+    <div className="pt-20 bg-[var(--cream)] min-h-screen">
       {/* Hero skeleton */}
       <div className="luxury-gradient py-12 px-6 text-center">
         <div className="h-4 w-32 bg-white/20 rounded mx-auto mb-3 animate-pulse" />

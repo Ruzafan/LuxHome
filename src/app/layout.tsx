@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     default: 'LuxHome — Inmobiliaria en el Vallès Occidental',
   },
   description:
-    'Inmobiliaria en el Vallès Occidental. Mónica, Vanesa y Bego te ayudan a comprar, vender o alquilar en Santa Perpètua, Castelldefels, Vilanova del Vallès y alrededores.',
+    'Inmobiliaria en el Vallès Occidental. Mónica, Vanesa, Bego y Josep te ayudan a comprar, vender o alquilar en Santa Perpètua, Castelldefels, Vilanova del Vallès y alrededores.',
   keywords: [
     'inmobiliaria vallès occidental',
     'comprar piso santa perpètua de mogoda',
@@ -33,13 +33,13 @@ export const metadata: Metadata = {
     siteName: 'LuxHome Inmobiliaria',
     title: 'LuxHome — Inmobiliaria en el Vallès Occidental',
     description:
-      'Compra, vende o alquila con Mónica, Vanesa y Bego. Especialistas en el Vallès Occidental y alrededores.',
+      'Compra, vende o alquila con Mónica, Vanesa, Bego y Josep. Especialistas en el Vallès Occidental y alrededores.',
     images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'LuxHome Inmobiliaria' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'LuxHome — Inmobiliaria en el Vallès Occidental',
-    description: 'Compra, vende o alquila con Mónica, Vanesa y Bego. Especialistas en el Vallès Occidental.',
+    description: 'Compra, vende o alquila con Mónica, Vanesa, Bego y Josep. Especialistas en el Vallès Occidental.',
   },
   robots: { index: true, follow: true },
 };
@@ -49,8 +49,8 @@ const localBusinessSchema = {
   '@type': 'RealEstateAgent',
   name: 'LuxHome Inmobiliaria',
   url: BASE_URL,
-  telephone: '+34931057965',
-  email: 'monica@luxhomein.com',
+  telephone: '+34691294443',
+  email: 'bego@luxhomein.com',
   address: {
     '@type': 'PostalAddress',
     streetAddress: 'Rambla 27',
@@ -59,12 +59,20 @@ const localBusinessSchema = {
     addressRegion: 'Barcelona',
     addressCountry: 'ES',
   },
-  openingHoursSpecification: {
-    '@type': 'OpeningHoursSpecification',
-    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-    opens: '09:30',
-    closes: '19:00',
-  },
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '09:30',
+      closes: '13:30',
+    },
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '16:00',
+      closes: '19:00',
+    },
+  ],
   areaServed: [
     'Santa Perpètua de Mogoda',
     'Montcada i Reixac',
@@ -78,7 +86,7 @@ const localBusinessSchema = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es" className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable}`}>
-      <body className="min-h-screen flex flex-col bg-[#faf8f3]">
+      <body className="min-h-screen flex flex-col bg-[var(--cream)]">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}

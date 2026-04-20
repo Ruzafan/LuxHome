@@ -111,15 +111,15 @@ export default function LocationAutocomplete({
                   selectSuggestion(suggestion);
                 }}
                 className={`flex items-center gap-3 px-4 py-2.5 cursor-pointer text-sm transition-colors ${
-                  isActive ? 'bg-[#faf8f3] text-[#0f1f3d]' : 'text-gray-700 hover:bg-[#faf8f3]'
+                  isActive ? 'bg-[var(--cream)] text-[var(--navy)]' : 'text-gray-700 hover:bg-[var(--cream)]'
                 }`}
               >
-                <span className="text-[#c9a84c] shrink-0">📍</span>
+                <span className="text-[var(--gold)] shrink-0">📍</span>
                 {/* Resalta la parte que coincide */}
                 {start >= 0 ? (
                   <span>
                     {suggestion.slice(0, start)}
-                    <strong className="text-[#0f1f3d]">{suggestion.slice(start, start + value.length)}</strong>
+                    <strong className="text-[var(--navy)]">{suggestion.slice(start, start + value.length)}</strong>
                     {suggestion.slice(start + value.length)}
                   </span>
                 ) : (

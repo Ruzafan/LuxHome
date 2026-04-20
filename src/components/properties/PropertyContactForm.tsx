@@ -42,7 +42,7 @@ export default function PropertyContactForm({ propertyRef, propertyTitle }: Prop
     return (
       <div className="flex flex-col items-center justify-center py-8 gap-3 text-center">
         <div className="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center text-xl text-emerald-600">✓</div>
-        <p className="text-[#0f1f3d] font-semibold text-sm">{t('contactSent')}</p>
+        <p className="text-[var(--navy)] font-semibold text-sm">{t('contactSent')}</p>
         <p className="text-gray-400 text-xs">{t('contactSentSubtitle')}</p>
       </div>
     );
@@ -53,19 +53,19 @@ export default function PropertyContactForm({ propertyRef, propertyTitle }: Prop
       <input type="hidden" name="ref" value={propertyRef} />
       <input
         type="text" name="nombre" placeholder={t('contactNamePlaceholder')} required
-        className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#c9a84c]"
+        className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
       />
       <input
         type="email" name="email" placeholder="Email" required
-        className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#c9a84c]"
+        className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
       />
       <input
         type="tel" name="telefono" placeholder={t('contactPhonePlaceholder')}
-        className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#c9a84c]"
+        className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
       />
       <textarea
         name="mensaje" rows={3} required
-        className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-[#c9a84c]"
+        className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
         defaultValue={t('contactMessageDefault', { ref: propertyRef })}
       />
       {status === 'error' && (
@@ -74,7 +74,7 @@ export default function PropertyContactForm({ propertyRef, propertyTitle }: Prop
       <button
         type="submit"
         disabled={status === 'sending'}
-        className="w-full py-3 gold-gradient text-[#0f1f3d] font-semibold rounded-lg hover:opacity-90 transition-opacity disabled:opacity-60 disabled:cursor-not-allowed text-sm"
+        className="w-full py-3 gold-gradient text-[var(--navy)] font-semibold rounded-lg hover:opacity-90 transition-opacity disabled:opacity-60 disabled:cursor-not-allowed text-sm"
       >
         {status === 'sending' ? t('contactSending') : t('contactSubmit')}
       </button>

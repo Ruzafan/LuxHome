@@ -111,7 +111,7 @@ export async function POST(request: NextRequest) {
                    style="display:inline-block;padding:12px 20px;background:#0f1f3d;color:#fff;text-decoration:none;border-radius:6px;font-size:14px;font-weight:600">
                   Ver propiedades
                 </a>
-                <a href="https://wa.me/34931057965"
+                <a href="https://wa.me/34691294443"
                    style="display:inline-block;padding:12px 20px;background:#25d366;color:#fff;text-decoration:none;border-radius:6px;font-size:14px;font-weight:600">
                   WhatsApp
                 </a>
@@ -119,8 +119,8 @@ export async function POST(request: NextRequest) {
               <div style="border-top:1px solid #e5e7eb;padding-top:20px;font-size:13px;color:#9ca3af">
                 <p style="margin:0 0 4px"><strong style="color:#374151">LuxHome Inmobiliaria</strong></p>
                 <p style="margin:0 0 2px">Rambla 27, 08130 Santa Perpètua de Mogoda</p>
-                <p style="margin:0 0 2px">📞 <a href="tel:+34931057965" style="color:#c9a84c;text-decoration:none">+34 931 05 79 65</a></p>
-                <p style="margin:0">✉️ <a href="mailto:monica@luxhomein.com" style="color:#c9a84c;text-decoration:none">monica@luxhomein.com</a></p>
+                <p style="margin:0 0 2px">📞 <a href="tel:+34691294443" style="color:#c9a84c;text-decoration:none">+34 691 294 443</a></p>
+                <p style="margin:0">✉️ <a href="mailto:bego@luxhomein.com" style="color:#c9a84c;text-decoration:none">bego@luxhomein.com</a></p>
               </div>
             </div>
           </div>
