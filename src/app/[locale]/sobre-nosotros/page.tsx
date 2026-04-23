@@ -51,6 +51,20 @@ const zoneDescs: Record<string, string> = {
   'Les Franqueses del Vallès': 'Acceso a propiedades rústicas, masías y terrenos en el entorno del Vallès Oriental.',
 };
 
+const teamSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'LuxHome Inmobiliaria',
+  url: 'https://luxhomein.com',
+  employee: team.map(({ name, role, bio }) => ({
+    '@type': 'Person',
+    name,
+    jobTitle: role,
+    description: bio,
+    worksFor: { '@type': 'Organization', name: 'LuxHome Inmobiliaria' },
+  })),
+};
+
 export default async function SobreNosotrosPage() {
   const [t, stats] = await Promise.all([
     getTranslations('about'),
@@ -67,6 +81,10 @@ export default async function SobreNosotrosPage() {
 
   return (
     <div className="pt-20 bg-[var(--cream)]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(teamSchema) }}
+      />
       {/* Hero */}
       <section className="relative h-72 md:h-96 overflow-hidden">
         <Image

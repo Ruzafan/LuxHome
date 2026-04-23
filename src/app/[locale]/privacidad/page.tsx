@@ -1,8 +1,11 @@
 import { Metadata } from 'next';
+import { getAlternates } from '@/lib/seo';
 
 export const metadata: Metadata = {
   title: 'Política de Privacidad',
   description: 'Política de privacidad de Lux Home Inmobiliaria conforme al RGPD y la LOPDGDD.',
+  robots: { index: false, follow: false },
+  alternates: getAlternates('/privacidad'),
 };
 
 export default function PrivacidadPage() {

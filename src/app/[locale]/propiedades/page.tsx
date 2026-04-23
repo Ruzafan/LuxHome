@@ -69,8 +69,35 @@ export default async function PropiedadesPage({
   ]);
 
   const baseUrl = getPathname({ href: '/propiedades', locale });
+  const canonicalBase = `https://luxhomein.com/propiedades`;
+
+  const itemListSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Propiedades en venta y alquiler — LuxHome',
+    description: 'Listado de propiedades disponibles en el Vallès Occidental gestionadas por LuxHome Inmobiliaria.',
+    url: canonicalBase,
+    numberOfItems: total,
+    itemListElement: properties.map((p, i) => ({
+      '@type': 'ListItem',
+      position: (page - 1) * 9 + i + 1,
+      url: `https://luxhomein.com/propiedades/${p.id}`,
+      name: p.title,
+    })),
+  };
 
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
+      />
+      {page > 1 && (
+        <link rel="prev" href={page === 2 ? canonicalBase : `${canonicalBase}?pagina=${page - 1}`} />
+      )}
+      {page < totalPages && (
+        <link rel="next" href={`${canonicalBase}?pagina=${page + 1}`} />
+      )}
     <div className="pt-20 min-h-screen bg-[var(--cream)]">
       {/* Page header */}
       <div className="luxury-gradient py-16 px-6">
@@ -179,6 +206,7 @@ export default async function PropiedadesPage({
         </div>
       </div>
     </div>
+    </>
   );
 }
 

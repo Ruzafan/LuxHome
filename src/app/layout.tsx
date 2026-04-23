@@ -30,6 +30,16 @@ export const metadata: Metadata = {
     'comprar piso santa perpètua de mogoda',
     'vender casa vallès occidental',
     'alquiler piso barcelona nord',
+    'inmobiliaria santa perpètua de mogoda',
+    'pisos en venta montcada i reixac',
+    'casas en venta vilanova del vallès',
+    'inmobiliaria les franqueses del vallès',
+    'comprar casa barcelona norte',
+    'agencia inmobiliaria b-30',
+    'pisos segunda mano vallès occidental',
+    'obra nueva vallès occidental',
+    'lux home inmobiliaria',
+    'luxhome inmobiliaria',
   ],
   openGraph: {
     type: 'website',
@@ -53,9 +63,13 @@ const localBusinessSchema = {
   '@context': 'https://schema.org',
   '@type': 'RealEstateAgent',
   name: 'LuxHome Inmobiliaria',
+  description: 'Inmobiliaria en el Vallès Occidental especializada en compra, venta y alquiler de propiedades. Mónica, Vanesa, Bego y Josep te acompañan desde la primera visita hasta la firma ante notario.',
   url: BASE_URL,
+  logo: `${BASE_URL}/logo.png`,
+  image: `${BASE_URL}/logo.png`,
   telephone: '+34691294443',
   email: 'bego@luxhomein.com',
+  priceRange: '€€',
   address: {
     '@type': 'PostalAddress',
     streetAddress: 'Rambla 27',
@@ -63,6 +77,11 @@ const localBusinessSchema = {
     addressLocality: 'Santa Perpètua de Mogoda',
     addressRegion: 'Barcelona',
     addressCountry: 'ES',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 41.5225,
+    longitude: 2.1863,
   },
   openingHoursSpecification: [
     {
@@ -79,12 +98,21 @@ const localBusinessSchema = {
     },
   ],
   areaServed: [
-    'Santa Perpètua de Mogoda',
-    'Montcada i Reixac',
-    'Vilanova del Vallès',
-    'Castelldefels',
-    'Sant Adrià de Besòs',
-    'Les Franqueses del Vallès',
+    { '@type': 'City', name: 'Santa Perpètua de Mogoda' },
+    { '@type': 'City', name: 'Montcada i Reixac' },
+    { '@type': 'City', name: 'Vilanova del Vallès' },
+    { '@type': 'City', name: 'Castelldefels' },
+    { '@type': 'City', name: 'Sant Adrià de Besòs' },
+    { '@type': 'City', name: 'Les Franqueses del Vallès' },
+  ],
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: '+34691294443',
+    contactType: 'customer service',
+    availableLanguage: ['Spanish', 'Catalan'],
+  },
+  sameAs: [
+    'https://www.instagram.com/luxhome_inmobiliaria',
   ],
 };
 

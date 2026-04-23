@@ -1,8 +1,11 @@
 import { Metadata } from 'next';
+import { getAlternates } from '@/lib/seo';
 
 export const metadata: Metadata = {
   title: 'Política de Cookies',
   description: 'Política de cookies de Lux Home Inmobiliaria conforme a la LSSI-CE.',
+  robots: { index: false, follow: false },
+  alternates: getAlternates('/cookies'),
 };
 
 export default function CookiesPage() {

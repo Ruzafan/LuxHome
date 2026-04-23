@@ -57,13 +57,34 @@ export default async function PropertyDetailPage({ params }: Props) {
 
   const primaryImage = property.images.find((i) => i.isPrimary) ?? property.images[0];
 
+  const propertyTypeMap: Record<string, string> = {
+    piso: 'Apartment',
+    chalet: 'SingleFamilyResidence',
+    atico: 'Apartment',
+    casa: 'House',
+    local: 'LocalBusiness',
+    terreno: 'LandLot',
+  };
+
+  const amenityFeatures = [
+    property.features.hasGarage && { '@type': 'LocationFeatureSpecification', name: 'Garaje', value: true },
+    property.features.hasPool && { '@type': 'LocationFeatureSpecification', name: 'Piscina', value: true },
+    property.features.hasTerrace && { '@type': 'LocationFeatureSpecification', name: 'Terraza', value: true },
+    property.features.hasGarden && { '@type': 'LocationFeatureSpecification', name: 'Jardín', value: true },
+    property.features.hasElevator && { '@type': 'LocationFeatureSpecification', name: 'Ascensor', value: true },
+    property.features.hasAirConditioning && { '@type': 'LocationFeatureSpecification', name: 'Aire acondicionado', value: true },
+    property.features.hasHeating && { '@type': 'LocationFeatureSpecification', name: 'Calefacción', value: true },
+    property.features.hasStorageRoom && { '@type': 'LocationFeatureSpecification', name: 'Trastero', value: true },
+  ].filter(Boolean);
+
   const listingSchema = {
     '@context': 'https://schema.org',
     '@type': 'RealEstateListing',
     name: property.title,
     description: property.description,
     url: `https://luxhomein.com/propiedades/${property.id}`,
-    ...(primaryImage && { image: primaryImage.url }),
+    ...(primaryImage && { image: property.images.map((i) => i.url) }),
+    ...(property.type && { propertyType: propertyTypeMap[property.type] ?? property.type }),
     offers: {
       '@type': 'Offer',
       price: property.price,
@@ -88,6 +109,13 @@ export default async function PropertyDetailPage({ params }: Props) {
     },
     numberOfRooms: property.features.bedrooms,
     numberOfBathroomsTotal: property.features.bathrooms,
+    ...(amenityFeatures.length > 0 && { amenityFeature: amenityFeatures }),
+    broker: {
+      '@type': 'RealEstateAgent',
+      name: 'LuxHome Inmobiliaria',
+      url: 'https://luxhomein.com',
+      telephone: '+34691294443',
+    },
   };
 
   const breadcrumbSchema = {

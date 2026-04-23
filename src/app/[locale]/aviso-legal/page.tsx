@@ -1,8 +1,11 @@
 import { Metadata } from 'next';
+import { getAlternates } from '@/lib/seo';
 
 export const metadata: Metadata = {
   title: 'Aviso Legal',
   description: 'Aviso legal de Lux Home Inmobiliaria conforme a la LSSI-CE.',
+  robots: { index: false, follow: false },
+  alternates: getAlternates('/aviso-legal'),
 };
 
 export default function AvisoLegalPage() {
