@@ -51,7 +51,7 @@ export default function HeroSearchBar({ locations }: { locations: string[] }) {
         value={tipo}
         onChange={(e) => setTipo(e.target.value)}
         className="h-14 px-5 text-[13px] font-light bg-white outline-none cursor-pointer min-w-[150px]"
-        style={{ color: 'var(--mid)', borderRight: '1px solid var(--bg2)', border: 'none', borderRight: '1px solid var(--bg2)' }}
+        style={{ color: 'var(--mid)', border: 'none', borderRight: '1px solid var(--bg2)' }}
       >
         <option value="">{t('type')}</option>
         <option value="piso">{t('apartment')}</option>
