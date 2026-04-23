@@ -1,53 +1,58 @@
 @import "tailwindcss";
 
 :root {
-  --gold: #c9a84c;
+  --bg:         oklch(98.5% 0.004 240);
+  --bg2:        oklch(96%   0.006 235);
+  --dark:       oklch(14%   0.012 230);
+  --mid:        oklch(42%   0.010 230);
+  --subtle:     oklch(70%   0.008 230);
+  --accent:     #9a5b7b;
+  --rose:       #deaec2;
+  --rose-dark:  #c48fa8;
+  --gold:       #c9a84c;
   --gold-light: #e8d08a;
-  --gold-dark: #9a7a30;
-  --navy: #0f1f3d;
-  --navy-light: #1a3260;
-  --cream: #faf8f3;
-  --text-main: #1a1a2e;
+  --gold-dark:  #9a7a30;
+  /* backward compat */
+  --navy:       oklch(14%   0.012 230);
+  --navy-light: oklch(28%   0.012 230);
+  --cream:      oklch(98.5% 0.004 240);
+  --text-main:  oklch(14%   0.012 230);
 }
 
 @theme inline {
-  --color-gold: var(--gold);
+  --color-gold:       var(--gold);
   --color-gold-light: var(--gold-light);
-  --color-gold-dark: var(--gold-dark);
-  --color-navy: var(--navy);
+  --color-gold-dark:  var(--gold-dark);
+  --color-accent:     var(--accent);
+  --color-navy:       var(--dark);
   --color-navy-light: var(--navy-light);
-  --color-cream: var(--cream);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-cream:      var(--bg);
+  --color-dark:       var(--dark);
+  --font-sans:        var(--font-jost);
+  --font-serif:       var(--font-cormorant);
+  --font-mono:        var(--font-geist-mono);
 }
 
-* {
-  box-sizing: border-box;
-}
+*, *::before, *::after { box-sizing: border-box; }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
-  background-color: var(--cream);
-  color: var(--text-main);
+  background-color: var(--bg);
+  color: var(--dark);
+  font-weight: 300;
+  font-family: var(--font-jost), system-ui, sans-serif;
+  line-height: 1.65;
+  overflow-x: hidden;
 }
 
-.text-gold {
-  color: var(--gold);
-}
-
-.bg-gold {
-  background-color: var(--gold);
-}
-
-.bg-navy {
-  background-color: var(--navy);
-}
+/* ─── Legacy utility classes ─── */
+.text-gold  { color: var(--gold); }
+.bg-gold    { background-color: var(--gold); }
+.bg-navy    { background-color: var(--dark); }
 
 .luxury-gradient {
-  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 60%, #1e4080 100%);
+  background: linear-gradient(135deg, var(--dark) 0%, var(--navy-light) 100%);
 }
 
 .gold-gradient {
@@ -58,34 +63,66 @@ body {
   content: '';
   display: block;
   width: 60px;
-  height: 3px;
-  background: var(--gold);
+  height: 2px;
+  background: var(--accent);
   margin-top: 12px;
 }
-
 .gold-line-center::after {
   margin-left: auto;
   margin-right: auto;
 }
 
+/* ─── Typography ─── */
+.font-playfair {
+  font-family: var(--font-cormorant), Georgia, serif;
+}
+
+/* ─── Animations ─── */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-
 .animate-fade-in {
   animation: fadeIn 0.5s ease-out both;
 }
 
-.font-playfair {
-  font-family: var(--font-playfair);
+@keyframes kenBurns {
+  from { transform: scale(1.0) translate(0, 0); }
+  to   { transform: scale(1.12) translate(-2%, -1%); }
+}
+.hero-ken-burns {
+  animation: kenBurns 18s ease-in-out infinite alternate;
+  will-change: transform;
 }
 
+@keyframes scrollLine {
+  0%   { transform: scaleY(0); opacity: 0; transform-origin: top; }
+  40%  { transform: scaleY(1); opacity: 1; }
+  100% { transform: scaleY(1); opacity: 0; transform-origin: bottom; }
+}
+.scroll-line-anim {
+  animation: scrollLine 1.8s ease-in-out infinite;
+}
+
+/* ─── Scroll reveal ─── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.75s ease, transform 0.75s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+
+/* ─── Card hover ─── */
 .card-hover {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.4s cubic-bezier(.25,.8,.25,1), box-shadow 0.4s;
 }
-
 .card-hover:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.10);
+  transform: translateY(-6px);
+  box-shadow: 0 24px 48px oklch(0% 0% 0% / 0.12);
 }

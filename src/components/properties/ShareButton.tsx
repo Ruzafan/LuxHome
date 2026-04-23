@@ -27,7 +27,8 @@ export default function ShareButton({ title, url }: Props) {
   return (
     <button
       onClick={handleShare}
-      className="text-[var(--gold)] text-sm font-medium hover:underline flex items-center gap-1"
+      className="text-sm font-medium hover:underline flex items-center gap-1"
+      style={{ color: 'var(--rose-dark)' }}
     >
       {t('share')} ↗
     </button>

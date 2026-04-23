@@ -158,13 +158,24 @@ export async function getPropertyById(id: string): Promise<Property | null> {
 }
 
 export async function getFeaturedProperties(limit = 4): Promise<Property[]> {
-  const rows = await db.property.findMany({
+  const featured = await db.property.findMany({
     where: { isFeatured: true, status: { not: 'vendido' } },
     include: { features: true, location: true, images: true },
     orderBy: { publishedAt: 'desc' },
     take: limit,
   });
-  return rows.map(mapToProperty);
+
+  if (featured.length >= limit) return featured.map(mapToProperty);
+
+  const featuredIds = featured.map((p) => p.id);
+  const filler = await db.property.findMany({
+    where: { id: { notIn: featuredIds }, status: { not: 'vendido' } },
+    include: { features: true, location: true, images: true },
+    orderBy: { publishedAt: 'desc' },
+    take: limit - featured.length,
+  });
+
+  return [...featured, ...filler].map(mapToProperty);
 }
 
 export async function getRelatedProperties(property: Property, limit = 3): Promise<Property[]> {

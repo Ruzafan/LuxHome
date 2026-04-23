@@ -3,9 +3,11 @@ import React from 'react';
 import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
-import { getFeaturedProperties, getAllLocations, getStats, getPropertyCountByCity } from '@/lib/propertyService';
+import { getFeaturedProperties, getAllLocations, getStats } from '@/lib/propertyService';
 import PropertyCard from '@/components/properties/PropertyCard';
-import QuickSearch from '@/components/ui/QuickSearch';
+import HeroSearchBar from '@/components/ui/HeroSearchBar';
+import TestimonialsSlider from '@/components/ui/TestimonialsSlider';
+import ScrollRevealInit from '@/components/ui/ScrollRevealInit';
 import { getAlternates } from '@/lib/seo';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -23,254 +25,325 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
+const serviceKeys = ['sale', 'personal', 'rental', 'newBuild', 'mortgage', 'docs'] as const;
+
 export default async function HomePage() {
-  const [t, featured, locations, stats, cityCount] = await Promise.all([
+  const [t, featured, locations, stats] = await Promise.all([
     getTranslations('home'),
     getFeaturedProperties(4),
     getAllLocations(),
     getStats(),
-    getPropertyCountByCity(),
   ]);
 
-  const serviceKeys = ['sale', 'personal', 'rental', 'newBuild', 'mortgage', 'docs'] as const;
-  const serviceIcons: Record<string, React.ReactNode> = {
-    sale: <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955a1.125 1.125 0 011.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" /></svg>,
-    personal: <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" /></svg>,
-    rental: <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205l3 1m1.5.5l-1.5-.5M6.75 7.364V3h-3v18m3-13.636l10.5-3.819" /></svg>,
-    newBuild: <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg>,
-    mortgage: <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>,
-    docs: <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" /></svg>,
-  };
-
-  const zones = [
-    { label: 'Santa Perpètua de Mogoda', img: 'https://images.pexels.com/photos/5751184/pexels-photo-5751184.jpeg?auto=compress&cs=tinysrgb&w=400' },
-    { label: 'Castelldefels', img: 'https://images.pexels.com/photos/20370118/pexels-photo-20370118.jpeg?auto=compress&cs=tinysrgb&w=400' },
-    { label: 'Vilanova del Vallès', img: 'https://images.pexels.com/photos/10673908/pexels-photo-10673908.jpeg?auto=compress&cs=tinysrgb&w=400' },
-    { label: 'Montcada i Reixac', img: 'https://images.pexels.com/photos/12017937/pexels-photo-12017937.jpeg?auto=compress&cs=tinysrgb&w=400' },
-    { label: 'Sant Adrià de Besòs', img: 'https://images.pexels.com/photos/9255685/pexels-photo-9255685.jpeg?auto=compress&cs=tinysrgb&w=400' },
-    { label: 'Les Franqueses del Vallès', img: 'https://images.pexels.com/photos/34807091/pexels-photo-34807091.jpeg?auto=compress&cs=tinysrgb&w=400' },
-  ];
-
   const testimonials = [
-    { name: 'Fernando R.', initials: 'FR', color: '#4f7dcb', role: 'Vendedor — Google', text: 'Ya conocía a Begoña y a su equipo desde hace más de 5 años, que vendieron el piso de mi madre en tiempo récord. Hace dos meses volví a confiar en ellas para vender mi piso y ha sido una grata experiencia: se han encargado de todo haciendo que sea fácil y rápido. Son muy buenas profesionales, con experiencia y gran conocimiento del mercado inmobiliario, transmitiendo confianza, seguridad y claridad. Cien por cien recomendables, un valor seguro y un éxito asegurado respaldado por el trabajo bien hecho.', stars: 5 },
-    { name: 'Desiré A.', initials: 'DA', color: '#7b5ea7', role: 'Compradores — Google', text: 'Somos Desiré y Rubén y hemos comprado nuestro primer hogar con esta encantadora agencia inmobiliaria. Un 10 desde el principio hasta el final. El trato de las chicas, tanto de Begoña como de Mónica, ha sido una maravilla: amabilidad total y súper profesionales. Remarcar a Begoña, que ha estado a nuestro lado durante TODO el proceso, aclarándonos las mil y una dudas que nos surgían, siempre disponible y con una paciencia y positivismo increíbles. Gracias por hacernos sentir cómodos desde el minuto 1. Sin duda volveríamos a repetir.', stars: 5 },
-    { name: 'Karol F.', initials: 'KF', color: '#3a8a6e', role: 'Vendedora — Google', text: '100% recomendable. Este equipo no solo sabe hacer bien su trabajo de manera eficaz e impecable, sino que además todo lo que conlleva la venta de una casa (papeles, burocracia, visitas y seguimiento…), algo que a mí se me escapa totalmente, es un gran alivio y ayuda cuando lo dejas en manos de profesionales. Si mañana tuviera que hacer de nuevo una gestión de tal envergadura, sin lugar a dudas las elegiría a ellas.', stars: 5 },
+    { name: 'Fernando R.', initials: 'FR', role: 'Vendedor · Google', text: 'Ya conocía a Begoña y a su equipo desde hace más de 5 años, que vendieron el piso de mi madre en tiempo récord. Hace dos meses volví a confiar en ellas para vender mi piso y ha sido una grata experiencia: se han encargado de todo haciendo que sea fácil y rápido. Son muy buenas profesionales, con experiencia y gran conocimiento del mercado inmobiliario, transmitiendo confianza, seguridad y claridad. Cien por cien recomendables.', stars: 5 },
+    { name: 'Desiré A.', initials: 'DA', role: 'Compradores · Google', text: 'Somos Desiré y Rubén y hemos comprado nuestro primer hogar con esta encantadora agencia. Un 10 desde el principio hasta el final. El trato de las chicas, tanto de Begoña como de Mónica, ha sido una maravilla: amabilidad total y súper profesionales. Remarcar a Begoña, que ha estado a nuestro lado durante TODO el proceso, aclarándonos las mil y una dudas, siempre disponible y con una paciencia increíble.', stars: 5 },
+    { name: 'Karol F.', initials: 'KF', role: 'Vendedora · Google', text: '100% recomendable. Este equipo no solo sabe hacer bien su trabajo de manera eficaz e impecable, sino que además todo lo que conlleva la venta de una casa (papeles, burocracia, visitas y seguimiento…) es un gran alivio cuando lo dejas en manos de profesionales. Si tuviera que hacer de nuevo una gestión de tal envergadura, sin lugar a dudas las elegiría a ellas.', stars: 5 },
   ];
 
   return (
     <>
-      {/* ─── Hero ─────────────────────────────────────────────────────────────── */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-        <div className="absolute inset-0">
-          <Image
-            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920"
-            alt="Propiedad de LuxHome"
-            fill
-            className="object-cover"
-            priority
-          />
-          <div className="absolute inset-0 luxury-gradient opacity-75" />
-        </div>
+      <ScrollRevealInit />
 
-        <div className="relative z-10 text-center px-6 max-w-4xl mx-auto pb-20 md:pb-0">
-          <p className="text-[var(--gold)] text-sm font-semibold tracking-[0.3em] uppercase mb-4 animate-fade-in">
+      {/* ─── Hero ─────────────────────────────────────────────────────────────── */}
+      <section className="relative flex flex-col items-center justify-center overflow-hidden" style={{ height: '100vh', minHeight: '640px' }}>
+        {/* Ken Burns background */}
+        <div
+          className="absolute inset-0 hero-ken-burns bg-center bg-cover"
+          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&q=80')" }}
+        />
+        {/* Overlay */}
+        <div
+          className="absolute inset-0"
+          style={{ background: 'linear-gradient(to bottom, oklch(14% 0.012 230 / 0.55) 0%, oklch(14% 0.012 230 / 0.38) 50%, oklch(14% 0.012 230 / 0.68) 100%)' }}
+        />
+        {/* Content */}
+        <div className="relative z-10 text-center px-6 w-full max-w-[820px] mx-auto">
+          <span className="inline-block text-[11px] font-medium tracking-[0.22em] uppercase mb-7" style={{ color: 'oklch(100% 0 0 / 0.65)' }}>
             {t('badge')}
-          </p>
+          </span>
           <h1
-            className="text-white font-bold leading-tight mb-6 animate-fade-in"
-            style={{ fontFamily: 'var(--font-playfair)', fontSize: 'clamp(2.5rem, 6vw, 5rem)', animationDelay: '0.1s' }}
+            className="font-light text-white leading-[1.05] mb-5"
+            style={{
+              fontFamily: 'var(--font-cormorant), Georgia, serif',
+              fontSize: 'clamp(52px, 7vw, 96px)',
+              letterSpacing: '-0.01em',
+            }}
           >
             {t('title')}
           </h1>
-          <p
-            className="text-white/75 text-lg md:text-xl leading-relaxed mb-10 max-w-2xl mx-auto animate-fade-in"
-            style={{ animationDelay: '0.2s' }}
-          >
+          <p className="font-light tracking-[0.03em] mb-12" style={{ fontSize: '15px', color: 'oklch(100% 0 0 / 0.68)' }}>
             {t('subtitle')}
           </p>
-
-          <div className="animate-fade-in" style={{ animationDelay: '0.3s' }}>
-            <QuickSearch locations={locations} />
-          </div>
-
-          <div className="grid grid-cols-3 gap-4 md:gap-8 mt-8 md:mt-16 animate-fade-in" style={{ animationDelay: '0.5s' }}>
-            {[
-              { value: String(stats.total), label: t('stats.properties') },
-              { value: '4', label: t('stats.experts') },
-              { value: String(stats.zones), label: t('stats.zones') },
-            ].map(({ value, label }) => (
-              <div key={label} className="text-center">
-                <p className="text-[var(--gold)] font-bold text-2xl md:text-4xl">
-                  {value}
-                </p>
-                <p className="text-white/60 text-xs md:text-sm mt-1">{label}</p>
-              </div>
-            ))}
-          </div>
+          <HeroSearchBar locations={locations} />
         </div>
-
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/40 text-xs">
-          <span>{t('scrollHint')}</span>
-          <div className="w-px h-8 bg-white/30 animate-bounce" />
+        {/* Scroll cue */}
+        <div className="absolute bottom-9 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[10px] font-light tracking-[0.2em] uppercase" style={{ color: 'oklch(100% 0 0 / 0.45)' }}>
+          <div className="w-px h-10 scroll-line-anim" style={{ background: 'oklch(100% 0 0 / 0.3)' }} />
+          <span>Scroll</span>
         </div>
       </section>
 
+      {/* ─── Stats ────────────────────────────────────────────────────────────── */}
+      <div className="grid grid-cols-3" style={{ borderBottom: '1px solid oklch(0% 0% 0% / 0.08)' }}>
+        {[
+          { value: String(stats.total), label: t('stats.properties') },
+          { value: '4', label: t('stats.experts') },
+          { value: String(stats.zones), label: t('stats.zones') },
+        ].map(({ value, label }, i) => (
+          <div
+            key={label}
+            className={`reveal py-12 px-10 text-center${i < 2 ? '' : ''}`}
+            style={{ borderRight: i < 2 ? '1px solid oklch(0% 0% 0% / 0.08)' : 'none' }}
+          >
+            <span
+              className="block font-light leading-none mb-2"
+              style={{ fontFamily: 'var(--font-cormorant), Georgia, serif', fontSize: '56px', color: 'var(--dark)' }}
+            >
+              {value}
+            </span>
+            <span className="text-[11px] font-medium tracking-[0.15em] uppercase" style={{ color: 'var(--subtle)' }}>
+              {label}
+            </span>
+          </div>
+        ))}
+      </div>
+
       {/* ─── Featured Properties ───────────────────────────────────────────────── */}
-      <section className="py-24 px-6 bg-[var(--cream)]">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <p className="text-[var(--gold)] text-sm font-semibold tracking-[0.3em] uppercase mb-2">{t('featured.badge')}</p>
+      <section className="py-[100px] px-12">
+        <div className="flex items-end justify-between mb-14 reveal">
+          <div>
+            <span className="block text-[11px] font-medium tracking-[0.2em] uppercase mb-4" style={{ color: 'var(--accent)' }}>
+              {t('featured.badge')}
+            </span>
             <h2
-              className="text-[var(--navy)] font-bold text-4xl gold-line gold-line-center font-playfair"
-             
+              className="font-light leading-[1.1]"
+              style={{
+                fontFamily: 'var(--font-cormorant), Georgia, serif',
+                fontSize: 'clamp(36px, 4vw, 56px)',
+                color: 'var(--dark)',
+                letterSpacing: '-0.01em',
+              }}
             >
               {t('featured.title')}
             </h2>
           </div>
+          <Link
+            href="/propiedades"
+            className="text-[12px] font-medium tracking-[0.12em] uppercase pb-0.5 transition-opacity hover:opacity-65"
+            style={{ color: 'var(--accent)', borderBottom: '1px solid var(--accent)' }}
+          >
+            {t('featured.viewAll')}
+          </Link>
+        </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
-            {featured.map((property) => (
-              <PropertyCard key={property.id} property={property} featured />
-            ))}
-          </div>
-
-          <div className="text-center mt-12">
-            <Link
-              href="/propiedades"
-              className="inline-flex items-center gap-2 px-8 py-3.5 rounded border-2 border-[var(--navy)] text-[var(--navy)] font-semibold hover:bg-[var(--navy)] hover:text-white transition-all duration-300"
-            >
-              {t('featured.viewAll')}
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </Link>
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-[2px]">
+          {featured.map((property, i) => (
+            <div key={property.id} className={`reveal${i > 0 ? ` reveal-delay-${i}` : ''}`}>
+              <PropertyCard property={property} featured />
+            </div>
+          ))}
         </div>
       </section>
 
       {/* ─── Why LuxHome ──────────────────────────────────────────────────────── */}
-      <section className="py-24 px-6 luxury-gradient">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-14">
-            <p className="text-[var(--gold)] text-sm font-semibold tracking-[0.3em] uppercase mb-2">{t('services.badge')}</p>
-            <h2 className="text-white font-bold text-4xl font-playfair">
-              {t('services.title')}
-            </h2>
-          </div>
+      <section
+        className="grid"
+        style={{
+          gridTemplateColumns: '1fr 1.6fr',
+          borderTop: '1px solid oklch(0% 0% 0% / 0.08)',
+        }}
+      >
+        {/* Left: dark panel */}
+        <div
+          className="flex flex-col justify-center px-16 py-[100px] reveal"
+          style={{ background: 'var(--dark)' }}
+        >
+          <span className="block text-[11px] font-medium tracking-[0.2em] uppercase mb-4" style={{ color: 'oklch(100% 0 0 / 0.4)' }}>
+            {t('services.badge')}
+          </span>
+          <h2
+            className="font-light leading-[1.1] text-white"
+            style={{
+              fontFamily: 'var(--font-cormorant), Georgia, serif',
+              fontSize: 'clamp(36px, 4vw, 56px)',
+              letterSpacing: '-0.01em',
+            }}
+          >
+            {t('services.title')}
+          </h2>
+          <p className="mt-6 text-[15px] font-light leading-[1.75] max-w-[340px]" style={{ color: 'oklch(100% 0 0 / 0.55)' }}>
+            Mónica, Vanesa, Bego y Josep te acompañan personalmente desde la primera visita hasta la firma ante notario, con total transparencia en cada paso.
+          </p>
+        </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {serviceKeys.map((key) => (
-              <div
-                key={key}
-                className="text-center p-8 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors"
+        {/* Right: service grid */}
+        <div
+          className="grid grid-cols-2"
+          style={{ borderLeft: '1px solid oklch(0% 0% 0% / 0.08)' }}
+        >
+          {serviceKeys.map((key, i) => (
+            <div
+              key={key}
+              className="reveal group transition-colors duration-300 hover:bg-white"
+              style={{
+                padding: '48px 40px',
+                borderBottom: i < serviceKeys.length - 2 ? '1px solid oklch(0% 0% 0% / 0.07)' : 'none',
+                borderRight: i % 2 === 0 ? '1px solid oklch(0% 0% 0% / 0.07)' : 'none',
+              }}
+            >
+              <span
+                className="block font-light tracking-[0.12em] mb-4"
+                style={{ fontFamily: 'var(--font-cormorant), Georgia, serif', fontSize: '13px', color: 'var(--accent)' }}
               >
-                <div className="w-14 h-14 rounded-full gold-gradient flex items-center justify-center mx-auto mb-5 text-[var(--navy)]">
-                  {serviceIcons[key]}
-                </div>
-                <h3 className="text-white font-semibold text-xl mb-3">
-                  {t(`services.${key}.title`)}
-                </h3>
-                <p className="text-white/60 text-sm leading-relaxed">{t(`services.${key}.desc`)}</p>
-              </div>
-            ))}
-          </div>
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <h3
+                className="font-normal mb-2.5 leading-[1.2]"
+                style={{ fontFamily: 'var(--font-cormorant), Georgia, serif', fontSize: '20px', color: 'var(--dark)' }}
+              >
+                {t(`services.${key}.title`)}
+              </h3>
+              <p className="text-[13px] font-light leading-[1.7]" style={{ color: 'var(--mid)' }}>
+                {t(`services.${key}.desc`)}
+              </p>
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* ─── Zonas ────────────────────────────────────────────────────────────── */}
-      <section className="py-24 px-6 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <p className="text-[var(--gold)] text-sm font-semibold tracking-[0.3em] uppercase mb-2">{t('zones.badge')}</p>
-            <h2
-              className="text-[var(--navy)] font-bold text-4xl gold-line gold-line-center font-playfair"
-             
-            >
-              {t('zones.title')}
-            </h2>
+      {/* ─── Team ─────────────────────────────────────────────────────────────── */}
+      <section className="py-[100px] px-12" style={{ background: 'var(--bg)' }}>
+        <div className="mb-14 reveal">
+          <span className="block text-[11px] font-medium tracking-[0.2em] uppercase mb-4" style={{ color: 'var(--accent)' }}>
+            El equipo
+          </span>
+          <h2
+            className="font-light leading-[1.1]"
+            style={{
+              fontFamily: 'var(--font-cormorant), Georgia, serif',
+              fontSize: 'clamp(36px, 4vw, 56px)',
+              color: 'var(--dark)',
+              letterSpacing: '-0.01em',
+            }}
+          >
+            Las personas<br />detrás de <em>LuxHome</em>
+          </h2>
+        </div>
+
+        <div className="grid gap-[2px] reveal" style={{ gridTemplateColumns: '1fr 1.6fr' }}>
+          <div className="relative overflow-hidden" style={{ aspectRatio: '16/10' }}>
+            <Image
+              src="/team.jpeg"
+              alt="Equipo LuxHome"
+              fill
+              className="object-cover object-top"
+              sizes="(max-width: 768px) 100vw, 40vw"
+            />
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mt-8">
-            {zones.map(({ label, img }) => (
-              <Link
-                key={label}
-                href={`/propiedades?ciudad=${encodeURIComponent(label)}`}
-                className="group relative rounded-xl overflow-hidden block aspect-[4/3] md:aspect-[3/4]"
-              >
-                <Image
-                  src={img}
-                  alt={label}
-                  fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/10" />
-                <div className="absolute bottom-0 left-0 right-0 p-3">
-                  <p className="text-white font-semibold text-sm">{label}</p>
-                  {(cityCount[label] ?? 0) > 0 && (
-                    <p className="text-[var(--gold)] text-xs">{cityCount[label]} {t('zones.properties')}</p>
-                  )}
+          {/* Bio */}
+          <div className="flex flex-col justify-center px-16 py-14 bg-white">
+            <p
+              className="font-light leading-[1.4] mb-5"
+              style={{ fontFamily: 'var(--font-cormorant), Georgia, serif', fontSize: '28px', color: 'var(--dark)' }}
+            >
+              <em>Mónica, Vanesa,<br />Begoña</em> y Josep
+            </p>
+            <p className="text-[14px] font-light leading-[1.8] max-w-[420px] mb-8" style={{ color: 'var(--mid)' }}>
+              Un equipo con años de experiencia en el sector inmobiliario del Vallès Occidental. Te acompañamos desde la primera visita hasta la firma ante notario, con trato cercano, honesto y profesional en cada paso del camino.
+            </p>
+            <div className="flex gap-10">
+              {[
+                { num: '+10', label: 'Años de experiencia' },
+                { num: String(stats.total), label: 'Operaciones cerradas' },
+                { num: '5★', label: 'Valoración media' },
+              ].map(({ num, label }) => (
+                <div key={label}>
+                  <span
+                    className="block font-light leading-none mb-1"
+                    style={{ fontFamily: 'var(--font-cormorant), Georgia, serif', fontSize: '36px', color: 'var(--dark)' }}
+                  >
+                    {num}
+                  </span>
+                  <span className="text-[11px] font-medium tracking-[0.13em] uppercase" style={{ color: 'var(--subtle)' }}>
+                    {label}
+                  </span>
                 </div>
-              </Link>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
       {/* ─── Testimonials ─────────────────────────────────────────────────────── */}
-      <section className="py-24 px-6 bg-[var(--cream)]">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            <p className="text-[var(--gold)] text-sm font-semibold tracking-[0.3em] uppercase mb-2">{t('testimonials.badge')}</p>
-            <h2
-              className="text-[var(--navy)] font-bold text-4xl gold-line gold-line-center font-playfair"
-             
-            >
-              {t('testimonials.title')}
-            </h2>
-          </div>
+      <section className="py-[100px] px-12 relative overflow-hidden" style={{ background: 'var(--dark)' }}>
+        {/* Giant quote decoration */}
+        <span
+          className="absolute pointer-events-none select-none leading-[0.8]"
+          style={{
+            fontFamily: 'var(--font-cormorant), Georgia, serif',
+            fontSize: '400px',
+            color: 'oklch(100% 0 0 / 0.04)',
+            top: '40px',
+            left: '32px',
+          }}
+          aria-hidden
+        >
+          &ldquo;
+        </span>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-            {testimonials.map(({ name, initials, color, role, text, stars }) => (
-              <div key={name} className="bg-white rounded-xl p-6 shadow-md flex flex-col">
-                <div className="flex gap-1 mb-4">
-                  {Array.from({ length: stars }).map((_, i) => (
-                    <span key={i} className="text-[var(--gold)] text-lg">★</span>
-                  ))}
-                </div>
-                <p className="text-gray-600 text-sm leading-relaxed mb-6 italic flex-1">&ldquo;{text}&rdquo;</p>
-                <div className="flex items-center gap-3">
-                  <div
-                    className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm shrink-0"
-                    style={{ backgroundColor: color }}
-                  >
-                    {initials}
-                  </div>
-                  <div>
-                    <p className="font-semibold text-[var(--navy)] text-sm">{name}</p>
-                    <p className="text-gray-400 text-xs">{role}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+        <div className="relative z-10">
+          <span className="block text-[11px] font-medium tracking-[0.2em] uppercase mb-4" style={{ color: 'oklch(100% 0 0 / 0.35)' }}>
+            {t('testimonials.badge')}
+          </span>
+          <h2
+            className="font-light leading-[1.1] mb-16"
+            style={{
+              fontFamily: 'var(--font-cormorant), Georgia, serif',
+              fontSize: 'clamp(36px, 4vw, 56px)',
+              color: 'white',
+              letterSpacing: '-0.01em',
+            }}
+          >
+            {t('testimonials.title')}
+          </h2>
+          <TestimonialsSlider testimonials={testimonials} />
         </div>
       </section>
 
       {/* ─── CTA ──────────────────────────────────────────────────────────────── */}
-      <section className="py-20 px-6 gold-gradient">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-[var(--navy)] font-bold text-4xl mb-4">
+      <section className="grid" style={{ gridTemplateColumns: '1fr 1fr' }}>
+        {/* Image */}
+        <div
+          className="bg-center bg-cover min-h-[400px]"
+          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=900&q=80')" }}
+        />
+        {/* Content */}
+        <div className="flex flex-col justify-center px-[72px] py-20 reveal" style={{ background: 'var(--bg2)' }}>
+          <span className="block text-[11px] font-medium tracking-[0.2em] uppercase mb-4" style={{ color: 'var(--accent)' }}>
+            Contacto
+          </span>
+          <h2
+            className="font-light leading-[1.1] mb-4"
+            style={{
+              fontFamily: 'var(--font-cormorant), Georgia, serif',
+              fontSize: 'clamp(36px, 4vw, 56px)',
+              color: 'var(--dark)',
+              letterSpacing: '-0.01em',
+            }}
+          >
             {t('cta.title')}
           </h2>
-          <p className="text-[var(--navy)]/70 text-lg mb-8">{t('cta.subtitle')}</p>
+          <p className="text-[15px] font-light leading-[1.75] mb-9 max-w-[380px]" style={{ color: 'var(--mid)' }}>
+            {t('cta.subtitle')}
+          </p>
           <Link
             href="/contacto"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--navy)] text-white font-semibold rounded hover:bg-[var(--navy-light)] transition-colors"
+            className="self-start text-[12px] font-medium tracking-[0.14em] uppercase px-9 py-4 transition-colors"
+            style={{ background: 'var(--rose)', color: 'var(--dark)' }}
           >
             {t('cta.button')}
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
           </Link>
         </div>
       </section>

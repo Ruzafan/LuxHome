@@ -77,6 +77,7 @@
     }
   },
   "properties": {
+    "badge": "Nuestro catálogo",
     "title": "Propiedades",
     "subtitle": "Explora nuestra selección de propiedades en el Vallès Occidental",
     "filters": {
@@ -93,7 +94,7 @@
       "penthouse": "Ático",
       "location": "Zona",
       "bedrooms": "Habitaciones",
-      "anyBedrooms": "Cualquiera",
+      "anyBedrooms": "Todos",
       "search": "Buscar",
       "clear": "Limpiar filtros"
     },
@@ -139,7 +140,7 @@
     "orientation": "Orientación",
     "energy": "Certificado energético",
     "plotArea": "Parcela",
-    "pricePerM2": "€/m²",
+    "pricePerM2": "/m²",
     "contactNamePlaceholder": "Nombre",
     "contactPhonePlaceholder": "Teléfono (opcional)",
     "contactMessageDefault": "Hola, me interesa la propiedad {ref}. ¿Podríais darme más información?",

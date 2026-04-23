@@ -74,7 +74,8 @@ export default function PropertyContactForm({ propertyRef, propertyTitle }: Prop
       <button
         type="submit"
         disabled={status === 'sending'}
-        className="w-full py-3 gold-gradient text-[var(--navy)] font-semibold rounded-lg hover:opacity-90 transition-opacity disabled:opacity-60 disabled:cursor-not-allowed text-sm"
+        className="w-full py-3 font-semibold rounded-lg hover:opacity-90 transition-opacity disabled:opacity-60 disabled:cursor-not-allowed text-sm"
+        style={{ background: 'var(--rose)', color: 'var(--dark)' }}
       >
         {status === 'sending' ? t('contactSending') : t('contactSubmit')}
       </button>

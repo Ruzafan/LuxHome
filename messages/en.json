@@ -77,6 +77,7 @@
     }
   },
   "properties": {
+    "badge": "Our listings",
     "title": "Properties",
     "subtitle": "Explore our selection of properties in the Vallès Occidental",
     "filters": {
@@ -139,7 +140,7 @@
     "orientation": "Orientation",
     "energy": "Energy certificate",
     "plotArea": "Plot area",
-    "pricePerM2": "€/m²",
+    "pricePerM2": "/m²",
     "contactNamePlaceholder": "First name",
     "contactPhonePlaceholder": "Phone (optional)",
     "contactMessageDefault": "Hi, I am interested in property {ref}. Could you give me more information?",

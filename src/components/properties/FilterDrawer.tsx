@@ -150,7 +150,7 @@ export default function FilterDrawer({ currentParams, locations, baseUrl, active
               <a href={baseUrl} className="flex-1 py-3 text-center text-sm text-gray-400 border border-gray-200 rounded-lg hover:border-gray-400 transition-colors">
                 {t('filters.clear')}
               </a>
-              <button type="submit" className="flex-1 py-3 gold-gradient text-[var(--navy)] font-semibold rounded-lg hover:opacity-90 transition-opacity text-sm">
+              <button type="submit" className="flex-1 py-3 font-semibold rounded-lg hover:opacity-90 transition-opacity text-sm" style={{ background: 'var(--rose)', color: 'var(--dark)' }}>
                 {t('filters.search')}
               </button>
             </div>

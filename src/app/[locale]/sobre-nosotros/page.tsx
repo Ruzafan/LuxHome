@@ -205,7 +205,8 @@ export default async function SobreNosotrosPage() {
           <p className="text-[var(--navy)]/70 mb-6">{t('cta.subtitle')}</p>
           <Link
             href="/contacto"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--navy)] text-white font-semibold rounded hover:bg-[var(--navy-light)] transition-colors"
+            className="inline-flex items-center gap-2 px-8 py-4 font-semibold rounded transition-colors"
+            style={{ background: 'var(--rose)', color: 'var(--dark)' }}
           >
             {t('cta.button')}
           </Link>
