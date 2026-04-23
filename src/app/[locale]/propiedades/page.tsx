@@ -295,7 +295,7 @@ function FilterPanel({
         </label>
         <div className="flex gap-2">
           {['', '1', '2', '3', '4', '5+'].map((v) => (
-            <label key={v} className="flex-1">
+            <label key={v} className={v === '' ? 'flex-[1.8]' : 'flex-1'}>
               <input
                 type="radio"
                 name="habitaciones"
@@ -303,7 +303,7 @@ function FilterPanel({
                 defaultChecked={currentParams.habitaciones === (v === '5+' ? '5' : v) || (!currentParams.habitaciones && v === '')}
                 className="peer sr-only"
               />
-              <span className="block text-center text-xs py-2 rounded-lg border border-gray-200 cursor-pointer peer-checked:bg-[var(--navy)] peer-checked:text-white peer-checked:border-[var(--navy)] hover:border-[var(--gold)] transition-colors">
+              <span className="block text-center text-xs py-2.5 rounded-lg border border-gray-200 cursor-pointer peer-checked:bg-[var(--navy)] peer-checked:text-white peer-checked:border-[var(--navy)] hover:border-[var(--gold)] transition-colors">
                 {v || t('filters.anyBedrooms')}
               </span>
             </label>
@@ -313,7 +313,8 @@ function FilterPanel({
 
       <button
         type="submit"
-        className="w-full py-3 gold-gradient text-[var(--navy)] font-semibold rounded-lg hover:opacity-90 transition-opacity"
+        className="w-full py-3 font-semibold rounded-lg hover:opacity-90 transition-opacity"
+        style={{ background: 'var(--rose)', color: 'var(--dark)' }}
       >
         {t('filters.search')}
       </button>
