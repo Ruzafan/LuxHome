@@ -6,7 +6,7 @@ import createMiddleware from 'next-intl/middleware';
 import { verifySessionToken, SESSION_COOKIE } from '@/lib/auth';
 import { routing } from './i18n/routing';
 
-const intlMiddleware = createMiddleware(routing);
+const intlMiddleware = createMiddleware({ ...routing, localeDetection: false });
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
