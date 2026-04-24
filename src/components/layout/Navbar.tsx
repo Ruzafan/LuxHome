@@ -23,7 +23,6 @@ export default function Navbar() {
   const links = [
     { href: '/' as const, label: t('home') },
     { href: '/propiedades' as const, label: t('properties') },
-    { href: '/sobre-nosotros' as const, label: t('about') },
     { href: '/contacto' as const, label: t('contact') },
   ];
 

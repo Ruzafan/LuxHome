@@ -15,7 +15,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     where: { status: { not: 'vendido' } },
   });
 
-  const staticPages = ['/', '/propiedades', '/sobre-nosotros', '/contacto', '/privacidad', '/aviso-legal', '/cookies'];
+  const staticPages = ['/', '/propiedades', '/contacto', '/privacidad', '/aviso-legal', '/cookies'];
   const staticEntries: MetadataRoute.Sitemap = staticPages.flatMap((path) =>
     LOCALES.map((locale) => ({
       url: localizedUrl(path, locale),
