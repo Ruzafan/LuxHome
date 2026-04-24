@@ -93,16 +93,16 @@ export default async function HomePage() {
         ].map(({ value, label }, i) => (
           <div
             key={label}
-            className={`reveal py-12 px-10 text-center${i < 2 ? '' : ''}`}
+            className="reveal py-8 md:py-12 px-4 md:px-10 text-center"
             style={{ borderRight: i < 2 ? '1px solid oklch(0% 0% 0% / 0.08)' : 'none' }}
           >
             <span
-              className="block font-light leading-none mb-2"
-              style={{ fontFamily: 'var(--font-cormorant), Georgia, serif', fontSize: '56px', color: 'var(--dark)' }}
+              className="block font-light leading-none mb-1 md:mb-2"
+              style={{ fontFamily: 'var(--font-cormorant), Georgia, serif', fontSize: 'clamp(32px, 6vw, 56px)', color: 'var(--dark)' }}
             >
               {value}
             </span>
-            <span className="text-[11px] font-medium tracking-[0.15em] uppercase" style={{ color: 'var(--subtle)' }}>
+            <span className="text-[10px] md:text-[11px] font-medium tracking-[0.1em] md:tracking-[0.15em] uppercase" style={{ color: 'var(--subtle)' }}>
               {label}
             </span>
           </div>
@@ -110,8 +110,8 @@ export default async function HomePage() {
       </div>
 
       {/* ─── Featured Properties ───────────────────────────────────────────────── */}
-      <section className="py-[100px] px-12">
-        <div className="flex items-end justify-between mb-14 reveal">
+      <section className="py-16 md:py-[100px] px-4 md:px-12">
+        <div className="flex flex-wrap items-end justify-between gap-4 mb-8 md:mb-14 reveal">
           <div>
             <span className="block text-[11px] font-medium tracking-[0.2em] uppercase mb-4" style={{ color: 'var(--accent)' }}>
               {t('featured.badge')}
@@ -148,15 +148,12 @@ export default async function HomePage() {
 
       {/* ─── Why LuxHome ──────────────────────────────────────────────────────── */}
       <section
-        className="grid"
-        style={{
-          gridTemplateColumns: '1fr 1.6fr',
-          borderTop: '1px solid oklch(0% 0% 0% / 0.08)',
-        }}
+        className="grid grid-cols-1 md:grid-cols-[1fr_1.6fr]"
+        style={{ borderTop: '1px solid oklch(0% 0% 0% / 0.08)' }}
       >
         {/* Left: dark panel */}
         <div
-          className="flex flex-col justify-center px-16 py-[100px] reveal"
+          className="flex flex-col justify-center px-8 py-16 md:px-16 md:py-[100px] reveal"
           style={{ background: 'var(--dark)' }}
         >
           <span className="block text-[11px] font-medium tracking-[0.2em] uppercase mb-4" style={{ color: 'oklch(100% 0 0 / 0.4)' }}>
@@ -172,39 +169,35 @@ export default async function HomePage() {
           >
             {t('services.title')}
           </h2>
-          <p className="mt-6 text-[15px] font-light leading-[1.75] max-w-[340px]" style={{ color: 'oklch(100% 0 0 / 0.55)' }}>
+          <p className="mt-6 text-[15px] font-light leading-[1.75] md:max-w-[340px]" style={{ color: 'oklch(100% 0 0 / 0.55)' }}>
             Mónica, Vanesa, Bego y Josep te acompañan personalmente desde la primera visita hasta la firma ante notario, con total transparencia en cada paso.
           </p>
         </div>
 
         {/* Right: service grid */}
-        <div
-          className="grid grid-cols-2"
-          style={{ borderLeft: '1px solid oklch(0% 0% 0% / 0.08)' }}
-        >
+        <div className="grid grid-cols-2">
           {serviceKeys.map((key, i) => (
             <div
               key={key}
-              className="reveal group transition-colors duration-300 hover:bg-white"
+              className="reveal group transition-colors duration-300 hover:bg-white px-6 py-8 md:px-10 md:py-12"
               style={{
-                padding: '48px 40px',
                 borderBottom: i < serviceKeys.length - 2 ? '1px solid oklch(0% 0% 0% / 0.07)' : 'none',
                 borderRight: i % 2 === 0 ? '1px solid oklch(0% 0% 0% / 0.07)' : 'none',
               }}
             >
               <span
-                className="block font-light tracking-[0.12em] mb-4"
+                className="block font-light tracking-[0.12em] mb-3 md:mb-4"
                 style={{ fontFamily: 'var(--font-cormorant), Georgia, serif', fontSize: '13px', color: 'var(--accent)' }}
               >
                 {String(i + 1).padStart(2, '0')}
               </span>
               <h3
-                className="font-normal mb-2.5 leading-[1.2]"
-                style={{ fontFamily: 'var(--font-cormorant), Georgia, serif', fontSize: '20px', color: 'var(--dark)' }}
+                className="font-normal mb-2 leading-[1.2]"
+                style={{ fontFamily: 'var(--font-cormorant), Georgia, serif', fontSize: 'clamp(17px, 2vw, 20px)', color: 'var(--dark)' }}
               >
                 {t(`services.${key}.title`)}
               </h3>
-              <p className="text-[13px] font-light leading-[1.7]" style={{ color: 'var(--mid)' }}>
+              <p className="text-[12px] md:text-[13px] font-light leading-[1.7]" style={{ color: 'var(--mid)' }}>
                 {t(`services.${key}.desc`)}
               </p>
             </div>
@@ -213,8 +206,8 @@ export default async function HomePage() {
       </section>
 
       {/* ─── Team ─────────────────────────────────────────────────────────────── */}
-      <section className="py-[100px] px-12" style={{ background: 'var(--bg)' }}>
-        <div className="mb-14 reveal">
+      <section className="py-16 md:py-[100px] px-4 md:px-12" style={{ background: 'var(--bg)' }}>
+        <div className="mb-8 md:mb-14 reveal">
           <span className="block text-[11px] font-medium tracking-[0.2em] uppercase mb-4" style={{ color: 'var(--accent)' }}>
             El equipo
           </span>
@@ -231,7 +224,7 @@ export default async function HomePage() {
           </h2>
         </div>
 
-        <div className="grid gap-[2px] reveal" style={{ gridTemplateColumns: '1fr 1.6fr' }}>
+        <div className="grid grid-cols-1 md:grid-cols-[1fr_1.6fr] gap-[2px] reveal">
           <div className="relative overflow-hidden" style={{ aspectRatio: '16/10' }}>
             <Image
               src="/team.jpeg"
@@ -243,17 +236,17 @@ export default async function HomePage() {
           </div>
 
           {/* Bio */}
-          <div className="flex flex-col justify-center px-16 py-14 bg-white">
+          <div className="flex flex-col justify-center px-6 py-10 md:px-16 md:py-14 bg-white">
             <p
               className="font-light leading-[1.4] mb-5"
-              style={{ fontFamily: 'var(--font-cormorant), Georgia, serif', fontSize: '28px', color: 'var(--dark)' }}
+              style={{ fontFamily: 'var(--font-cormorant), Georgia, serif', fontSize: 'clamp(22px, 3vw, 28px)', color: 'var(--dark)' }}
             >
               <em>Mónica, Vanesa,<br />Begoña</em> y Josep
             </p>
-            <p className="text-[14px] font-light leading-[1.8] max-w-[420px] mb-8" style={{ color: 'var(--mid)' }}>
+            <p className="text-[14px] font-light leading-[1.8] mb-8" style={{ color: 'var(--mid)' }}>
               Un equipo con años de experiencia en el sector inmobiliario del Vallès Occidental. Te acompañamos desde la primera visita hasta la firma ante notario, con trato cercano, honesto y profesional en cada paso del camino.
             </p>
-            <div className="flex gap-10">
+            <div className="flex gap-6 md:gap-10">
               {[
                 { num: '+10', label: 'Años de experiencia' },
                 { num: String(stats.total), label: 'Operaciones cerradas' },
@@ -262,11 +255,11 @@ export default async function HomePage() {
                 <div key={label}>
                   <span
                     className="block font-light leading-none mb-1"
-                    style={{ fontFamily: 'var(--font-cormorant), Georgia, serif', fontSize: '36px', color: 'var(--dark)' }}
+                    style={{ fontFamily: 'var(--font-cormorant), Georgia, serif', fontSize: 'clamp(28px, 4vw, 36px)', color: 'var(--dark)' }}
                   >
                     {num}
                   </span>
-                  <span className="text-[11px] font-medium tracking-[0.13em] uppercase" style={{ color: 'var(--subtle)' }}>
+                  <span className="text-[10px] md:text-[11px] font-medium tracking-[0.13em] uppercase" style={{ color: 'var(--subtle)' }}>
                     {label}
                   </span>
                 </div>
@@ -277,7 +270,7 @@ export default async function HomePage() {
       </section>
 
       {/* ─── Testimonials ─────────────────────────────────────────────────────── */}
-      <section className="py-[100px] px-12 relative overflow-hidden" style={{ background: 'var(--dark)' }}>
+      <section className="py-16 md:py-[100px] px-4 md:px-12 relative overflow-hidden" style={{ background: 'var(--dark)' }}>
         {/* Giant quote decoration */}
         <span
           className="absolute pointer-events-none select-none leading-[0.8]"
@@ -313,14 +306,14 @@ export default async function HomePage() {
       </section>
 
       {/* ─── CTA ──────────────────────────────────────────────────────────────── */}
-      <section className="grid" style={{ gridTemplateColumns: '1fr 1fr' }}>
+      <section className="grid grid-cols-1 md:grid-cols-2">
         {/* Image */}
         <div
-          className="bg-center bg-cover min-h-[400px]"
+          className="bg-center bg-cover min-h-[220px] md:min-h-[400px]"
           style={{ backgroundImage: "url('https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=900&q=80')" }}
         />
         {/* Content */}
-        <div className="flex flex-col justify-center px-[72px] py-20 reveal" style={{ background: 'var(--bg2)' }}>
+        <div className="flex flex-col justify-center px-6 py-12 md:px-[72px] md:py-20 reveal" style={{ background: 'var(--bg2)' }}>
           <span className="block text-[11px] font-medium tracking-[0.2em] uppercase mb-4" style={{ color: 'var(--accent)' }}>
             Contacto
           </span>
