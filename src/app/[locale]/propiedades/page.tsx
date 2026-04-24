@@ -102,7 +102,7 @@ export default async function PropiedadesPage({
       {/* Page header */}
       <div className="luxury-gradient py-16 px-6">
         <div className="max-w-7xl mx-auto">
-          <p className="text-[var(--gold)] text-sm font-semibold tracking-[0.3em] uppercase mb-2">
+          <p className="text-[var(--rose)] text-sm font-semibold tracking-[0.3em] uppercase mb-2">
             {t('badge')}
           </p>
           <h1 className="text-white font-bold text-4xl mb-2 font-playfair">
