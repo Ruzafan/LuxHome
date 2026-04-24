@@ -17,7 +17,7 @@ export default function PropertyCard({ property, featured = false }: Props) {
   const primaryImage = property.images.find((i) => i.isPrimary) ?? property.images[0];
 
   return (
-    <Link href={`/propiedades/${property.id}`} className="block group bg-white card-hover overflow-hidden">
+    <Link href={`/propiedades/${property.id}`} className="block group bg-white card-hover overflow-hidden rounded-2xl">
       {/* Image */}
       <div className="relative overflow-hidden w-full" style={{ height: featured ? '16rem' : '13rem' }}>
         {primaryImage ? (
