@@ -25,17 +25,14 @@ export default async function Footer() {
 
   return (
     <footer style={{ background: 'var(--dark)', color: 'oklch(100% 0 0 / 0.55)', fontSize: '13px', fontWeight: 300 }}>
-      <div className="px-12 pt-20 pb-10">
+      <div className="px-6 md:px-12 pt-14 md:pt-20 pb-10">
         {/* Top grid */}
         <div
-          className="grid gap-12 pb-16 mb-9"
-          style={{
-            gridTemplateColumns: '1.5fr 1fr 1fr 1fr',
-            borderBottom: '1px solid oklch(100% 0 0 / 0.08)',
-          }}
+          className="grid grid-cols-2 md:grid-cols-[1.5fr_1fr_1fr_1fr] gap-8 md:gap-12 pb-12 md:pb-16 mb-9"
+          style={{ borderBottom: '1px solid oklch(100% 0 0 / 0.08)' }}
         >
           {/* Brand */}
-          <div>
+          <div className="col-span-2 md:col-span-1">
             <Image
               src="/logo.png"
               alt="LuxHome Inmobiliaria"

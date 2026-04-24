@@ -24,7 +24,8 @@ export default function TestimonialsSlider({ testimonials }: { testimonials: Tes
 
   return (
     <div>
-      <div className="grid gap-20 items-start min-h-[200px]" style={{ gridTemplateColumns: '1fr 280px' }}>
+      {/* Mobile: columna única — texto arriba, persona abajo */}
+      <div className="flex flex-col md:grid md:gap-20 md:items-start min-h-[200px] gap-8" style={{ gridTemplateColumns: '1fr 280px' }}>
         <p
           className="font-light italic leading-relaxed"
           style={{
@@ -35,24 +36,26 @@ export default function TestimonialsSlider({ testimonials }: { testimonials: Tes
         >
           &ldquo;{t.text}&rdquo;
         </p>
-        <div className="pt-1.5">
+        <div className="flex items-center gap-4 md:block md:pt-1.5">
           <div
-            className="w-11 h-11 rounded-full flex items-center justify-center text-white mb-4"
+            className="w-11 h-11 shrink-0 rounded-full flex items-center justify-center text-white md:mb-4"
             style={{ background: 'var(--accent)', fontFamily: 'var(--font-cormorant)', fontSize: '18px' }}
           >
             {t.initials}
           </div>
-          <span
-            className="block mb-1"
-            style={{ fontFamily: 'var(--font-cormorant)', fontSize: '18px', color: 'white' }}
-          >
-            {t.name}
-          </span>
-          <span className="text-[12px] tracking-[0.1em] uppercase" style={{ color: 'oklch(100% 0 0 / 0.4)' }}>
-            {t.role}
-          </span>
-          <div className="mt-3 tracking-[2px] text-sm" style={{ color: 'var(--gold)' }}>
-            {'★'.repeat(t.stars)}
+          <div>
+            <span
+              className="block mb-1"
+              style={{ fontFamily: 'var(--font-cormorant)', fontSize: '18px', color: 'white' }}
+            >
+              {t.name}
+            </span>
+            <span className="text-[12px] tracking-[0.1em] uppercase" style={{ color: 'oklch(100% 0 0 / 0.4)' }}>
+              {t.role}
+            </span>
+            <div className="mt-1 md:mt-3 tracking-[2px] text-sm" style={{ color: 'var(--gold)' }}>
+              {'★'.repeat(t.stars)}
+            </div>
           </div>
         </div>
       </div>
