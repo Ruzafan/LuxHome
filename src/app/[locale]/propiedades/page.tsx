@@ -105,7 +105,7 @@ export default async function PropiedadesPage({
           <p className="text-[var(--rose)] text-sm font-semibold tracking-[0.3em] uppercase mb-2">
             {t('badge')}
           </p>
-          <h1 className="text-white font-bold text-4xl mb-2 font-playfair">
+          <h1 className="text-white font-light text-4xl mb-2 font-playfair">
             {t('title')}
           </h1>
           <p className="text-white/60 text-sm">

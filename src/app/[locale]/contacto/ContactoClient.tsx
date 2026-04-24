@@ -33,7 +33,7 @@ export default function ContactoClient() {
       {/* Hero */}
       <div className="luxury-gradient py-16 px-6 text-center">
         <p className="text-[var(--rose)] text-sm font-semibold tracking-[0.3em] uppercase mb-2">{t('badge')}</p>
-        <h1 className="text-white font-bold text-4xl font-playfair">
+        <h1 className="text-white font-light text-4xl font-playfair">
           {t('title')}
         </h1>
         <p className="text-white/60 mt-3 max-w-lg mx-auto">{t('subtitle')}</p>
@@ -43,7 +43,7 @@ export default function ContactoClient() {
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-10">
           {/* Contact Form — order-2 on mobile so info panel appears first */}
           <div className="lg:col-span-3 order-2 lg:order-1 bg-white rounded-2xl shadow-lg p-8">
-            <h2 className="text-[var(--navy)] font-bold text-2xl mb-1 font-playfair">
+            <h2 className="text-[var(--navy)] font-light text-2xl mb-1 font-playfair">
               {t('form.title')}
             </h2>
             <p className="text-gray-400 text-sm mb-6">{t('form.subtitle')}</p>
@@ -161,7 +161,7 @@ export default function ContactoClient() {
           {/* Info panel — order-1 on mobile so it appears above the form */}
           <div className="lg:col-span-2 order-1 lg:order-2 space-y-6">
             <div className="bg-white rounded-2xl shadow p-6">
-              <h3 className="font-bold text-[var(--navy)] text-base mb-4 pb-3 border-b border-gray-100 font-playfair">
+              <h3 className="font-light text-[var(--navy)] text-lg mb-4 pb-3 border-b border-gray-100 font-playfair">
                 {t('office')}
               </h3>
               <ul className="space-y-3 text-sm text-gray-600">

@@ -12,8 +12,8 @@ export default function CookiesPage() {
   return (
     <div className="pt-20 bg-[var(--cream)]">
       <div className="luxury-gradient py-16 px-6 text-center">
-        <p className="text-[var(--gold)] text-sm font-semibold tracking-[0.3em] uppercase mb-2">Transparencia</p>
-        <h1 className="text-white font-bold text-4xl font-playfair">
+        <p className="text-[var(--rose)] text-sm font-semibold tracking-[0.3em] uppercase mb-2">Transparencia</p>
+        <h1 className="text-white font-light text-4xl font-playfair">
           Política de Cookies
         </h1>
       </div>
@@ -21,14 +21,14 @@ export default function CookiesPage() {
       <div className="max-w-3xl mx-auto px-6 py-16 space-y-10 text-gray-700 text-sm leading-relaxed">
 
         <section>
-          <h2 className="text-[var(--navy)] font-bold text-xl mb-3 font-playfair">
+          <h2 className="text-[var(--navy)] font-light text-xl mb-3 font-playfair">
             ¿Qué son las cookies?
           </h2>
           <p>Las cookies son pequeños archivos de texto que un sitio web almacena en tu dispositivo cuando lo visitas. Permiten que el sitio recuerde información sobre tu visita para mejorar tu experiencia de navegación.</p>
         </section>
 
         <section>
-          <h2 className="text-[var(--navy)] font-bold text-xl mb-3 font-playfair">
+          <h2 className="text-[var(--navy)] font-light text-xl mb-3 font-playfair">
             Cookies que utilizamos
           </h2>
 
@@ -59,7 +59,7 @@ export default function CookiesPage() {
         </section>
 
         <section>
-          <h2 className="text-[var(--navy)] font-bold text-xl mb-3 font-playfair">
+          <h2 className="text-[var(--navy)] font-light text-xl mb-3 font-playfair">
             Cómo gestionar las cookies
           </h2>
           <p>Puedes configurar tu navegador para bloquear o eliminar cookies. Ten en cuenta que esto puede afectar al funcionamiento del sitio. Instrucciones por navegador:</p>
@@ -72,17 +72,17 @@ export default function CookiesPage() {
         </section>
 
         <section>
-          <h2 className="text-[var(--navy)] font-bold text-xl mb-3 font-playfair">
+          <h2 className="text-[var(--navy)] font-light text-xl mb-3 font-playfair">
             Actualizaciones de esta política
           </h2>
           <p>Podemos actualizar esta política cuando incorporemos nuevas funcionalidades o servicios que impliquen el uso de cookies. Te informaremos de cualquier cambio relevante mediante un aviso en el sitio web.</p>
         </section>
 
         <section>
-          <h2 className="text-[var(--navy)] font-bold text-xl mb-3 font-playfair">
+          <h2 className="text-[var(--navy)] font-light text-xl mb-3 font-playfair">
             Contacto
           </h2>
-          <p>Para cualquier consulta sobre esta política, puedes contactarnos en <a href="mailto:bego@luxhomein.com" className="text-[var(--gold)] hover:underline">bego@luxhomein.com</a>.</p>
+          <p>Para cualquier consulta sobre esta política, puedes contactarnos en <a href="mailto:bego@luxhomein.com" className="text-[var(--rose-dark)] hover:underline">bego@luxhomein.com</a>.</p>
         </section>
 
         <p className="text-xs text-gray-400 border-t border-gray-200 pt-6">
