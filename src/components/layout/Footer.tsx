@@ -15,12 +15,12 @@ export default async function Footer() {
   ];
 
   const zones = [
-    'Santa Perpètua de Mogoda',
-    'Montcada i Reixac',
-    'Vilanova del Vallès',
-    'Castelldefels',
-    'Sant Adrià de Besòs',
-    'Les Franqueses del Vallès',
+    'Vallès Occidental',
+    'Vallès Oriental',
+    'Barcelona',
+    'Maresme',
+    'Barcelonès',
+    'Baix Llobregat',
   ];
 
   return (
@@ -84,14 +84,8 @@ export default async function Footer() {
             </h4>
             <ul className="space-y-2.5">
               {zones.map((zone) => (
-                <li key={zone}>
-                  <Link
-                    href={`/propiedades?ciudad=${encodeURIComponent(zone)}`}
-                    className="text-[13px] transition-colors"
-                    style={{ color: 'oklch(100% 0 0 / 0.45)' }}
-                  >
-                    {zone}
-                  </Link>
+                <li key={zone} className="text-[13px]" style={{ color: 'oklch(100% 0 0 / 0.45)' }}>
+                  {zone}
                 </li>
               ))}
             </ul>

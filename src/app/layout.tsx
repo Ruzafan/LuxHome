@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     default: 'LuxHome — Inmobiliaria en el Vallès Occidental',
   },
   description:
-    'Inmobiliaria en el Vallès Occidental. Mónica, Vanesa, Bego y Josep te ayudan a comprar, vender o alquilar en Santa Perpètua, Castelldefels, Vilanova del Vallès y alrededores.',
+    'Inmobiliaria en el Vallès Occidental. Bego, Vanesa, Mónica y Josep te ayudan a comprar, vender o alquilar en Santa Perpètua, Castelldefels, Vilanova del Vallès y alrededores.',
   keywords: [
     'inmobiliaria vallès occidental',
     'comprar piso santa perpètua de mogoda',
@@ -48,13 +48,13 @@ export const metadata: Metadata = {
     siteName: 'LuxHome Inmobiliaria',
     title: 'LuxHome — Inmobiliaria en el Vallès Occidental',
     description:
-      'Compra, vende o alquila con Mónica, Vanesa, Bego y Josep. Especialistas en el Vallès Occidental y alrededores.',
+      'Compra, vende o alquila con Bego, Vanesa, Mónica y Josep. Especialistas en el Vallès Occidental y alrededores.',
     images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'LuxHome Inmobiliaria' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'LuxHome — Inmobiliaria en el Vallès Occidental',
-    description: 'Compra, vende o alquila con Mónica, Vanesa, Bego y Josep. Especialistas en el Vallès Occidental.',
+    description: 'Compra, vende o alquila con Bego, Vanesa, Mónica y Josep. Especialistas en el Vallès Occidental.',
   },
   robots: { index: true, follow: true },
 };
@@ -63,7 +63,7 @@ const localBusinessSchema = {
   '@context': 'https://schema.org',
   '@type': 'RealEstateAgent',
   name: 'LuxHome Inmobiliaria',
-  description: 'Inmobiliaria en el Vallès Occidental especializada en compra, venta y alquiler de propiedades. Mónica, Vanesa, Bego y Josep te acompañan desde la primera visita hasta la firma ante notario.',
+  description: 'Inmobiliaria en el Vallès Occidental especializada en compra, venta y alquiler de propiedades. Bego, Vanesa, Mónica y Josep te acompañan desde la primera visita hasta la firma ante notario.',
   url: BASE_URL,
   logo: `${BASE_URL}/logo.png`,
   image: `${BASE_URL}/logo.png`,

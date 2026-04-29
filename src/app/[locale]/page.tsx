@@ -170,7 +170,7 @@ export default async function HomePage() {
             {t('services.title')}
           </h2>
           <p className="mt-6 text-[15px] font-light leading-[1.75] md:max-w-[340px]" style={{ color: 'oklch(100% 0 0 / 0.55)' }}>
-            Mónica, Vanesa, Bego y Josep te acompañan personalmente desde la primera visita hasta la firma ante notario, con total transparencia en cada paso.
+            Bego, Vanesa, Mónica y Josep te acompañan personalmente desde la primera visita hasta la firma ante notario, con total transparencia en cada paso.
           </p>
         </div>
 
@@ -241,7 +241,7 @@ export default async function HomePage() {
               className="font-light leading-[1.4] mb-5"
               style={{ fontFamily: 'var(--font-cormorant), Georgia, serif', fontSize: 'clamp(22px, 3vw, 28px)', color: 'var(--dark)' }}
             >
-              <em>Mónica, Vanesa,<br />Begoña</em> y Josep
+              <em>Bego, Vanesa,<br />Mónica</em> y Josep
             </p>
             <p className="text-[14px] font-light leading-[1.8] mb-8" style={{ color: 'var(--mid)' }}>
               Un equipo con años de experiencia en el sector inmobiliario del Vallès Occidental. Te acompañamos desde la primera visita hasta la firma ante notario, con trato cercano, honesto y profesional en cada paso del camino.
@@ -249,7 +249,6 @@ export default async function HomePage() {
             <div className="flex gap-6 md:gap-10">
               {[
                 { num: '+10', label: 'Años de experiencia' },
-                { num: String(stats.total), label: 'Operaciones cerradas' },
                 { num: '5★', label: 'Valoración media' },
               ].map(({ num, label }) => (
                 <div key={label}>
