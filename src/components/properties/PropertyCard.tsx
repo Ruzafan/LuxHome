@@ -21,6 +21,7 @@ export default function PropertyCard({ property, featured = false }: Props) {
 
   const [currentImgIndex, setCurrentImgIndex] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [isCompared, setIsCompared] = useState(false);
 
   useEffect(() => {
     try {
@@ -28,7 +29,22 @@ export default function PropertyCard({ property, featured = false }: Props) {
       if (Array.isArray(favs) && favs.includes(property.id)) {
         setIsFavorite(true);
       }
+      const compareList: Property[] = JSON.parse(localStorage.getItem('luxhome_compare_items') || '[]');
+      if (Array.isArray(compareList) && compareList.some((p) => p.id === property.id)) {
+        setIsCompared(true);
+      }
     } catch {}
+  }, [property.id]);
+
+  useEffect(() => {
+    const checkCompare = () => {
+      try {
+        const compareList: Property[] = JSON.parse(localStorage.getItem('luxhome_compare_items') || '[]');
+        setIsCompared(Array.isArray(compareList) && compareList.some((p) => p.id === property.id));
+      } catch {}
+    };
+    window.addEventListener('luxhome_compare_change', checkCompare);
+    return () => window.removeEventListener('luxhome_compare_change', checkCompare);
   }, [property.id]);
 
   const toggleFavorite = (e: React.MouseEvent) => {
@@ -41,6 +57,34 @@ export default function PropertyCard({ property, featured = false }: Props) {
         : [...favs, property.id];
       localStorage.setItem('luxhome_favs', JSON.stringify(newFavs));
       setIsFavorite(newFavs.includes(property.id));
+    } catch {}
+  };
+
+  const handleQuickView = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    window.dispatchEvent(
+      new CustomEvent('open_quick_view', { detail: { property } })
+    );
+  };
+
+  const handleCompare = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    try {
+      const items: Property[] = JSON.parse(
+        localStorage.getItem('luxhome_compare_items') || '[]'
+      );
+      const exists = items.some((p) => p.id === property.id);
+      let updated: Property[];
+      if (exists) {
+        updated = items.filter((p) => p.id !== property.id);
+      } else {
+        if (items.length >= 4) return;
+        updated = [...items, property];
+      }
+      localStorage.setItem('luxhome_compare_items', JSON.stringify(updated));
+      window.dispatchEvent(new Event('luxhome_compare_change'));
     } catch {}
   };
 
@@ -88,32 +132,50 @@ export default function PropertyCard({ property, featured = false }: Props) {
           </span>
         </div>
 
-        {/* Status badge — top left */}
-        {property.status !== 'disponible' && (
-          <div className="absolute top-3 left-3 z-10 pointer-events-none">
-            <span className="text-[11px] font-semibold tracking-[0.1em] uppercase px-2.5 py-1 rounded-md bg-white shadow-sm" style={{ color: 'var(--dark)' }}>
-              {t(`status.${property.status}`)}
-            </span>
-          </div>
-        )}
-
-        {/* Favorites button — top left */}
-        <button
-          type="button"
-          onClick={toggleFavorite}
-          aria-label="Añadir a favoritos"
-          className="absolute top-3 left-3 z-20 w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md hover:scale-110 active:scale-95 transition-all cursor-pointer"
-          style={{ display: property.status !== 'disponible' ? 'none' : 'flex' }}
-        >
-          <svg
-            className={`w-5 h-5 transition-colors ${isFavorite ? 'text-rose-500 fill-rose-500' : 'text-gray-600 fill-none'}`}
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={1.8}
+        {/* Top left actions: Favorite + QuickView + Compare */}
+        <div className="absolute top-3 left-3 z-20 flex items-center gap-1.5">
+          <button
+            type="button"
+            onClick={toggleFavorite}
+            aria-label="Añadir a favoritos"
+            className="w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md hover:scale-110 active:scale-95 transition-all cursor-pointer text-gray-700"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-          </svg>
-        </button>
+            <svg
+              className={`w-4 h-4 transition-colors ${isFavorite ? 'text-rose-500 fill-rose-500' : 'text-gray-600 fill-none'}`}
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={1.8}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+            </svg>
+          </button>
+
+          <button
+            type="button"
+            onClick={handleQuickView}
+            aria-label="Vista rápida"
+            title="Vista rápida"
+            className="w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md hover:scale-110 active:scale-95 transition-all cursor-pointer text-gray-700"
+          >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.573 16.49 16.638 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </button>
+
+          <button
+            type="button"
+            onClick={handleCompare}
+            title="Añadir a comparativa"
+            className={`px-2 py-1 rounded-md text-[10px] font-semibold tracking-wider uppercase shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-1 ${
+              isCompared
+                ? 'bg-[var(--dark)] text-white'
+                : 'bg-white/90 backdrop-blur-sm text-gray-700 hover:bg-white'
+            }`}
+          >
+            <span>{isCompared ? '✓' : '+'}</span> Comparar
+          </button>
+        </div>
 
         {/* Prev / Next photo arrows on hover */}
         {images.length > 1 && (

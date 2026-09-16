@@ -17,6 +17,14 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  const openMortgage = () => {
+    window.dispatchEvent(new CustomEvent('open_mortgage_calculator'));
+  };
+
+  const openWizard = () => {
+    window.dispatchEvent(new CustomEvent('open_property_wizard'));
+  };
+
   const isHome = pathname === '/';
   const transparent = isHome && !scrolled && !menuOpen;
 
@@ -54,7 +62,7 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-9">
+        <nav className="hidden md:flex items-center gap-7">
           {links.map(({ href, label }) => {
             const active = pathname === href || (href !== '/' && pathname.startsWith(href));
             return (
@@ -73,9 +81,27 @@ export default function Navbar() {
             );
           })}
 
+          <button
+            type="button"
+            onClick={openWizard}
+            className="text-[12px] font-medium tracking-[0.1em] uppercase transition-colors cursor-pointer flex items-center gap-1"
+            style={{ color: transparent ? 'white' : 'var(--dark)' }}
+          >
+            <span>🪄</span> Asistente
+          </button>
+
+          <button
+            type="button"
+            onClick={openMortgage}
+            className="text-[12px] font-medium tracking-[0.1em] uppercase transition-colors cursor-pointer flex items-center gap-1"
+            style={{ color: transparent ? 'white' : 'var(--dark)' }}
+          >
+            <span>🧮</span> Hipoteca
+          </button>
+
           <Link
             href="/contacto"
-            className="text-[12px] font-medium tracking-[0.12em] uppercase px-6 py-2.5 transition-all duration-200"
+            className="text-[12px] font-semibold tracking-[0.12em] uppercase px-5 py-2.5 transition-all duration-200 rounded-lg shadow-sm"
             style={{ background: 'var(--rose)', color: 'var(--dark)' }}
           >
             {t('requestVisit')}
@@ -133,10 +159,30 @@ export default function Navbar() {
               {label}
             </Link>
           ))}
+          <button
+            type="button"
+            onClick={() => {
+              setMenuOpen(false);
+              openWizard();
+            }}
+            className="text-left text-[13px] font-medium tracking-[0.1em] uppercase py-2 border-b text-[var(--mid)] border-gray-100 flex items-center gap-2"
+          >
+            <span>🪄</span> Asistente de búsqueda
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setMenuOpen(false);
+              openMortgage();
+            }}
+            className="text-left text-[13px] font-medium tracking-[0.1em] uppercase py-2 border-b text-[var(--mid)] border-gray-100 flex items-center gap-2"
+          >
+            <span>🧮</span> Calculadora Hipotecaria
+          </button>
           <Link
             href="/contacto"
             onClick={() => setMenuOpen(false)}
-            className="mt-1 text-center text-[12px] font-medium tracking-[0.12em] uppercase px-6 py-3"
+            className="mt-1 text-center text-[12px] font-semibold tracking-[0.12em] uppercase px-6 py-3 rounded-xl"
             style={{ background: 'var(--rose)', color: 'var(--dark)' }}
           >
             {t('requestVisit')}
