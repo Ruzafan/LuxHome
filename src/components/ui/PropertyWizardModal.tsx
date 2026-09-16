@@ -9,17 +9,40 @@ export default function PropertyWizardModal() {
   const [operacion, setOperacion] = useState('venta');
   const [ciudad, setCiudad] = useState('');
   const [feature, setFeature] = useState('');
+  const [locations, setLocations] = useState<string[]>([]);
+  const [searchLocation, setSearchLocation] = useState('');
+  const [loadingLocations, setLoadingLocations] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     const handleOpen = () => {
       setStep(1);
       setIsOpen(true);
+      if (locations.length === 0) {
+        fetchLocations();
+      }
     };
 
     window.addEventListener('open_property_wizard', handleOpen);
     return () => window.removeEventListener('open_property_wizard', handleOpen);
-  }, []);
+  }, [locations.length]);
+
+  const fetchLocations = async () => {
+    setLoadingLocations(true);
+    try {
+      const res = await fetch('/api/locations');
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data.locations) && data.locations.length > 0) {
+          setLocations(data.locations);
+        }
+      }
+    } catch (err) {
+      console.error('Error fetching locations:', err);
+    } finally {
+      setLoadingLocations(false);
+    }
+  };
 
   if (!isOpen) return null;
 
@@ -35,11 +58,13 @@ export default function PropertyWizardModal() {
     router.push(`/propiedades?${params.toString()}`);
   };
 
-  const cities = ['Sabadell', 'Terrassa', 'Sant Cugat', 'Castellar del Vallès', 'Cerdanyola', 'Barberà'];
+  const filteredLocations = locations.filter((loc) =>
+    loc.toLowerCase().includes(searchLocation.toLowerCase())
+  );
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6 bg-black/80 backdrop-blur-md animate-fade-in">
-      <div className="relative w-full max-w-xl bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col border border-gray-100">
+      <div className="relative w-full max-w-xl bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col border border-gray-100 max-h-[90vh]">
         {/* Header */}
         <div className="p-6 bg-[var(--dark)] text-white flex items-center justify-between">
           <div>
@@ -66,7 +91,7 @@ export default function PropertyWizardModal() {
         </div>
 
         {/* Step content */}
-        <div className="p-6 md:p-8 min-h-[260px] flex flex-col justify-between">
+        <div className="p-6 md:p-8 min-h-[280px] flex flex-col justify-between overflow-y-auto no-scrollbar">
           {step === 1 && (
             <div className="space-y-4">
               <h3 className="text-lg font-medium text-gray-900">1. ¿Qué tipo de operación buscas?</h3>
@@ -96,24 +121,53 @@ export default function PropertyWizardModal() {
 
           {step === 2 && (
             <div className="space-y-4">
-              <h3 className="text-lg font-medium text-gray-900">2. ¿En qué zona prefieres encontrar tu casa?</h3>
-              <p className="text-xs text-gray-500">Elige la localidad principal del Vallès Occidental que más te encaje.</p>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2">
-                {cities.map((c) => (
+              <h3 className="text-lg font-medium text-gray-900">2. ¿En qué localidad quieres encontrar tu casa?</h3>
+              <p className="text-xs text-gray-500">Selecciona entre las ubicaciones con propiedades disponibles.</p>
+
+              {/* Search input for locations if list is long */}
+              {locations.length > 6 && (
+                <input
+                  type="text"
+                  value={searchLocation}
+                  onChange={(e) => setSearchLocation(e.target.value)}
+                  placeholder="Buscar localidad o barrio..."
+                  className="w-full px-4 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-2 focus:ring-[var(--accent)]"
+                />
+              )}
+
+              {loadingLocations ? (
+                <div className="py-8 text-center text-xs text-gray-400">Cargando ubicaciones de la base de datos...</div>
+              ) : (
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 max-h-56 overflow-y-auto pr-1 no-scrollbar pt-1">
                   <button
-                    key={c}
                     type="button"
-                    onClick={() => setCiudad(c)}
-                    className={`p-3.5 rounded-xl border text-center transition-all cursor-pointer text-xs font-semibold ${
-                      ciudad === c
+                    onClick={() => setCiudad('')}
+                    className={`p-3 rounded-xl border text-center transition-all cursor-pointer text-xs font-semibold ${
+                      ciudad === ''
                         ? 'border-[var(--accent)] bg-[var(--dark)] text-white shadow-md'
                         : 'border-gray-200 text-gray-700 hover:border-[var(--accent)]'
                     }`}
                   >
-                    {c}
+                    Todas las zonas
                   </button>
-                ))}
-              </div>
+
+                  {filteredLocations.map((c) => (
+                    <button
+                      key={c}
+                      type="button"
+                      onClick={() => setCiudad(c)}
+                      className={`p-3 rounded-xl border text-center transition-all cursor-pointer text-xs font-semibold truncate ${
+                        ciudad === c
+                          ? 'border-[var(--accent)] bg-[var(--dark)] text-white shadow-md'
+                          : 'border-gray-200 text-gray-700 hover:border-[var(--accent)]'
+                      }`}
+                      title={c}
+                    >
+                      {c}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
