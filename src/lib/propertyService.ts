@@ -105,6 +105,8 @@ export async function getProperties(
   const where: Prisma.PropertyWhereInput = { status: { not: 'vendido' } };
   if (filters.operation) where.operation = filters.operation;
   if (filters.type) where.type = filters.type;
+  if (filters.isFeatured) where.isFeatured = true;
+  if (filters.isNewDevelopment) where.isNewDevelopment = true;
   if (filters.minPrice !== undefined || filters.maxPrice !== undefined) {
     where.price = {
       ...(filters.minPrice !== undefined ? { gte: filters.minPrice } : {}),

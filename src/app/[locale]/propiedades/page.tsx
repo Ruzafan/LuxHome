@@ -31,6 +31,11 @@ interface SearchParams {
   precioMin?: string;
   precioMax?: string;
   habitaciones?: string;
+  piscina?: string;
+  terraza?: string;
+  garaje?: string;
+  destacado?: string;
+  obraNueva?: string;
   orden?: string;
   pagina?: string;
 }
@@ -57,6 +62,11 @@ export default async function PropiedadesPage({
   if (rawParams.precioMin) filters.minPrice = Number(rawParams.precioMin);
   if (rawParams.precioMax) filters.maxPrice = Number(rawParams.precioMax);
   if (rawParams.habitaciones) filters.minBedrooms = Number(rawParams.habitaciones);
+  if (rawParams.piscina === '1' || rawParams.piscina === 'true') filters.hasPool = true;
+  if (rawParams.terraza === '1' || rawParams.terraza === 'true') filters.hasTerrace = true;
+  if (rawParams.garaje === '1' || rawParams.garaje === 'true') filters.hasGarage = true;
+  if (rawParams.destacado === '1' || rawParams.destacado === 'true') filters.isFeatured = true;
+  if (rawParams.obraNueva === '1' || rawParams.obraNueva === 'true') filters.isNewDevelopment = true;
 
   const page = rawParams.pagina ? Number(rawParams.pagina) : 1;
   const sort = (['price_asc', 'price_desc', 'newest'].includes(rawParams.orden ?? '')
@@ -155,6 +165,9 @@ export default async function PropiedadesPage({
               ]}
             />
           </div>
+
+          {/* Quick filter pill chips */}
+          <QuickFilterChips params={rawParams} />
 
           {/* Active filter chips — visible on all screen sizes */}
           <ActiveFilters params={rawParams} baseUrl={baseUrl} t={t} />
@@ -354,6 +367,52 @@ function FilterPanel({
         {t('filters.clear')}
       </Link>
     </form>
+  );
+}
+
+// ─── Quick Filter Chips ───────────────────────────────────────────────────────
+
+function QuickFilterChips({ params }: { params: SearchParams }) {
+  const tags = [
+    { key: 'piscina', label: '🏊 Con piscina', param: 'piscina' },
+    { key: 'terraza', label: '☀️ Con terraza', param: 'terraza' },
+    { key: 'garaje', label: '🚗 Con garaje', param: 'garaje' },
+    { key: 'destacado', label: '🔥 Destacados', param: 'destacado' },
+    { key: 'obraNueva', label: '🏗️ Obra nueva', param: 'obraNueva' },
+  ];
+
+  return (
+    <div className="flex items-center gap-2 overflow-x-auto pb-3 mb-4 no-scrollbar">
+      {tags.map((tag) => {
+        const isActive = params[tag.param as keyof SearchParams] === '1';
+        const newParams = { ...params };
+        if (isActive) {
+          delete newParams[tag.param as keyof SearchParams];
+        } else {
+          newParams[tag.param as keyof SearchParams] = '1';
+        }
+        delete newParams.pagina;
+
+        const qs = Object.entries(newParams)
+          .filter(([, v]) => v !== undefined && v !== '')
+          .map(([k, v]) => `${k}=${encodeURIComponent(String(v))}`)
+          .join('&');
+
+        return (
+          <Link
+            key={tag.key}
+            href={`/propiedades${qs ? `?${qs}` : ''}`}
+            className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all border ${
+              isActive
+                ? 'bg-[var(--dark)] text-white border-[var(--dark)] shadow-sm'
+                : 'bg-white text-gray-700 border-gray-200 hover:border-[var(--accent)] hover:text-[var(--accent)]'
+            }`}
+          >
+            {tag.label}
+          </Link>
+        );
+      })}
+    </div>
   );
 }
 

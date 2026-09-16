@@ -8,6 +8,8 @@ export default function HeroSearchBar({ locations }: { locations: string[] }) {
   const [operacion, setOperacion] = useState('venta');
   const [tipo, setTipo] = useState('');
   const [ciudad, setCiudad] = useState('');
+  const [precioMax, setPrecioMax] = useState('');
+  const [habitaciones, setHabitaciones] = useState('');
   const router = useRouter();
   const t = useTranslations('home.search');
 
@@ -19,13 +21,15 @@ export default function HeroSearchBar({ locations }: { locations: string[] }) {
     if (operacion) params.set('operacion', operacion);
     if (tipo) params.set('tipo', tipo);
     if (ciudad) params.set('ciudad', ciudad);
+    if (precioMax) params.set('precioMax', precioMax);
+    if (habitaciones) params.set('habitaciones', habitaciones);
     router.push(`/propiedades?${params.toString()}`);
   }
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-full bg-white flex flex-col md:flex-row"
+      className="w-full bg-white flex flex-col rounded-xl overflow-hidden shadow-2xl backdrop-blur-sm"
       style={{ boxShadow: '0 20px 60px oklch(0% 0% 0% / 0.25)' }}
     >
       {/* Operation tabs */}
@@ -35,7 +39,7 @@ export default function HeroSearchBar({ locations }: { locations: string[] }) {
             key={op}
             type="button"
             onClick={() => setOperacion(op)}
-            className="flex-1 md:flex-none px-5 h-12 md:h-14 text-xs font-medium tracking-[0.1em] uppercase transition-colors cursor-pointer border-none"
+            className="flex-1 md:flex-none px-6 h-12 md:h-14 text-xs font-semibold tracking-[0.12em] uppercase transition-colors cursor-pointer border-none"
             style={{
               color: operacion === op ? 'var(--dark)' : 'var(--subtle)',
               background: operacion === op ? 'var(--bg2)' : 'white',
@@ -45,18 +49,17 @@ export default function HeroSearchBar({ locations }: { locations: string[] }) {
             {op === 'venta' ? t('buy') : t('rent')}
           </button>
         ))}
-        {/* Spacer to fill the rest of the tab row on mobile */}
         <div className="flex-1 md:hidden" style={{ borderLeft: '1px solid var(--bg2)', background: 'white' }} />
       </div>
 
       {/* Inputs + button row */}
-      <div className="flex flex-1">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 items-center">
         {/* Type select */}
         <select
           value={tipo}
           onChange={(e) => setTipo(e.target.value)}
-          className="flex-1 md:flex-none md:min-w-[150px] h-12 md:h-14 px-4 md:px-5 text-[13px] font-light bg-white outline-none cursor-pointer"
-          style={{ color: 'var(--mid)', border: 'none', borderRight: '1px solid var(--bg2)' }}
+          className="w-full h-12 md:h-14 px-4 text-[13px] font-light bg-white outline-none cursor-pointer border-b sm:border-b-0 border-gray-100 sm:border-r"
+          style={{ color: 'var(--mid)', borderColor: 'var(--bg2)' }}
         >
           <option value="">{t('type')}</option>
           <option value="piso">{t('apartment')}</option>
@@ -71,18 +74,51 @@ export default function HeroSearchBar({ locations }: { locations: string[] }) {
           value={ciudad}
           onChange={(e) => setCiudad(e.target.value)}
           placeholder={t('location')}
-          className="flex-1 h-12 md:h-14 px-4 md:px-5 text-[13px] font-light bg-white outline-none"
-          style={{ color: 'var(--dark)', borderRight: '1px solid var(--bg2)' }}
+          className="w-full h-12 md:h-14 px-4 text-[13px] font-light bg-white outline-none border-b sm:border-b-0 border-gray-100 sm:border-r"
+          style={{ color: 'var(--dark)', borderColor: 'var(--bg2)' }}
         />
+
+        {/* Precio Máx */}
+        <select
+          value={precioMax}
+          onChange={(e) => setPrecioMax(e.target.value)}
+          className="w-full h-12 md:h-14 px-4 text-[13px] font-light bg-white outline-none cursor-pointer border-b lg:border-b-0 border-gray-100 lg:border-r"
+          style={{ color: 'var(--mid)', borderColor: 'var(--bg2)' }}
+        >
+          <option value="">Precio Máx.</option>
+          <option value="150000">150.000 €</option>
+          <option value="250000">250.000 €</option>
+          <option value="350000">350.000 €</option>
+          <option value="500000">500.000 €</option>
+          <option value="750000">750.000 €</option>
+          <option value="1000000">1.000.000 €</option>
+        </select>
+
+        {/* Habitaciones */}
+        <select
+          value={habitaciones}
+          onChange={(e) => setHabitaciones(e.target.value)}
+          className="w-full h-12 md:h-14 px-4 text-[13px] font-light bg-white outline-none cursor-pointer border-b lg:border-b-0 border-gray-100 lg:border-r"
+          style={{ color: 'var(--mid)', borderColor: 'var(--bg2)' }}
+        >
+          <option value="">Habitaciones</option>
+          <option value="1">1+ hab.</option>
+          <option value="2">2+ hab.</option>
+          <option value="3">3+ hab.</option>
+          <option value="4">4+ hab.</option>
+        </select>
 
         {/* Search button */}
         <button
           type="submit"
-          className="h-12 md:h-14 px-5 md:px-7 text-white text-xs font-medium tracking-[0.12em] uppercase transition-colors cursor-pointer border-none whitespace-nowrap"
+          className="w-full h-12 md:h-14 px-6 text-white text-xs font-semibold tracking-[0.12em] uppercase transition-colors cursor-pointer border-none flex items-center justify-center gap-2"
           style={{ background: 'var(--dark)' }}
           onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--accent)')}
           onMouseLeave={(e) => (e.currentTarget.style.background = 'var(--dark)')}
         >
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+          </svg>
           {t('button')}
         </button>
       </div>

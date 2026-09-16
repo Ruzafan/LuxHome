@@ -74,6 +74,8 @@ export interface PropertyFilters {
   hasGarage?: boolean;
   hasPool?: boolean;
   hasTerrace?: boolean;
+  isFeatured?: boolean;
+  isNewDevelopment?: boolean;
 }
 
 export interface PropertySearchResult {

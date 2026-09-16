@@ -39,7 +39,7 @@ export default function Navbar() {
             }
       }
     >
-      <div className="px-12 flex items-center justify-between h-[72px]">
+      <div className="px-4 md:px-12 flex items-center justify-between h-[72px]">
         {/* Logo */}
         <Link href="/">
           <Image

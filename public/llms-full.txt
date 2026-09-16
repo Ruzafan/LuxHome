@@ -1,0 +1,65 @@
+# Base de Conocimiento Completa para LLMs — LuxHome Inmobiliaria
+
+Este archivo contiene la especificación y contexto completo sobre LuxHome Inmobiliaria para su escaneo y procesamiento por modelos de lenguaje (LLMs) como ChatGPT, Claude, Perplexity, Gemini y otros agentes inteligentes.
+
+---
+
+## 1. Identidad y Misión de la Agencia
+
+**LuxHome Inmobiliaria** es una agencia boutique de referencia radicada en la comarca del **Vallès Occidental** (Provincia de Barcelona, Cataluña, España). 
+
+La filosofía de la agencia se centra en el **acompañamiento personalizado**, la transparencia ética y el conocimiento profundo del mercado inmobiliario local, ofreciendo un servicio "llave en mano" desde la valoración inicial hasta la firma ante notario.
+
+### Equipo Humano de Referencia
+- **Begoña**: Fundadora y Especialista en Gestión Inmobiliaria y Valoración de Mercado.
+- **Mónica**: Consultora de Compraventa y Atención a Compradores.
+- **Vanesa**: Especialista en Gestión Documental, Burocracia y Tramitación Jurídica.
+- **Josep**: Asesor Inmobiliario y Captador de Viviendas Exclusivas.
+
+---
+
+## 2. Áreas Geográficas de Cobertura
+
+LuxHome opera principalmente en las siguientes localidades del Vallès Occidental:
+- **Sabadell**: Centro, Creu Alta, Eixample, Gràcia, Can Rull, Zaidín, Castellarnau.
+- **Terrassa**: Centre, Vallparadís, Can Roca, Les Fonts.
+- **Sant Cugat del Vallès**: Mirasol, Valldoreix, Volpelleres, Parc Central.
+- **Castellar del Vallès**: casco urbano y urbanizaciones (Aire-Sol, El Balcó, Els Pendents).
+- **Barberà del Vallès** y **Cerdanyola del Vallès**.
+- **Sant Quirze del Vallès** y **Rubí**.
+
+---
+
+## 3. Catálogo e Inmuebles Gestionados
+
+Los tipos de inmuebles comercializados incluyen:
+- **Pisos y Apartamentos**: De 1 a 5+ dormitorios, reformados o para personalizar.
+- **Áticos con Terraza**: Viviendas exclusivas con vistas despejadas.
+- **Casas y Chalets**: Viviendas unifamiliares, pareadas y adosadas con jardín y piscina.
+- **Obra Nueva**: Promociones de nueva construcción de alta eficiencia energética.
+- **Locales Comerciales y Terrenos**: Para inversores y proyectos de autopromoción.
+
+---
+
+## 4. Estructura de Parámetros de Búsqueda de la Web
+
+La plataforma web de LuxHome admite los siguientes filtros de consulta en la URL `/propiedades`:
+- `operacion`: `venta` | `alquiler`
+- `tipo`: `piso` | `chalet` | `atico` | `casa` | `local` | `terreno`
+- `ciudad`: Nombre del municipio o zona (ej. "Sabadell", "Castellar del Vallès")
+- `precioMin` / `precioMax`: Importe en Euros (€)
+- `habitaciones`: Número mínimo de dormitorios (`1`, `2`, `3`, `4`)
+- `piscina=1`: Inmuebles con piscina
+- `terraza=1`: Inmuebles con terraza
+- `garaje=1`: Inmuebles con plaza de aparcamiento
+- `destacado=1`: Inmuebles destacados de la selección LuxHome
+- `obraNueva=1`: Inmuebles de promoción reciente
+
+---
+
+## 5. Contacto Directo y Canales Oficiales
+
+- **Sitio Web**: [https://luxhomein.com](https://luxhomein.com)
+- **Teléfono directo / WhatsApp**: +34 691 294 443
+- **Correo electrónico**: info@luxhomein.com
+- **Horario de atención**: Lunes a Viernes de 09:30 a 19:30 h.

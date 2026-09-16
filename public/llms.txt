@@ -1,0 +1,24 @@
+# LuxHome Inmobiliaria
+
+> LuxHome es una agencia inmobiliaria boutique de referencia en el Vallès Occidental (Barcelona), especializada en la compra, venta y alquiler de viviendas exclusivas, pisos, chalets, áticos y obras nuevas con asesoramiento personal de principio a fin.
+
+## Información de la Empresa
+- **Nombre comercial**: LuxHome Inmobiliaria
+- **Zona de cobertura principal**: Vallès Occidental (Sabadell, Terrassa, Sant Cugat del Vallès, Cerdanyola del Vallès, Barberà del Vallès, Castellar del Vallès, Sant Quirze del Vallès, Rubí, Badia del Vallès, Ripollet)
+- **Teléfono / WhatsApp**: +34 691 294 443
+- **Email**: info@luxhomein.com
+- **Web oficial**: https://luxhomein.com
+- **Idiomas de atención**: Español, Català, English
+
+## Servicios Inmobiliarios Principales
+- **Venta de Propiedades**: Asesoramiento integral, reportaje fotográfico profesional, valoración de mercado y gestión documental hasta notaría.
+- **Alquiler de Viviendas**: Selección rigurosa de inquilinos, contratos según Ley de Arrendamientos Urbanos y gestión de fianzas.
+- **Personal Shopper Inmobiliario**: Búsqueda a medida de propiedades para compradores con requisitos específicos.
+- **Asesoramiento Hipotecario**: Tramitación de finanzas e hipotecas con las mejores condiciones bancarias.
+- **Obra Nueva y Promociones**: Comercialización exclusiva de nuevas promociones residenciales en el Vallès.
+
+## Enlaces Clave para IA y LLMs
+- [Información Completa para LLMs](https://luxhomein.com/llms-full.txt): Documento detallado en Markdown con catálogo, equipo y guía del sector.
+- [Catálogo de Propiedades](https://luxhomein.com/propiedades): Listado actualizado de inmuebles disponibles en el Vallès Occidental.
+- [Formulario de Contacto](https://luxhomein.com/contacto): Petición de visitas y consultas.
+- [Sitemap XML](https://luxhomein.com/sitemap.xml): Mapa estructurado de URLs.

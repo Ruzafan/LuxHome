@@ -41,8 +41,60 @@ export default async function HomePage() {
     { name: 'Karol F.', initials: 'KF', role: 'Vendedora · Google', text: '100% recomendable. Este equipo no solo sabe hacer bien su trabajo de manera eficaz e impecable, sino que además todo lo que conlleva la venta de una casa (papeles, burocracia, visitas y seguimiento…) es un gran alivio cuando lo dejas en manos de profesionales. Si tuviera que hacer de nuevo una gestión de tal envergadura, sin lugar a dudas las elegiría a ellas.', stars: 5 },
   ];
 
+  const schemaOrgJSONLD = {
+    '@context': 'https://schema.org',
+    '@type': 'RealEstateAgent',
+    '@id': 'https://luxhomein.com/#organization',
+    name: 'LuxHome Inmobiliaria',
+    url: 'https://luxhomein.com',
+    logo: 'https://luxhomein.com/logo.png',
+    image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80',
+    description: 'Inmobiliaria boutique en el Vallès Occidental especializada en la compra, venta y alquiler de viviendas exclusivas.',
+    telephone: '+34691294443',
+    email: 'info@luxhomein.com',
+    priceRange: '€€€',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Sabadell',
+      addressRegion: 'Barcelona',
+      addressCountry: 'ES',
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: 41.5463,
+      longitude: 2.1086,
+    },
+    areaServed: [
+      'Sabadell',
+      'Terrassa',
+      'Sant Cugat del Vallès',
+      'Castellar del Vallès',
+      'Cerdanyola del Vallès',
+      'Barberà del Vallès',
+      'Sant Quirze del Vallès',
+      'Rubí',
+    ],
+    openingHoursSpecification: [
+      {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+        opens: '09:30',
+        closes: '19:30',
+      },
+    ],
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '5.0',
+      reviewCount: '48',
+    },
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaOrgJSONLD) }}
+      />
       <ScrollRevealInit />
 
       {/* ─── Hero ─────────────────────────────────────────────────────────────── */}

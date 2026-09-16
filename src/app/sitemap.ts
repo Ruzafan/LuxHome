@@ -15,13 +15,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     where: { status: { not: 'vendido' } },
   });
 
-  const staticPages = ['/', '/propiedades', '/contacto', '/privacidad', '/aviso-legal', '/cookies'];
-  const staticEntries: MetadataRoute.Sitemap = staticPages.flatMap((path) =>
+  const staticPages = [
+    { path: '/', priority: 1.0, freq: 'daily' as const },
+    { path: '/propiedades', priority: 0.9, freq: 'daily' as const },
+    { path: '/contacto', priority: 0.8, freq: 'weekly' as const },
+    { path: '/privacidad', priority: 0.3, freq: 'monthly' as const },
+    { path: '/aviso-legal', priority: 0.3, freq: 'monthly' as const },
+    { path: '/cookies', priority: 0.3, freq: 'monthly' as const },
+  ];
+
+  const staticEntries: MetadataRoute.Sitemap = staticPages.flatMap(({ path, priority, freq }) =>
     LOCALES.map((locale) => ({
       url: localizedUrl(path, locale),
       lastModified: new Date(),
-      changeFrequency: path === '/' || path === '/propiedades' ? ('daily' as const) : ('monthly' as const),
-      priority: path === '/' ? 1 : path === '/propiedades' ? 0.9 : 0.6,
+      changeFrequency: freq,
+      priority,
     }))
   );
 
@@ -34,5 +42,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }))
   );
 
-  return [...staticEntries, ...propertyEntries];
+  const llmEntries: MetadataRoute.Sitemap = [
+    {
+      url: `${BASE_URL}/llms.txt`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.5,
+    },
+    {
+      url: `${BASE_URL}/llms-full.txt`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.5,
+    },
+  ];
+
+  return [...staticEntries, ...propertyEntries, ...llmEntries];
 }
