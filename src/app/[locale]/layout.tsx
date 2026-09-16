@@ -9,7 +9,6 @@ import WhatsAppButton from '@/components/ui/WhatsAppButton';
 import CompareDrawer from '@/components/ui/CompareDrawer';
 import MortgageCalculatorModal from '@/components/ui/MortgageCalculatorModal';
 import PropertyQuickView from '@/components/properties/PropertyQuickView';
-import PropertyWizardModal from '@/components/ui/PropertyWizardModal';
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -37,7 +36,6 @@ export default async function LocaleLayout({
       <CompareDrawer />
       <MortgageCalculatorModal />
       <PropertyQuickView />
-      <PropertyWizardModal />
     </NextIntlClientProvider>
   );
 }

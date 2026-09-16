@@ -21,10 +21,6 @@ export default function Navbar() {
     window.dispatchEvent(new CustomEvent('open_mortgage_calculator'));
   };
 
-  const openWizard = () => {
-    window.dispatchEvent(new CustomEvent('open_property_wizard'));
-  };
-
   const isHome = pathname === '/';
   const transparent = isHome && !scrolled && !menuOpen;
 
@@ -80,15 +76,6 @@ export default function Navbar() {
               </Link>
             );
           })}
-
-          <button
-            type="button"
-            onClick={openWizard}
-            className="text-[12px] font-medium tracking-[0.1em] uppercase transition-colors cursor-pointer flex items-center gap-1"
-            style={{ color: transparent ? 'white' : 'var(--dark)' }}
-          >
-            <span>🪄</span> Asistente
-          </button>
 
           <button
             type="button"
@@ -159,16 +146,6 @@ export default function Navbar() {
               {label}
             </Link>
           ))}
-          <button
-            type="button"
-            onClick={() => {
-              setMenuOpen(false);
-              openWizard();
-            }}
-            className="text-left text-[13px] font-medium tracking-[0.1em] uppercase py-2 border-b text-[var(--mid)] border-gray-100 flex items-center gap-2"
-          >
-            <span>🪄</span> Asistente de búsqueda
-          </button>
           <button
             type="button"
             onClick={() => {
