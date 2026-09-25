@@ -27,11 +27,11 @@ export default function SortSelect({ currentSort, label, options }: Props) {
 
   return (
     <div className="flex items-center gap-2">
-      <label className="text-xs text-gray-500 whitespace-nowrap">{label}:</label>
+      <label className="whitespace-nowrap text-[13px] text-[var(--mid)]">{label}:</label>
       <select
         value={currentSort}
         onChange={handleChange}
-        className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--gold)] bg-white"
+        className="rounded-full border border-[var(--line)] bg-white px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--rose)]"
       >
         {options.map((opt) => (
           <option key={opt.value} value={opt.value}>{opt.label}</option>

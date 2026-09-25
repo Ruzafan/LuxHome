@@ -16,7 +16,7 @@ export default function ContactoPage() {
   const contactSchema = {
     '@context': 'https://schema.org',
     '@type': 'ContactPage',
-    name: 'Contacto — LuxHome Inmobiliaria',
+    name: 'Contacto | LuxHome Inmobiliaria',
     description: 'Ponte en contacto con nuestro equipo inmobiliario en el Vallès Occidental. Atención telefónica, WhatsApp y correo.',
     url: 'https://luxhomein.com/contacto',
     mainEntity: {

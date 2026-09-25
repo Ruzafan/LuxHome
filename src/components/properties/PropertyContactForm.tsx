@@ -42,8 +42,8 @@ export default function PropertyContactForm({ propertyRef, propertyTitle }: Prop
     return (
       <div className="flex flex-col items-center justify-center py-8 gap-3 text-center">
         <div className="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center text-xl text-emerald-600">✓</div>
-        <p className="text-[var(--navy)] font-semibold text-sm">{t('contactSent')}</p>
-        <p className="text-gray-400 text-xs">{t('contactSentSubtitle')}</p>
+        <p className="text-sm font-medium text-[var(--dark)]">{t('contactSent')}</p>
+        <p className="text-xs text-[var(--mid)]">{t('contactSentSubtitle')}</p>
       </div>
     );
   }
@@ -51,31 +51,33 @@ export default function PropertyContactForm({ propertyRef, propertyTitle }: Prop
   return (
     <form className="space-y-3" onSubmit={handleSubmit}>
       <input type="hidden" name="ref" value={propertyRef} />
-      <input
-        type="text" name="nombre" placeholder={t('contactNamePlaceholder')} required
-        className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
-      />
-      <input
-        type="email" name="email" placeholder="Email" required
-        className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
-      />
-      <input
-        type="tel" name="telefono" placeholder={t('contactPhonePlaceholder')}
-        className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
-      />
-      <textarea
-        name="mensaje" rows={3} required
-        className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
-        defaultValue={t('contactMessageDefault', { ref: propertyRef })}
-      />
+      <div>
+        <label htmlFor="pc-nombre" className="mb-1.5 block text-[13px] text-[var(--mid)]">{t('contactNamePlaceholder')}</label>
+        <input id="pc-nombre" type="text" name="nombre" required autoComplete="name" className="w-full rounded-[var(--radius-input)] border border-[var(--line)] bg-[var(--bg)] px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--rose)]" />
+      </div>
+      <div>
+        <label htmlFor="pc-email" className="mb-1.5 block text-[13px] text-[var(--mid)]">Email</label>
+        <input id="pc-email" type="email" name="email" required autoComplete="email" className="w-full rounded-[var(--radius-input)] border border-[var(--line)] bg-[var(--bg)] px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--rose)]" />
+      </div>
+      <div>
+        <label htmlFor="pc-tel" className="mb-1.5 block text-[13px] text-[var(--mid)]">{t('contactPhonePlaceholder')}</label>
+        <input id="pc-tel" type="tel" name="telefono" autoComplete="tel" className="w-full rounded-[var(--radius-input)] border border-[var(--line)] bg-[var(--bg)] px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--rose)]" />
+      </div>
+      <div>
+        <label htmlFor="pc-msg" className="sr-only">Mensaje</label>
+        <textarea
+          id="pc-msg" name="mensaje" rows={3} required
+          className="w-full rounded-[var(--radius-input)] border border-[var(--line)] bg-[var(--bg)] px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--rose)] resize-none"
+          defaultValue={t('contactMessageDefault', { ref: propertyRef })}
+        />
+      </div>
       {status === 'error' && (
-        <p className="text-xs text-red-500">{t('contactError')}</p>
+        <p className="text-xs text-red-700">{t('contactError')}</p>
       )}
       <button
         type="submit"
         disabled={status === 'sending'}
-        className="w-full py-3 font-semibold rounded-lg hover:opacity-90 transition-opacity disabled:opacity-60 disabled:cursor-not-allowed text-sm"
-        style={{ background: 'var(--rose)', color: 'var(--dark)' }}
+        className="btn btn-rose w-full disabled:cursor-not-allowed disabled:opacity-60"
       >
         {status === 'sending' ? t('contactSending') : t('contactSubmit')}
       </button>

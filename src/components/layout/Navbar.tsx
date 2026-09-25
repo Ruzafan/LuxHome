@@ -2,19 +2,24 @@
 
 import Image from 'next/image';
 import { Link, usePathname } from '@/i18n/navigation';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useTranslations } from 'next-intl';
+import { Calculator, List, X } from '@phosphor-icons/react';
 
 export default function Navbar() {
   const t = useTranslations('nav');
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const sentinelRef = useRef<HTMLDivElement>(null);
 
+  // Sentinel at the top of the document: once it leaves the viewport the page has scrolled.
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    const el = sentinelRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(([entry]) => setScrolled(!entry.isIntersecting));
+    observer.observe(el);
+    return () => observer.disconnect();
   }, []);
 
   const openMortgage = () => {
@@ -32,141 +37,119 @@ export default function Navbar() {
   ];
 
   return (
-    <header
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
-      style={
-        transparent
-          ? {}
-          : {
-              background: 'oklch(98.5% 0.004 240 / 0.92)',
-              backdropFilter: 'blur(16px)',
-              boxShadow: '0 1px 0 oklch(0% 0% 0% / 0.07)',
-            }
-      }
-    >
-      <div className="px-4 md:px-12 flex items-center justify-between h-[72px]">
-        {/* Logo */}
-        <Link href="/">
-          <Image
-            src="/logo.png"
-            alt="LuxHome Inmobiliaria"
-            width={140}
-            height={48}
-            className="h-10 w-auto object-contain"
-            style={{ filter: transparent ? 'brightness(0) invert(1)' : 'none' }}
-            priority
-          />
-        </Link>
+    <>
+      <div ref={sentinelRef} aria-hidden className="pointer-events-none absolute left-0 top-0 h-16 w-px" />
+      <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 md:px-6">
+        <div
+          className="mx-auto flex h-16 max-w-[1320px] items-center justify-between rounded-full pl-5 pr-2 transition-all duration-500 md:pl-7"
+          style={
+            transparent
+              ? { background: 'transparent' }
+              : {
+                  background: 'oklch(99% 0.004 340 / 0.82)',
+                  backdropFilter: 'blur(18px) saturate(160%)',
+                  WebkitBackdropFilter: 'blur(18px) saturate(160%)',
+                  boxShadow: 'inset 0 0 0 1px oklch(19% 0.014 340 / 0.06), 0 10px 30px -12px oklch(30% 0.04 340 / 0.25)',
+                }
+          }
+        >
+          <Link href="/" className="shrink-0">
+            <Image
+              src="/logo.png"
+              alt="LuxHome Inmobiliaria"
+              width={140}
+              height={48}
+              className="h-9 w-auto object-contain transition-[filter] duration-500"
+              style={{ filter: transparent ? 'brightness(0) invert(1)' : 'none' }}
+              preload
+            />
+          </Link>
 
-        {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-7">
-          {links.map(({ href, label }) => {
-            const active = pathname === href || (href !== '/' && pathname.startsWith(href));
-            return (
-              <Link
-                key={href}
-                href={href}
-                className="text-[13px] font-medium tracking-[0.1em] uppercase transition-colors duration-200"
-                style={{
-                  color: transparent
-                    ? active ? 'white' : 'oklch(100% 0 0 / 0.82)'
-                    : active ? 'var(--dark)' : 'var(--mid)',
-                }}
-              >
-                {label}
-              </Link>
-            );
-          })}
+          {/* Desktop nav */}
+          <nav className="hidden items-center gap-1 md:flex">
+            {/* "Vender" lives in the CTA pill on desktop, so it is not repeated as a link */}
+            {links.filter(({ href }) => href !== '/vender-mi-inmueble').map(({ href, label }) => {
+              const active = pathname === href || (href !== '/' && pathname.startsWith(href));
+              return (
+                <Link
+                  key={href}
+                  href={href}
+                  className="rounded-full px-4 py-2 text-[14px] font-normal transition-colors duration-200"
+                  style={{
+                    color: transparent
+                      ? active ? 'white' : 'oklch(100% 0 0 / 0.8)'
+                      : active ? 'var(--dark)' : 'var(--mid)',
+                    background: active
+                      ? transparent ? 'oklch(100% 0 0 / 0.14)' : 'var(--rose-soft)'
+                      : 'transparent',
+                  }}
+                >
+                  {label}
+                </Link>
+              );
+            })}
 
+            <button
+              type="button"
+              onClick={openMortgage}
+              className="flex cursor-pointer items-center gap-1.5 rounded-full px-4 py-2 text-[14px] transition-colors"
+              style={{ color: transparent ? 'oklch(100% 0 0 / 0.8)' : 'var(--mid)' }}
+            >
+              <Calculator size={17} weight="light" />
+              Hipoteca
+            </button>
+
+            <Link href="/vender-mi-inmueble" className="btn btn-rose ml-2 !py-3">
+              {t('sell')}
+            </Link>
+          </nav>
+
+          {/* Mobile toggle */}
           <button
-            type="button"
-            onClick={openMortgage}
-            className="text-[12px] font-medium tracking-[0.1em] uppercase transition-colors cursor-pointer flex items-center gap-1"
+            className="flex h-12 w-12 items-center justify-center rounded-full md:hidden"
+            onClick={() => setMenuOpen((o) => !o)}
+            aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
+            aria-expanded={menuOpen}
             style={{ color: transparent ? 'white' : 'var(--dark)' }}
           >
-            <span>🧮</span> Hipoteca
+            {menuOpen ? <X size={22} weight="light" /> : <List size={22} weight="light" />}
           </button>
-
-          <Link
-            href="/vender-mi-inmueble"
-            className="text-[12px] font-semibold tracking-[0.12em] uppercase px-5 py-2.5 transition-all duration-200 rounded-lg shadow-sm"
-            style={{ background: 'var(--rose)', color: 'var(--dark)' }}
-          >
-            {t('sell')}
-          </Link>
-        </nav>
-
-        {/* Mobile hamburger */}
-        <button
-          className="md:hidden flex flex-col gap-1.5 p-2"
-          onClick={() => setMenuOpen((o) => !o)}
-          aria-label="Menú"
-        >
-          <span
-            className="block w-6 h-px transition-all duration-300"
-            style={{
-              background: transparent ? 'white' : 'var(--dark)',
-              transform: menuOpen ? 'rotate(45deg) translate(0, 6px)' : 'none',
-            }}
-          />
-          <span
-            className="block w-6 h-px transition-all duration-300"
-            style={{
-              background: transparent ? 'white' : 'var(--dark)',
-              opacity: menuOpen ? 0 : 1,
-            }}
-          />
-          <span
-            className="block w-6 h-px transition-all duration-300"
-            style={{
-              background: transparent ? 'white' : 'var(--dark)',
-              transform: menuOpen ? 'rotate(-45deg) translate(0, -6px)' : 'none',
-            }}
-          />
-        </button>
-      </div>
-
-      {/* Mobile menu */}
-      {menuOpen && (
-        <div
-          className="md:hidden px-6 py-6 flex flex-col gap-4 border-t"
-          style={{
-            background: 'oklch(98.5% 0.004 240 / 0.96)',
-            backdropFilter: 'blur(16px)',
-            borderColor: 'oklch(0% 0% 0% / 0.07)',
-          }}
-        >
-          {links.map(({ href, label }) => (
-            <Link
-              key={href}
-              href={href}
-              onClick={() => setMenuOpen(false)}
-              className="text-[13px] font-medium tracking-[0.1em] uppercase py-2 border-b transition-colors"
-              style={{ color: 'var(--mid)', borderColor: 'oklch(0% 0% 0% / 0.07)' }}
-            >
-              {label}
-            </Link>
-          ))}
-          <button
-            type="button"
-            onClick={() => {
-              setMenuOpen(false);
-              openMortgage();
-            }}
-            className="text-left text-[13px] font-medium tracking-[0.1em] uppercase py-2 border-b text-[var(--mid)] border-gray-100 flex items-center gap-2"
-          >
-            <span>🧮</span> Calculadora Hipotecaria
-          </button>
-          <Link
-            href="/vender-mi-inmueble"
-            onClick={() => setMenuOpen(false)}
-            className="mt-1 text-center text-[12px] font-semibold tracking-[0.12em] uppercase px-6 py-3 rounded-xl"
-            style={{ background: 'var(--rose)', color: 'var(--dark)' }}
-          >
-            {t('sell')}
-          </Link>
         </div>
-      )}
-    </header>
+
+        {/* Mobile menu */}
+        {menuOpen && (
+          <div
+            className="glass-panel animate-fade-in mx-auto mt-2 flex max-w-[1320px] flex-col gap-1 rounded-[var(--radius-card)] p-3 md:hidden"
+          >
+            {links.map(({ href, label }) => {
+              const active = pathname === href || (href !== '/' && pathname.startsWith(href));
+              return (
+                <Link
+                  key={href}
+                  href={href}
+                  onClick={() => setMenuOpen(false)}
+                  className="rounded-2xl px-4 py-3 text-[15px] transition-colors"
+                  style={{ color: 'var(--dark)', background: active ? 'var(--rose-soft)' : 'transparent' }}
+                >
+                  {label}
+                </Link>
+              );
+            })}
+            <button
+              type="button"
+              onClick={() => {
+                setMenuOpen(false);
+                openMortgage();
+              }}
+              className="flex items-center gap-2 rounded-2xl px-4 py-3 text-left text-[15px]"
+              style={{ color: 'var(--dark)' }}
+            >
+              <Calculator size={18} weight="light" />
+              Calculadora hipotecaria
+            </button>
+          </div>
+        )}
+      </header>
+    </>
   );
 }

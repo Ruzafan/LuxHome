@@ -1,22 +1,34 @@
 @import "tailwindcss";
 
 :root {
-  --bg:         oklch(98.5% 0.004 240);
-  --bg2:        oklch(96%   0.006 235);
-  --dark:       oklch(14%   0.012 230);
-  --mid:        oklch(42%   0.010 230);
-  --subtle:     oklch(70%   0.008 230);
+  --bg:         oklch(98.5% 0.004 340);
+  --bg2:        oklch(95.5% 0.010 340);
+  --surface:    oklch(100% 0 0);
+  --dark:       oklch(19%   0.014 340);
+  --mid:        oklch(42%   0.012 340);
+  --subtle:     oklch(58%   0.010 340);
+  --line:       oklch(19% 0.014 340 / 0.08);
   --accent:     #9a5b7b;
   --rose:       #deaec2;
+  --rose-soft:  #f6e9ef;
   --rose-dark:  #c48fa8;
-  --gold:       #c9a84c;
-  --gold-light: #e8d08a;
-  --gold-dark:  #9a7a30;
-  /* backward compat */
-  --navy:       oklch(14%   0.012 230);
-  --navy-light: oklch(28%   0.012 230);
-  --cream:      oklch(98.5% 0.004 240);
-  --text-main:  oklch(14%   0.012 230);
+  /* backward compat: gold tokens now resolve to the brand rose family */
+  --gold:       var(--accent);
+  --gold-light: var(--rose);
+  --gold-dark:  var(--accent);
+  --navy:       var(--dark);
+  --navy-light: oklch(30% 0.014 340);
+  --cream:      var(--bg);
+  --text-main:  var(--dark);
+
+  /* Shape system: panels + media 28px, cards 24px, inputs 14px, buttons + chips pill */
+  --radius-panel: 28px;
+  --radius-card:  24px;
+  --radius-input: 14px;
+
+  /* Shadows tinted to the brand hue, never pure black */
+  --shadow-soft: 0 1px 2px oklch(30% 0.04 340 / 0.06), 0 12px 32px -12px oklch(30% 0.04 340 / 0.18);
+  --shadow-lift: 0 2px 4px oklch(30% 0.04 340 / 0.06), 0 28px 60px -20px oklch(30% 0.04 340 / 0.30);
 }
 
 @theme inline {
@@ -24,10 +36,18 @@
   --color-gold-light: var(--gold-light);
   --color-gold-dark:  var(--gold-dark);
   --color-accent:     var(--accent);
+  --color-rose:       var(--rose);
+  --color-rose-soft:  var(--rose-soft);
   --color-navy:       var(--dark);
   --color-navy-light: var(--navy-light);
   --color-cream:      var(--bg);
   --color-dark:       var(--dark);
+  --color-mid:        var(--mid);
+  --color-subtle:     var(--subtle);
+  --color-bg2:        var(--bg2);
+  --radius-panel:     var(--radius-panel);
+  --radius-card:      var(--radius-card);
+  --radius-input:     var(--radius-input);
   --font-sans:        var(--font-jost);
   --font-serif:       var(--font-cormorant);
   --font-mono:        var(--font-geist-mono);
@@ -46,6 +66,17 @@ body {
   overflow-x: hidden;
 }
 
+/* ─── Layout ─── */
+.container-lux {
+  width: 100%;
+  max-width: 1320px;
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+@media (min-width: 768px) {
+  .container-lux { padding-inline: 2rem; }
+}
+
 /* ─── Legacy utility classes ─── */
 .text-gold  { color: var(--gold); }
 .bg-gold    { background-color: var(--gold); }
@@ -55,95 +86,104 @@ body {
   background: linear-gradient(135deg, var(--dark) 0%, var(--navy-light) 100%);
 }
 
-.gold-gradient {
-  background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 60%, var(--gold-light) 100%);
-}
-
-.gold-line::after {
-  content: '';
-  display: block;
-  width: 60px;
-  height: 2px;
-  background: var(--accent);
-  margin-top: 12px;
-}
-.gold-line-center::after {
-  margin-left: auto;
-  margin-right: auto;
-}
-
 /* ─── Typography ─── */
-.font-playfair {
+.font-playfair,
+.font-display {
   font-family: var(--font-cormorant), Georgia, serif;
 }
 
-/* ─── Animations ─── */
+/* ─── Buttons ─── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+  border-radius: 999px;
+  padding: 0.9rem 1.6rem;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s, color 0.25s, box-shadow 0.35s;
+}
+.btn:active { transform: scale(0.98); }
+.btn-primary { background: var(--dark); color: white; }
+.btn-primary:hover { background: var(--accent); box-shadow: var(--shadow-soft); }
+.btn-rose { background: var(--rose); color: var(--dark); }
+.btn-rose:hover { background: var(--rose-dark); }
+.btn-ghost-light {
+  background: oklch(100% 0 0 / 0.14);
+  color: white;
+  border: 1px solid oklch(100% 0 0 / 0.35);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.btn-ghost-light:hover { background: oklch(100% 0 0 / 0.24); }
+
+/* ─── Animations (all gated behind reduced-motion) ─── */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-.animate-fade-in {
-  animation: fadeIn 0.5s ease-out both;
-}
-
 @keyframes kenBurns {
-  from { transform: scale(1.0) translate(0, 0); }
-  to   { transform: scale(1.12) translate(-2%, -1%); }
-}
-.hero-ken-burns {
-  animation: kenBurns 18s ease-in-out infinite alternate;
-  will-change: transform;
+  from { transform: scale(1.0); }
+  to   { transform: scale(1.08) translate(-1%, -1%); }
 }
 
-@keyframes scrollLine {
-  0%   { transform: scaleY(0); opacity: 0; transform-origin: top; }
-  40%  { transform: scaleY(1); opacity: 1; }
-  100% { transform: scaleY(1); opacity: 0; transform-origin: bottom; }
-}
-.scroll-line-anim {
-  animation: scrollLine 1.8s ease-in-out infinite;
+.reveal-delay-1 { transition-delay: 0.08s; }
+.reveal-delay-2 { transition-delay: 0.16s; }
+.reveal-delay-3 { transition-delay: 0.24s; }
+.reveal-delay-4 { transition-delay: 0.32s; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .animate-fade-in { animation: fadeIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
+  .hero-ken-burns {
+    animation: kenBurns 22s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* ─── Scroll reveal ─── */
-.reveal {
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.75s ease, transform 0.75s ease;
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
 }
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-.reveal-delay-1 { transition-delay: 0.1s; }
-.reveal-delay-2 { transition-delay: 0.2s; }
-.reveal-delay-3 { transition-delay: 0.3s; }
 
 /* ─── Card hover ─── */
 .card-hover {
-  transition: transform 0.4s cubic-bezier(.25,.8,.25,1), box-shadow 0.4s;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s;
 }
 .card-hover:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 24px 48px oklch(0% 0% 0% / 0.12);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lift);
 }
 
-/* ─── Glassmorphism & Luxury FX ─── */
+/* ─── Glass (web approximation of frosted glass, not Apple Liquid Glass) ─── */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: oklch(100% 0 0 / 0.86);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid oklch(100% 0 0 / 0.6);
+  box-shadow: inset 0 1px 0 oklch(100% 0 0 / 0.5), var(--shadow-soft);
 }
 
 .glass-dark {
-  background: rgba(18, 22, 30, 0.92);
+  background: oklch(19% 0.014 340 / 0.9);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid oklch(100% 0 0 / 0.1);
 }
 
-.gold-glow:hover {
-  box-shadow: 0 0 25px rgba(212, 175, 55, 0.35);
+@media (prefers-reduced-transparency: reduce) {
+  .glass-panel { background: var(--surface); backdrop-filter: none; -webkit-backdrop-filter: none; }
+  .glass-dark  { background: var(--dark); backdrop-filter: none; -webkit-backdrop-filter: none; }
 }
 
 .no-scrollbar::-webkit-scrollbar {
@@ -153,4 +193,3 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-

@@ -47,13 +47,13 @@ export default function PropertyGallery({ images }: Props) {
   return (
     <>
       {/* ── Grid ── */}
-      <div className="grid grid-cols-4 gap-3 rounded-2xl overflow-hidden h-96 md:h-[500px]">
+      <div className="grid grid-cols-4 gap-2 h-96 md:h-[520px]">
         {/* Imagen principal */}
         <div
-          className="col-span-4 md:col-span-3 relative cursor-pointer group"
+          className="col-span-4 md:col-span-3 relative cursor-pointer group overflow-hidden rounded-[var(--radius-panel)]"
           onClick={() => open(images.indexOf(primary))}
         >
-          <Image src={primary.url} alt={primary.alt} fill className="object-cover" priority />
+          <Image src={primary.url} alt={primary.alt} fill className="object-cover" sizes="(max-width: 768px) 100vw, 75vw" preload />
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
           {images.length > 1 && (
             <div className="absolute bottom-3 right-3 bg-black/60 text-white text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5 md:hidden">
@@ -66,23 +66,23 @@ export default function PropertyGallery({ images }: Props) {
         </div>
 
         {/* Miniaturas desktop */}
-        <div className="hidden md:flex flex-col gap-3">
+        <div className="hidden md:flex flex-col gap-2">
           {secondary.slice(0, 2).map((img) => (
             <div
               key={img.id}
-              className="relative flex-1 cursor-pointer group"
+              className="relative flex-1 cursor-pointer group overflow-hidden rounded-[var(--radius-card)]"
               onClick={() => open(images.indexOf(img))}
             >
-              <Image src={img.url} alt={img.alt} fill className="object-cover" />
+              <Image src={img.url} alt={img.alt} fill className="object-cover" sizes="25vw" />
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
             </div>
           ))}
           {secondary.length > 2 && (
             <div
-              className="relative flex-1 cursor-pointer group"
+              className="relative flex-1 cursor-pointer group overflow-hidden rounded-[var(--radius-card)]"
               onClick={() => open(images.indexOf(secondary[2]))}
             >
-              <Image src={secondary[2].url} alt={secondary[2].alt} fill className="object-cover" />
+              <Image src={secondary[2].url} alt={secondary[2].alt} fill className="object-cover" sizes="25vw" />
               <div className="absolute inset-0 bg-black/50 group-hover:bg-black/40 transition-colors flex items-center justify-center">
                 <span className="text-white font-semibold text-lg">+{secondary.length - 2}</span>
               </div>
@@ -159,7 +159,7 @@ export default function PropertyGallery({ images }: Props) {
               <button
                 key={img.id}
                 onClick={(e) => { e.stopPropagation(); setLightboxIndex(i); }}
-                className={`relative w-12 h-12 shrink-0 rounded overflow-hidden border-2 transition-colors ${
+                className={`relative w-12 h-12 shrink-0 rounded-lg overflow-hidden border-2 transition-colors ${
                   i === lightboxIndex ? 'border-[var(--gold)]' : 'border-transparent opacity-60 hover:opacity-100'
                 }`}
               >

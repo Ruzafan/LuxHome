@@ -62,7 +62,7 @@ export default function QuickSearch({ locations }: Props) {
 
       <button
         type="submit"
-        className="gold-gradient text-[var(--navy)] font-semibold px-6 py-3 rounded-xl hover:opacity-90 transition-opacity whitespace-nowrap"
+        className="btn btn-primary"
       >
         {t('button')}
       </button>

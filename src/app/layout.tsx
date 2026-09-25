@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: {
     template: '%s | LuxHome',
-    default: 'LuxHome — Inmobiliaria en el Vallès Occidental',
+    default: 'LuxHome | Inmobiliaria en el Vallès Occidental',
   },
   description:
     'Inmobiliaria en el Vallès Occidental. Bego, Vanesa, Mónica y Josep te ayudan a comprar, vender o alquilar en Santa Perpètua, Castelldefels, Vilanova del Vallès y alrededores.',
@@ -46,14 +46,14 @@ export const metadata: Metadata = {
     locale: 'es_ES',
     url: BASE_URL,
     siteName: 'LuxHome Inmobiliaria',
-    title: 'LuxHome — Inmobiliaria en el Vallès Occidental',
+    title: 'LuxHome | Inmobiliaria en el Vallès Occidental',
     description:
       'Compra, vende o alquila con Bego, Vanesa, Mónica y Josep. Especialistas en el Vallès Occidental y alrededores.',
     images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'LuxHome Inmobiliaria' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'LuxHome — Inmobiliaria en el Vallès Occidental',
+    title: 'LuxHome | Inmobiliaria en el Vallès Occidental',
     description: 'Compra, vende o alquila con Bego, Vanesa, Mónica y Josep. Especialistas en el Vallès Occidental.',
   },
   robots: { index: true, follow: true },

@@ -9,6 +9,7 @@ import PropertyContactForm from '@/components/properties/PropertyContactForm';
 import PropertyGallery from '@/components/properties/PropertyGallery';
 import ShareButton from '@/components/properties/ShareButton';
 import { getAlternates } from '@/lib/seo';
+import { ChatCircle, Phone } from '@phosphor-icons/react/ssr';
 
 interface Props {
   params: Promise<{ id: string; locale: string }>;
@@ -162,7 +163,7 @@ export default async function PropertyDetailPage({ params }: Props) {
   ];
 
   return (
-    <div className="pt-[72px] min-h-screen" style={{ background: 'var(--bg)' }}>
+    <div className="min-h-screen pt-24" style={{ background: 'var(--bg)' }}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(listingSchema) }}
@@ -172,45 +173,45 @@ export default async function PropertyDetailPage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       {/* Breadcrumb */}
-      <div className="max-w-7xl mx-auto px-6 py-4">
+      <div className="container-lux py-4">
         <nav className="flex items-center gap-2 text-[13px]" style={{ color: "var(--subtle)" }}>
           <Link href="/" className="transition-colors hover:text-[var(--dark)]">{t('home')}</Link>
           <span>/</span>
-          <Link href="/propiedades" className="hover:text-[var(--gold)] transition-colors">{t('back').replace('← ', '')}</Link>
+          <Link href="/propiedades" className="hover:text-[var(--dark)] transition-colors">{t('back').replace('← ', '')}</Link>
           <span>/</span>
           <span className="text-[var(--navy)] font-medium truncate max-w-xs">{property.title}</span>
         </nav>
       </div>
 
       {/* Image gallery */}
-      <div className="max-w-7xl mx-auto px-6 mb-10">
+      <div className="container-lux mb-10">
         <PropertyGallery images={property.images} />
       </div>
 
       {/* Main content */}
-      <div className="max-w-7xl mx-auto px-6 pb-16">
+      <div className="container-lux pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
           {/* Left — Details */}
           <div className="lg:col-span-2">
             <div className="mb-6">
               <div className="flex flex-wrap items-center gap-2 mb-4">
                 <span
-                  className="text-[10px] font-medium tracking-[0.12em] uppercase px-2 py-1"
-                  style={{ border: '1px solid var(--accent)', color: 'var(--accent)' }}
+                  className="rounded-full px-3 py-1 text-[12px]"
+                  style={{ background: 'var(--rose-soft)', color: 'var(--accent)' }}
                 >
                   {t(`operation.${property.operation}`)}
                 </span>
                 {statusLabels[property.status] && (
                   <span
-                    className="text-[10px] font-medium tracking-[0.1em] uppercase px-2 py-1"
-                    style={{ border: '1px solid var(--subtle)', color: 'var(--mid)' }}
+                    className="rounded-full px-3 py-1 text-[12px]"
+                    style={{ background: 'var(--bg2)', color: 'var(--mid)' }}
                   >
                     {statusLabels[property.status]}
                   </span>
                 )}
                 {property.isNewDevelopment && (
                   <span
-                    className="text-[10px] font-medium tracking-[0.1em] uppercase px-2 py-1 text-white"
+                    className="rounded-full px-3 py-1 text-[12px] text-white"
                     style={{ background: 'var(--dark)' }}
                   >
                     {t('newDevelopment')}
@@ -257,7 +258,7 @@ export default async function PropertyDetailPage({ params }: Props) {
             </div>
 
             {/* Quick features */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-[1px] bg-[var(--bg2)] mb-6">
+            <div className="mb-10 grid grid-cols-2 gap-2 md:grid-cols-4">
               <FeatureStat
                 icon={<svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M3 12h18M3 12V7a1 1 0 011-1h16a1 1 0 011 1v5M3 12v5a1 1 0 001 1h16a1 1 0 001-1v-5M8 8v4m8-4v4" /></svg>}
                 label={t('bedroomsLabel')}
@@ -308,7 +309,7 @@ export default async function PropertyDetailPage({ params }: Props) {
               <h2 className="font-light text-2xl mb-4" style={{ fontFamily: 'var(--font-cormorant), Georgia, serif', color: 'var(--dark)' }}>
                 {t('description')}
               </h2>
-              <p className="text-gray-600 leading-relaxed whitespace-pre-line">{property.description}</p>
+              <p className="max-w-[70ch] whitespace-pre-line text-[16px] leading-[1.8] text-[var(--mid)]">{property.description}</p>
             </div>
 
             {/* Amenities */}
@@ -316,16 +317,16 @@ export default async function PropertyDetailPage({ params }: Props) {
               <h2 className="font-light text-2xl mb-4" style={{ fontFamily: 'var(--font-cormorant), Georgia, serif', color: 'var(--dark)' }}>
                 {t('features')}
               </h2>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              <div className="flex flex-wrap gap-2">
                 {amenities.map(({ key, label, icon }) => {
                   const has = property.features[key as keyof typeof property.features] === true;
                   return (
                     <div
                       key={key}
-                      className="flex items-center gap-2 px-3 py-2.5 text-sm"
+                      className="flex items-center gap-2 rounded-full px-4 py-2 text-sm"
                       style={has
-                        ? { background: 'var(--bg2)', color: 'var(--dark)' }
-                        : { background: 'var(--bg)', color: 'var(--subtle)', textDecoration: 'line-through' }
+                        ? { background: 'var(--rose-soft)', color: 'var(--dark)' }
+                        : { background: 'transparent', color: 'var(--subtle)', textDecoration: 'line-through', boxShadow: 'inset 0 0 0 1px var(--line)' }
                       }
                     >
                       <span>{icon}</span>
@@ -337,7 +338,7 @@ export default async function PropertyDetailPage({ params }: Props) {
             </div>
 
             {/* Ref */}
-            <div className="text-xs text-gray-400 border-t border-gray-100 pt-4 flex flex-wrap gap-4">
+            <div className="flex flex-wrap gap-4 text-xs text-[var(--subtle)]">
               <span>{t('reference')} <strong>{property.reference}</strong></span>
               <span>{t('publishedAt')}: {new Date(property.publishedAt).toLocaleDateString('es-ES')}</span>
               <span>{t('updatedAt')}: {new Date(property.updatedAt).toLocaleDateString('es-ES')}</span>
@@ -347,12 +348,12 @@ export default async function PropertyDetailPage({ params }: Props) {
           {/* Right — Contact */}
           <div>
             <div className="sticky top-24">
-              <div className="bg-white overflow-hidden" style={{ border: '1px solid var(--bg2)' }}>
+              <div className="overflow-hidden rounded-[var(--radius-card)] bg-white" style={{ boxShadow: 'var(--shadow-soft)' }}>
                 <div className="p-6" style={{ background: 'var(--dark)' }}>
-                  <p className="text-[11px] font-medium tracking-[0.16em] uppercase mb-3" style={{ color: 'oklch(100% 0 0 / 0.4)' }}>{t('advisor')}</p>
+                  <p className="mb-3 text-[13px]" style={{ color: 'oklch(100% 0 0 / 0.6)' }}>{t('advisor')}</p>
                   <div className="flex items-center gap-3">
                     <div
-                      className="w-11 h-11 flex items-center justify-center text-white font-medium"
+                      className="flex h-11 w-11 items-center justify-center rounded-full font-medium text-white"
                       style={{ background: 'var(--accent)', fontFamily: 'var(--font-cormorant)', fontSize: '16px' }}
                     >
                       LH
@@ -365,17 +366,17 @@ export default async function PropertyDetailPage({ params }: Props) {
                   <div className="flex gap-2 mt-4">
                     <a
                       href="tel:+34691294443"
-                      className="flex-1 flex items-center justify-center gap-2 py-2.5 text-white text-xs font-medium tracking-wide transition-colors"
+                      className="flex flex-1 items-center justify-center gap-2 rounded-full py-2.5 text-[13px] text-white transition-colors hover:bg-white/20"
                       style={{ background: 'oklch(100% 0 0 / 0.1)' }}
                     >
-                      📞 {t('callButton')}
+                      <Phone size={16} weight="light" /> {t('callButton')}
                     </a>
                     <a
                       href="https://wa.me/34691294443"
-                      className="flex-1 flex items-center justify-center gap-2 py-2.5 text-white text-xs font-medium tracking-wide transition-colors"
+                      className="flex flex-1 items-center justify-center gap-2 rounded-full py-2.5 text-[13px] text-white transition-colors hover:bg-white/20"
                       style={{ background: 'oklch(100% 0 0 / 0.1)' }}
                     >
-                      💬 {t('whatsappButton')}
+                      <ChatCircle size={16} weight="light" /> {t('whatsappButton')}
                     </a>
                   </div>
                 </div>
@@ -390,8 +391,8 @@ export default async function PropertyDetailPage({ params }: Props) {
                 </div>
               </div>
 
-              <div className="mt-[2px] bg-white p-4 flex items-center justify-between" style={{ border: '1px solid var(--bg2)' }}>
-                <p className="text-sm text-gray-500">{t('reference')} {property.reference}</p>
+              <div className="mt-3 flex items-center justify-between rounded-full bg-white px-5 py-3" style={{ boxShadow: 'inset 0 0 0 1px var(--line)' }}>
+                <p className="text-sm text-[var(--mid)]">{t('reference')} {property.reference}</p>
                 <ShareButton
                   title={property.title}
                   url={`https://luxhomein.com/propiedades/${property.id}`}
@@ -403,11 +404,11 @@ export default async function PropertyDetailPage({ params }: Props) {
 
         {/* Related */}
         {related.length > 0 && (
-          <div className="mt-16">
-            <h2 className="font-light text-3xl mb-6" style={{ fontFamily: 'var(--font-cormorant), Georgia, serif', color: 'var(--dark)' }}>
+          <div className="mt-24">
+            <h2 className="mb-8 font-light" style={{ fontFamily: 'var(--font-cormorant), Georgia, serif', color: 'var(--dark)', fontSize: 'clamp(32px, 3.6vw, 48px)' }}>
               {t('related')}
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
               {related.map((p) => (
                 <PropertyCard key={p.id} property={p} />
               ))}
@@ -421,11 +422,11 @@ export default async function PropertyDetailPage({ params }: Props) {
 
 function FeatureStat({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
-    <div className="flex items-center gap-2.5 px-4 py-3 bg-[var(--bg)]">
+    <div className="flex items-center gap-3 rounded-[var(--radius-input)] bg-white px-4 py-3.5" style={{ boxShadow: 'inset 0 0 0 1px var(--line)' }}>
       <span style={{ color: 'var(--accent)' }}>{icon}</span>
       <div>
-        <p className="text-[13px] font-medium leading-tight" style={{ color: 'var(--dark)' }}>{value}</p>
-        <p className="text-[11px] leading-tight" style={{ color: 'var(--subtle)' }}>{label}</p>
+        <p className="text-[15px] font-normal leading-tight" style={{ color: 'var(--dark)' }}>{value}</p>
+        <p className="text-[12px] leading-tight" style={{ color: 'var(--mid)' }}>{label}</p>
       </div>
     </div>
   );

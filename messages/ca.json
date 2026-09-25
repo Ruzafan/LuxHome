@@ -74,7 +74,16 @@
       "title": "Busques alguna cosa especial?",
       "subtitle": "Explica'ns quina propietat busques i els nostres assessors et contactaran en menys de 24 hores.",
       "button": "Parlar amb un assessor"
-    }
+    },
+    "heroText": "La Bego, la Vanesa, la Mònica i en Josep t'acompanyen a comprar, vendre o llogar casa teva al Vallès.",
+    "team": {
+      "badge": "L'equip",
+      "title": "Les persones darrere de LuxHome",
+      "text": "Anys d'experiència al Vallès Occidental. T'acompanyem des de la primera visita fins a la signatura davant notari, amb un tracte proper i honest.",
+      "years": "anys d'experiència",
+      "rating": "valoració a Google"
+    },
+    "reviewsNote": "Opinions reals de clients a Google"
   },
   "properties": {
     "badge": "El nostre catàleg",
@@ -182,10 +191,22 @@
     "values": {
       "badge": "El que ens defineix",
       "title": "Els nostres valors",
-      "proximity": { "title": "Proximitat", "desc": "Tractem cada client de forma personal. Entenem que comprar o vendre una casa és una de les decisions més importants de la teva vida." },
-      "honesty": { "title": "Honestedat", "desc": "Sempre et direm la veritat sobre el mercat i la teva propietat, encara que no sigui el que esperes escoltar." },
-      "rigor": { "title": "Rigor", "desc": "Cada operació la gestionem amb màxima professionalitat: documentació, terminis i coordinació sense sorpreses." },
-      "communication": { "title": "Comunicació", "desc": "Et mantenim informat en tot moment. Res d'esperes ni silenci: sabràs com avança el teu procés." }
+      "proximity": {
+        "title": "Proximitat",
+        "desc": "Tractem cada client de forma personal. Entenem que comprar o vendre una casa és una de les decisions més importants de la teva vida."
+      },
+      "honesty": {
+        "title": "Honestedat",
+        "desc": "Sempre et direm la veritat sobre el mercat i la teva propietat, encara que no sigui el que esperes escoltar."
+      },
+      "rigor": {
+        "title": "Rigor",
+        "desc": "Cada operació la gestionem amb màxima professionalitat: documentació, terminis i coordinació sense sorpreses."
+      },
+      "communication": {
+        "title": "Comunicació",
+        "desc": "Et mantenim informat en tot moment. Res d'esperes ni silenci: sabràs com avança el teu procés."
+      }
     },
     "team": {
       "badge": "L'equip",
@@ -234,7 +255,7 @@
       "errorMessage": "No s'ha pogut enviar el missatge. Torna-ho a intentar o escriu-nos per WhatsApp."
     },
     "office": "Oficina",
-    "hours": "Dl–Dv 9:30–13:30 i 16:00–19:00",
+    "hours": "Dl-Dv 9:30-13:30 i 16:00-19:00",
     "whatsapp": {
       "title": "Prefereixes WhatsApp?",
       "subtitle": "Escriu-nos directament i t'atenem al moment.",
@@ -254,7 +275,7 @@
     "penthouses": "Àtics",
     "office": "Oficina",
     "schedule": "Horari",
-    "hours": "Dl–Dv: 9:30–13:30 i 16:00–19:00",
+    "hours": "Dl-Dv: 9:30-13:30 i 16:00-19:00",
     "rights": "© {year} LuxHome. Tots els drets reservats.",
     "privacy": "Política de Privadesa",
     "cookies": "Cookies",

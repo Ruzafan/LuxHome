@@ -74,7 +74,16 @@
       "title": "Looking for something special?",
       "subtitle": "Tell us what property you are looking for and our advisors will contact you within 24 hours.",
       "button": "Talk to an advisor"
-    }
+    },
+    "heroText": "Bego, Vanesa, Mónica and Josep help you buy, sell or rent your home in the Vallès.",
+    "team": {
+      "badge": "The team",
+      "title": "The people behind LuxHome",
+      "text": "Years of experience in the Vallès Occidental. We are with you from the first viewing to the signing at the notary, with a close and honest approach.",
+      "years": "years of experience",
+      "rating": "rating on Google"
+    },
+    "reviewsNote": "Real client reviews on Google"
   },
   "properties": {
     "badge": "Our listings",
@@ -182,10 +191,22 @@
     "values": {
       "badge": "What defines us",
       "title": "Our values",
-      "proximity": { "title": "Personal touch", "desc": "We treat every client personally. We understand that buying or selling a home is one of the most important decisions of your life." },
-      "honesty": { "title": "Honesty", "desc": "We will always tell you the truth about the market and your property, even if it is not what you expect to hear." },
-      "rigor": { "title": "Rigour", "desc": "Every transaction is managed with the utmost professionalism: documentation, timelines and coordination without surprises." },
-      "communication": { "title": "Communication", "desc": "We keep you informed at all times. No waiting or silence: you will know exactly how your process is progressing." }
+      "proximity": {
+        "title": "Personal touch",
+        "desc": "We treat every client personally. We understand that buying or selling a home is one of the most important decisions of your life."
+      },
+      "honesty": {
+        "title": "Honesty",
+        "desc": "We will always tell you the truth about the market and your property, even if it is not what you expect to hear."
+      },
+      "rigor": {
+        "title": "Rigour",
+        "desc": "Every transaction is managed with the utmost professionalism: documentation, timelines and coordination without surprises."
+      },
+      "communication": {
+        "title": "Communication",
+        "desc": "We keep you informed at all times. No waiting or silence: you will know exactly how your process is progressing."
+      }
     },
     "team": {
       "badge": "The team",
@@ -234,7 +255,7 @@
       "errorMessage": "Could not send the message. Please try again or contact us via WhatsApp."
     },
     "office": "Office",
-    "hours": "Mon–Fri 9:30–13:30 and 16:00–19:00",
+    "hours": "Mon-Fri 9:30-13:30 and 16:00-19:00",
     "whatsapp": {
       "title": "Prefer WhatsApp?",
       "subtitle": "Message us directly and we will get back to you right away.",
@@ -254,7 +275,7 @@
     "penthouses": "Penthouses",
     "office": "Office",
     "schedule": "Hours",
-    "hours": "Mon–Fri: 9:30–13:30 and 16:00–19:00",
+    "hours": "Mon-Fri: 9:30-13:30 and 16:00-19:00",
     "rights": "© {year} LuxHome. All rights reserved.",
     "privacy": "Privacy Policy",
     "cookies": "Cookies",

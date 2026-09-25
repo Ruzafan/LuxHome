@@ -1,3 +1,4 @@
+import React from 'react';
 import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import { getPathname } from '@/i18n/navigation';
@@ -9,6 +10,8 @@ import LocationAutocomplete from '@/components/ui/LocationAutocomplete';
 import SortSelect from '@/components/properties/SortSelect';
 import FilterDrawer from '@/components/properties/FilterDrawer';
 import { getAlternates } from '@/lib/seo';
+import PageHeader from '@/components/layout/PageHeader';
+import { CaretLeft, CaretRight, HouseLine, X } from '@phosphor-icons/react/ssr';
 
 export async function generateMetadata({
   params,
@@ -84,7 +87,7 @@ export default async function PropiedadesPage({
   const itemListSchema = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: 'Propiedades en venta y alquiler — LuxHome',
+    name: 'Propiedades en venta y alquiler | LuxHome',
     description: 'Listado de propiedades disponibles en el Vallès Occidental gestionadas por LuxHome Inmobiliaria.',
     url: canonicalBase,
     numberOfItems: total,
@@ -108,23 +111,10 @@ export default async function PropiedadesPage({
       {page < totalPages && (
         <link rel="next" href={`${canonicalBase}?pagina=${page + 1}`} />
       )}
-    <div className="pt-20 min-h-screen bg-[var(--cream)]">
-      {/* Page header */}
-      <div className="luxury-gradient py-16 px-6">
-        <div className="max-w-7xl mx-auto">
-          <p className="text-[var(--rose)] text-sm font-semibold tracking-[0.3em] uppercase mb-2">
-            {t('badge')}
-          </p>
-          <h1 className="text-white font-light text-4xl mb-2 font-playfair">
-            {t('title')}
-          </h1>
-          <p className="text-white/60 text-sm">
-            {t('results', { count: total })}
-          </p>
-        </div>
-      </div>
+    <div className="min-h-screen bg-[var(--cream)]">
+      <PageHeader eyebrow={t('badge')} title={t('title')} subtitle={t('results', { count: total })} />
 
-      <div className="max-w-7xl mx-auto px-6 py-10 flex flex-col lg:flex-row gap-8">
+      <div className="container-lux flex flex-col gap-8 py-10 lg:flex-row">
         {/* ─── Sidebar Filters (desktop) ───────────────────────────────────────── */}
         <aside className="hidden lg:block lg:w-72 shrink-0">
           <FilterPanel currentParams={rawParams} locations={locations} baseUrl={baseUrl} t={t} />
@@ -173,17 +163,19 @@ export default async function PropiedadesPage({
           <ActiveFilters params={rawParams} baseUrl={baseUrl} t={t} />
 
           {properties.length === 0 ? (
-            <div className="text-center py-20">
-              <svg className="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955a1.125 1.125 0 011.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" /></svg>
-              <h2 className="text-xl font-semibold text-[var(--navy)] mb-2">{t('noResults')}</h2>
-              <p className="text-gray-500 mb-6">{t('noResultsHint')}</p>
-              <Link href="/propiedades" className="text-[var(--gold)] font-medium hover:underline">
-                {t('results', { count: 0 }).replace('0 ', '')}
+            <div className="flex flex-col items-center rounded-[var(--radius-panel)] bg-white px-6 py-20 text-center" style={{ boxShadow: 'inset 0 0 0 1px var(--line)' }}>
+              <span className="mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--rose-soft)] text-[var(--accent)]">
+                <HouseLine size={30} weight="light" />
+              </span>
+              <h2 className="font-display mb-2 text-[30px] font-light">{t('noResults')}</h2>
+              <p className="mb-7 max-w-[42ch] text-[15px] text-[var(--mid)]">{t('noResultsHint')}</p>
+              <Link href="/propiedades" className="btn btn-primary">
+                {t('filters.clear')}
               </Link>
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
                 {properties.map((property) => (
                   <PropertyCard key={property.id} property={property} />
                 ))}
@@ -193,9 +185,9 @@ export default async function PropiedadesPage({
                 <div className="flex justify-center items-center gap-1 mt-10 flex-wrap">
                   {/* Flecha anterior */}
                   {page > 1 ? (
-                    <PaginationLink page={page - 1} currentPage={page} params={rawParams} baseUrl={baseUrl} label="‹" />
+                    <PaginationLink page={page - 1} currentPage={page} params={rawParams} baseUrl={baseUrl} label={<CaretLeft size={16} />} ariaLabel="Página anterior" />
                   ) : (
-                    <span className="w-10 h-10 flex items-center justify-center text-gray-300 text-lg select-none">‹</span>
+                    <span className="flex h-10 w-10 select-none items-center justify-center text-[var(--subtle)] opacity-50"><CaretLeft size={16} /></span>
                   )}
 
                   {buildPageList(page, totalPages).map((p, i) =>
@@ -208,9 +200,9 @@ export default async function PropiedadesPage({
 
                   {/* Flecha siguiente */}
                   {page < totalPages ? (
-                    <PaginationLink page={page + 1} currentPage={page} params={rawParams} baseUrl={baseUrl} label="›" />
+                    <PaginationLink page={page + 1} currentPage={page} params={rawParams} baseUrl={baseUrl} label={<CaretRight size={16} />} ariaLabel="Página siguiente" />
                   ) : (
-                    <span className="w-10 h-10 flex items-center justify-center text-gray-300 text-lg select-none">›</span>
+                    <span className="flex h-10 w-10 select-none items-center justify-center text-[var(--subtle)] opacity-50"><CaretRight size={16} /></span>
                   )}
                 </div>
               )}
@@ -239,23 +231,23 @@ function FilterPanel({
   t: TFn;
 }) {
   return (
-    <form action={baseUrl} method="get" className="bg-white rounded-xl shadow-md p-6 sticky top-24">
-      <h2 className="font-bold text-[var(--navy)] text-lg mb-5 pb-3 border-b border-gray-100">
+    <form action={baseUrl} method="get" className="sticky top-24 rounded-[var(--radius-card)] bg-white p-6" style={{ boxShadow: 'inset 0 0 0 1px var(--line)' }}>
+      <h2 className="font-display mb-5 text-[26px] font-light text-[var(--dark)]">
         {t('filters.title')}
       </h2>
 
       {/* Operación */}
       <div className="mb-5">
-        <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
+        <label className="mb-2 block text-[13px] font-normal text-[var(--mid)]">
           {t('filters.operation')}
         </label>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           {[
             { value: '', label: t('filters.allOperations') },
             { value: 'venta', label: t('filters.buy') },
             { value: 'alquiler', label: t('filters.rent') },
           ].map(({ value, label }) => (
-            <label key={value} className="flex-1">
+            <label key={value} className="flex-auto">
               <input
                 type="radio"
                 name="operacion"
@@ -263,7 +255,7 @@ function FilterPanel({
                 defaultChecked={currentParams.operacion === value || (!currentParams.operacion && value === '')}
                 className="peer sr-only"
               />
-              <span className="block text-center text-xs py-2 px-2 rounded-lg border border-gray-200 cursor-pointer peer-checked:bg-[var(--navy)] peer-checked:text-white peer-checked:border-[var(--navy)] hover:border-[var(--gold)] transition-colors">
+              <span className="block whitespace-nowrap text-center text-xs py-2 px-3 rounded-full border border-[var(--line)] cursor-pointer peer-checked:bg-[var(--dark)] peer-checked:text-white peer-checked:border-[var(--dark)] hover:border-[var(--accent)] peer-focus-visible:ring-2 peer-focus-visible:ring-[var(--rose)] transition-colors">
                 {label}
               </span>
             </label>
@@ -273,14 +265,14 @@ function FilterPanel({
 
       {/* Tipo */}
       <div className="mb-5">
-        <label htmlFor="tipo" className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
+        <label htmlFor="tipo" className="mb-2 block text-[13px] font-normal text-[var(--mid)]">
           {t('filters.type')}
         </label>
         <select
           id="tipo"
           name="tipo"
           defaultValue={currentParams.tipo ?? ''}
-          className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
+          className="w-full rounded-[var(--radius-input)] border border-[var(--line)] bg-[var(--bg)] px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--rose)]"
         >
           <option value="">{t('filters.allTypes')}</option>
           <option value="piso">{t('filters.apartment')}</option>
@@ -294,7 +286,7 @@ function FilterPanel({
 
       {/* Ciudad */}
       <div className="mb-5">
-        <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
+        <label className="mb-2 block text-[13px] font-normal text-[var(--mid)]">
           {t('filters.location')}
         </label>
         <LocationAutocomplete
@@ -302,13 +294,13 @@ function FilterPanel({
           defaultValue={currentParams.ciudad ?? ''}
           placeholder="Ej: Castelldefels..."
           name="ciudad"
-          inputClassName="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
+          inputClassName="w-full rounded-[var(--radius-input)] border border-[var(--line)] bg-[var(--bg)] px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--rose)]"
         />
       </div>
 
       {/* Precio */}
       <div className="mb-5">
-        <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
+        <label className="mb-2 block text-[13px] font-normal text-[var(--mid)]">
           Precio (€)
         </label>
         <div className="flex gap-2">
@@ -317,21 +309,21 @@ function FilterPanel({
             name="precioMin"
             defaultValue={currentParams.precioMin ?? ''}
             placeholder="Mínimo"
-            className="w-1/2 border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
+            className="w-1/2 rounded-[var(--radius-input)] border border-[var(--line)] bg-[var(--bg)] px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--rose)]"
           />
           <input
             type="number"
             name="precioMax"
             defaultValue={currentParams.precioMax ?? ''}
             placeholder="Máximo"
-            className="w-1/2 border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
+            className="w-1/2 rounded-[var(--radius-input)] border border-[var(--line)] bg-[var(--bg)] px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--rose)]"
           />
         </div>
       </div>
 
       {/* Habitaciones */}
       <div className="mb-6">
-        <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
+        <label className="mb-2 block text-[13px] font-normal text-[var(--mid)]">
           {t('filters.bedrooms')}
         </label>
         <div className="flex gap-2">
@@ -344,7 +336,7 @@ function FilterPanel({
                 defaultChecked={currentParams.habitaciones === (v === '5+' ? '5' : v) || (!currentParams.habitaciones && v === '')}
                 className="peer sr-only"
               />
-              <span className="block text-center text-xs py-2.5 rounded-lg border border-gray-200 cursor-pointer peer-checked:bg-[var(--navy)] peer-checked:text-white peer-checked:border-[var(--navy)] hover:border-[var(--gold)] transition-colors">
+              <span className="block text-center text-xs py-2.5 rounded-full border border-[var(--line)] cursor-pointer peer-checked:bg-[var(--dark)] peer-checked:text-white peer-checked:border-[var(--dark)] hover:border-[var(--accent)] peer-focus-visible:ring-2 peer-focus-visible:ring-[var(--rose)] transition-colors">
                 {v || t('filters.anyBedrooms')}
               </span>
             </label>
@@ -354,15 +346,14 @@ function FilterPanel({
 
       <button
         type="submit"
-        className="w-full py-3 font-semibold rounded-lg hover:opacity-90 transition-opacity"
-        style={{ background: 'var(--rose)', color: 'var(--dark)' }}
+        className="btn btn-primary w-full"
       >
         {t('filters.search')}
       </button>
 
       <Link
         href="/propiedades"
-        className="block text-center mt-3 text-sm text-gray-400 hover:text-gray-600 transition-colors"
+        className="mt-3 block text-center text-sm text-[var(--mid)] transition-colors hover:text-[var(--dark)]"
       >
         {t('filters.clear')}
       </Link>
@@ -374,11 +365,11 @@ function FilterPanel({
 
 function QuickFilterChips({ params }: { params: SearchParams }) {
   const tags = [
-    { key: 'piscina', label: '🏊 Con piscina', param: 'piscina' },
-    { key: 'terraza', label: '☀️ Con terraza', param: 'terraza' },
-    { key: 'garaje', label: '🚗 Con garaje', param: 'garaje' },
-    { key: 'destacado', label: '🔥 Destacados', param: 'destacado' },
-    { key: 'obraNueva', label: '🏗️ Obra nueva', param: 'obraNueva' },
+    { key: 'piscina', label: 'Con piscina', param: 'piscina' },
+    { key: 'terraza', label: 'Con terraza', param: 'terraza' },
+    { key: 'garaje', label: 'Con garaje', param: 'garaje' },
+    { key: 'destacado', label: 'Destacados', param: 'destacado' },
+    { key: 'obraNueva', label: 'Obra nueva', param: 'obraNueva' },
   ];
 
   return (
@@ -402,10 +393,10 @@ function QuickFilterChips({ params }: { params: SearchParams }) {
           <Link
             key={tag.key}
             href={`/propiedades${qs ? `?${qs}` : ''}`}
-            className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all border ${
+            className={`whitespace-nowrap rounded-full border px-4 py-2 text-[13px] transition-colors ${
               isActive
-                ? 'bg-[var(--dark)] text-white border-[var(--dark)] shadow-sm'
-                : 'bg-white text-gray-700 border-gray-200 hover:border-[var(--accent)] hover:text-[var(--accent)]'
+                ? 'border-[var(--dark)] bg-[var(--dark)] text-white'
+                : 'border-[var(--line)] bg-white text-[var(--dark)] hover:border-[var(--accent)] hover:text-[var(--accent)]'
             }`}
           >
             {tag.label}
@@ -440,10 +431,10 @@ function ActiveFilters({ params, baseUrl, t }: { params: SearchParams; baseUrl: 
           <Link
             key={key}
             href={`/propiedades${qs ? `?${qs}` : ''}`}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-[var(--navy)] text-white text-xs rounded-full hover:bg-[var(--gold)] hover:text-[var(--navy)] transition-colors"
+            className="flex items-center gap-1.5 rounded-full bg-[var(--rose-soft)] px-3.5 py-1.5 text-[13px] text-[var(--dark)] transition-colors hover:bg-[var(--rose)]"
           >
             {label}
-            <span>×</span>
+            <X size={12} aria-label="Quitar filtro" />
           </Link>
         );
       })}
@@ -482,12 +473,14 @@ function PaginationLink({
   params,
   baseUrl,
   label,
+  ariaLabel,
 }: {
   page: number;
   currentPage: number;
   params: SearchParams;
   baseUrl: string;
-  label?: string;
+  label?: React.ReactNode;
+  ariaLabel?: string;
 }) {
   const qs = Object.entries({ ...params, pagina: String(page) })
     .filter(([, v]) => v !== undefined && v !== '')
@@ -499,10 +492,12 @@ function PaginationLink({
   return (
     <Link
       href={`/propiedades?${qs}`}
-      className={`w-10 h-10 flex items-center justify-center rounded-lg text-sm font-medium transition-colors ${
+      aria-label={ariaLabel}
+      aria-current={isActive ? 'page' : undefined}
+      className={`flex h-10 w-10 items-center justify-center rounded-full text-sm transition-colors ${
         isActive
-          ? 'bg-[var(--navy)] text-white'
-          : 'bg-white text-[var(--navy)] border border-gray-200 hover:border-[var(--gold)]'
+          ? 'bg-[var(--dark)] text-white'
+          : 'bg-white text-[var(--dark)] hover:bg-[var(--rose-soft)]'
       }`}
     >
       {label ?? page}

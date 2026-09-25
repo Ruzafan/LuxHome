@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { getAlternates } from '@/lib/seo';
+import PageHeader from '@/components/layout/PageHeader';
 
 export const metadata: Metadata = {
   title: 'Política de Privacidad',
@@ -10,13 +11,8 @@ export const metadata: Metadata = {
 
 export default function PrivacidadPage() {
   return (
-    <div className="pt-20 bg-[var(--cream)]">
-      <div className="luxury-gradient py-16 px-6 text-center">
-        <p className="text-[var(--rose)] text-sm font-semibold tracking-[0.3em] uppercase mb-2">Tus datos, tu control</p>
-        <h1 className="text-white font-light text-4xl font-playfair">
-          Política de Privacidad
-        </h1>
-      </div>
+    <div className="bg-[var(--cream)]">
+      <PageHeader eyebrow="Tus datos, tu control" title="Política de Privacidad" />
 
       <div className="max-w-3xl mx-auto px-6 py-16 space-y-10 text-gray-700 text-sm leading-relaxed">
 

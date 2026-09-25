@@ -11,49 +11,48 @@ export default function CookieBanner() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    if (!localStorage.getItem(COOKIE_KEY)) {
+    try {
+      if (!localStorage.getItem(COOKIE_KEY)) setVisible(true);
+    } catch {
       setVisible(true);
     }
   }, []);
 
-  const accept = () => {
-    localStorage.setItem(COOKIE_KEY, 'accepted');
-    setVisible(false);
-  };
-
-  const reject = () => {
-    localStorage.setItem(COOKIE_KEY, 'rejected');
+  const save = (value: 'accepted' | 'rejected') => {
+    try {
+      localStorage.setItem(COOKIE_KEY, value);
+    } catch {}
     setVisible(false);
   };
 
   if (!visible) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 bg-[var(--navy)] border-t border-white/10 px-6 py-4">
-      <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-start sm:items-center gap-4 justify-between">
-        <p className="text-white/70 text-xs leading-relaxed max-w-2xl">
-          {t.rich('message', {
-            link: (chunks) => (
-              <Link href="/cookies" className="text-[var(--gold)] hover:underline">
-                {chunks}
-              </Link>
-            ),
-          })}
-        </p>
-        <div className="flex gap-3 shrink-0">
-          <button
-            onClick={reject}
-            className="text-xs text-white/50 hover:text-white/80 transition-colors px-4 py-2 border border-white/20 rounded"
-          >
-            {t('reject')}
-          </button>
-          <button
-            onClick={accept}
-            className="text-xs font-semibold text-[var(--navy)] gold-gradient px-4 py-2 rounded hover:opacity-90 transition-opacity"
-          >
-            {t('accept')}
-          </button>
-        </div>
+    <div
+      role="region"
+      aria-label="Aviso de cookies"
+      className="glass-panel animate-fade-in fixed inset-x-3 bottom-20 z-50 rounded-[var(--radius-card)] p-5 md:bottom-6 md:left-6 md:right-auto md:max-w-[420px]"
+    >
+      <p className="mb-4 text-[14px] leading-relaxed" style={{ color: 'var(--mid)' }}>
+        {t.rich('message', {
+          link: (chunks) => (
+            <Link href="/cookies" className="underline underline-offset-2" style={{ color: 'var(--accent)' }}>
+              {chunks}
+            </Link>
+          ),
+        })}
+      </p>
+      <div className="flex gap-2">
+        <button
+          onClick={() => save('rejected')}
+          className="btn flex-1 !py-2.5"
+          style={{ boxShadow: 'inset 0 0 0 1px var(--line)', color: 'var(--dark)' }}
+        >
+          {t('reject')}
+        </button>
+        <button onClick={() => save('accepted')} className="btn btn-primary flex-1 !py-2.5">
+          {t('accept')}
+        </button>
       </div>
     </div>
   );

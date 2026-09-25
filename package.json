@@ -11,6 +11,7 @@
     "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
+    "@phosphor-icons/react": "^2.1.10",
     "@prisma/adapter-pg": "^7.7.0",
     "@prisma/client": "^7.7.0",
     "fast-xml-parser": "^5.6.0",

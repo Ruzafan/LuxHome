@@ -3,6 +3,8 @@
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { useState } from 'react';
+import PageHeader from '@/components/layout/PageHeader';
+import { CheckCircle, Clock, EnvelopeSimple, MapPin, Phone, WhatsappLogo } from '@phosphor-icons/react';
 
 export default function ContactoClient({ initialSubject = '', compact = false }: { initialSubject?: string; compact?: boolean }) {
   const t = useTranslations('contact');
@@ -29,75 +31,66 @@ export default function ContactoClient({ initialSubject = '', compact = false }:
   }
 
   return (
-    <div className={`${compact ? '' : 'pt-20'} bg-[var(--cream)]`}>
-      {/* Hero */}
-      {!compact && (
-        <div className="luxury-gradient py-16 px-6 text-center">
-          <p className="text-[var(--rose)] text-sm font-semibold tracking-[0.3em] uppercase mb-2">{t('badge')}</p>
-          <h1 className="text-white font-light text-4xl font-playfair">
-            {t('title')}
-          </h1>
-          <p className="text-white/60 mt-3 max-w-lg mx-auto">{t('subtitle')}</p>
-        </div>
-      )}
+    <div className={compact ? '' : 'bg-[var(--cream)]'}>
+      {!compact && <PageHeader eyebrow={t('badge')} title={t('title')} subtitle={t('subtitle')} />}
 
-      <div className="max-w-6xl mx-auto px-6 py-16">
+      <div className={`container-lux max-w-6xl ${compact ? 'pt-10' : 'py-16 md:py-20'}`}>
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-10">
           {/* Contact Form — order-2 on mobile so info panel appears first */}
-          <div className="lg:col-span-3 order-2 lg:order-1 bg-white rounded-2xl shadow-lg p-8">
-            <h2 className="text-[var(--navy)] font-light text-2xl mb-1 font-playfair">
+          <div className="order-2 rounded-[var(--radius-panel)] bg-white p-7 md:p-10 lg:order-1 lg:col-span-3" style={{ boxShadow: 'var(--shadow-soft)' }}>
+            <h2 className="font-display mb-1 text-[32px] font-light text-[var(--dark)]">
               {t('form.title')}
             </h2>
-            <p className="text-gray-400 text-sm mb-6">{t('form.subtitle')}</p>
+            <p className="mb-8 text-[15px] text-[var(--mid)]">{t('form.subtitle')}</p>
 
             {status === 'ok' ? (
               <div className="flex flex-col items-center justify-center py-16 gap-4 text-center">
-                <div className="w-14 h-14 rounded-full bg-emerald-100 flex items-center justify-center text-2xl">✓</div>
-                <p className="text-[var(--navy)] font-semibold text-lg">{t('form.successTitle')}</p>
-                <p className="text-gray-400 text-sm">{t('form.successSubtitle')}</p>
+                <span className="flex h-16 w-16 items-center justify-center rounded-full bg-[var(--rose-soft)] text-[var(--accent)]"><CheckCircle size={32} weight="light" /></span>
+                <p className="font-display text-[26px] font-light text-[var(--dark)]">{t('form.successTitle')}</p>
+                <p className="text-sm text-[var(--mid)]">{t('form.successSubtitle')}</p>
               </div>
             ) : (
               <form className="space-y-4" onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="nombre" className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">
+                    <label htmlFor="nombre" className="mb-2 block text-[13px] text-[var(--mid)]">
                       {t('form.name')}
                     </label>
                     <input id="nombre" type="text" name="nombre" required
-                      className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--rose)]" />
+                      className="w-full rounded-[var(--radius-input)] border border-[var(--line)] bg-[var(--bg)] px-4 py-3.5 text-[15px] focus:outline-none focus:ring-2 focus:ring-[var(--rose)]" />
                   </div>
                   <div>
-                    <label htmlFor="apellidos" className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">
+                    <label htmlFor="apellidos" className="mb-2 block text-[13px] text-[var(--mid)]">
                       {t('form.surname')}
                     </label>
                     <input id="apellidos" type="text" name="apellidos" required
-                      className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--rose)]" />
+                      className="w-full rounded-[var(--radius-input)] border border-[var(--line)] bg-[var(--bg)] px-4 py-3.5 text-[15px] focus:outline-none focus:ring-2 focus:ring-[var(--rose)]" />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="email" className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">
+                    <label htmlFor="email" className="mb-2 block text-[13px] text-[var(--mid)]">
                       {t('form.email')}
                     </label>
                     <input id="email" type="email" name="email" required
-                      className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--rose)]" />
+                      className="w-full rounded-[var(--radius-input)] border border-[var(--line)] bg-[var(--bg)] px-4 py-3.5 text-[15px] focus:outline-none focus:ring-2 focus:ring-[var(--rose)]" />
                   </div>
                   <div>
-                    <label htmlFor="telefono" className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">
-                      {t('form.phone')} <span className="text-gray-300 font-normal">{t('form.phoneOptional')}</span>
+                    <label htmlFor="telefono" className="mb-2 block text-[13px] text-[var(--mid)]">
+                      {t('form.phone')} <span className="text-[var(--subtle)]">{t('form.phoneOptional')}</span>
                     </label>
                     <input id="telefono" type="tel" name="telefono"
-                      className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--rose)]" />
+                      className="w-full rounded-[var(--radius-input)] border border-[var(--line)] bg-[var(--bg)] px-4 py-3.5 text-[15px] focus:outline-none focus:ring-2 focus:ring-[var(--rose)]" />
                   </div>
                 </div>
 
                 <div>
-                  <label htmlFor="asunto" className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">
+                  <label htmlFor="asunto" className="mb-2 block text-[13px] text-[var(--mid)]">
                     {t('form.subject')}
                   </label>
                   <select id="asunto" name="asunto" defaultValue={initialSubject}
-                    className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--rose)]">
+                    className="w-full rounded-[var(--radius-input)] border border-[var(--line)] bg-[var(--bg)] px-4 py-3.5 text-[15px] focus:outline-none focus:ring-2 focus:ring-[var(--rose)]">
                     <option value="" disabled>{t('form.subjectPlaceholder')}</option>
                     <option value="comprar">{t('form.subjectBuy')}</option>
                     <option value="alquilar">{t('form.subjectRent')}</option>
@@ -109,31 +102,31 @@ export default function ContactoClient({ initialSubject = '', compact = false }:
                 </div>
 
                 <div>
-                  <label htmlFor="presupuesto" className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">
+                  <label htmlFor="presupuesto" className="mb-2 block text-[13px] text-[var(--mid)]">
                     {t('form.budget')}
                   </label>
                   <select id="presupuesto" name="presupuesto" defaultValue=""
-                    className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--rose)]">
+                    className="w-full rounded-[var(--radius-input)] border border-[var(--line)] bg-[var(--bg)] px-4 py-3.5 text-[15px] focus:outline-none focus:ring-2 focus:ring-[var(--rose)]">
                     <option value="">{t('form.budgetNone')}</option>
-                    <option value="100k-200k">100.000€ – 200.000€</option>
-                    <option value="200k-400k">200.000€ – 400.000€</option>
-                    <option value="400k-700k">400.000€ – 700.000€</option>
+                    <option value="100k-200k">100.000€ - 200.000€</option>
+                    <option value="200k-400k">200.000€ - 400.000€</option>
+                    <option value="400k-700k">400.000€ - 700.000€</option>
                     <option value="+700k">Más de 700.000€</option>
                   </select>
                 </div>
 
                 <div>
-                  <label htmlFor="mensaje" className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">
+                  <label htmlFor="mensaje" className="mb-2 block text-[13px] text-[var(--mid)]">
                     {t('form.message')}
                   </label>
                   <textarea id="mensaje" name="mensaje" rows={4} required
                     placeholder={t('form.messagePlaceholder')}
-                    className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-[var(--rose)]" />
+                    className="w-full rounded-[var(--radius-input)] border border-[var(--line)] bg-[var(--bg)] px-4 py-3.5 text-[15px] resize-none focus:outline-none focus:ring-2 focus:ring-[var(--rose)]" />
                 </div>
 
                 <div className="flex items-start gap-3">
                   <input type="checkbox" id="privacidad" name="privacidad" required className="mt-1 accent-[var(--rose)]" />
-                  <label htmlFor="privacidad" className="text-xs text-gray-400 leading-relaxed">
+                  <label htmlFor="privacidad" className="text-[13px] leading-relaxed text-[var(--mid)]">
                     {t.rich('form.privacy', {
                       link: (chunks) => (
                         <Link href="/privacidad" className="underline hover:opacity-70" style={{ color: 'var(--rose-dark)' }}>
@@ -145,14 +138,13 @@ export default function ContactoClient({ initialSubject = '', compact = false }:
                 </div>
 
                 {status === 'error' && (
-                  <p className="text-sm text-red-500">{t('form.errorMessage')}</p>
+                  <p className="text-sm text-red-700">{t('form.errorMessage')}</p>
                 )}
 
                 <button
                   type="submit"
                   disabled={status === 'sending'}
-                  className="w-full py-4 font-bold rounded-lg hover:opacity-90 transition-opacity text-sm tracking-wide disabled:opacity-60 disabled:cursor-not-allowed"
-                  style={{ background: 'var(--rose)', color: 'var(--dark)' }}
+                  className="btn btn-primary w-full !py-4 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {status === 'sending' ? t('form.sending') : t('form.submit')}
                 </button>
@@ -162,40 +154,40 @@ export default function ContactoClient({ initialSubject = '', compact = false }:
 
           {/* Info panel — order-1 on mobile so it appears above the form */}
           <div className="lg:col-span-2 order-1 lg:order-2 space-y-6">
-            <div className="bg-white rounded-2xl shadow p-6">
-              <h3 className="font-light text-[var(--navy)] text-lg mb-4 pb-3 border-b border-gray-100 font-playfair">
+            <div className="rounded-[var(--radius-panel)] bg-white p-7" style={{ boxShadow: 'inset 0 0 0 1px var(--line)' }}>
+              <h3 className="font-display mb-5 text-[26px] font-light text-[var(--dark)]">
                 {t('office')}
               </h3>
-              <ul className="space-y-3 text-sm text-gray-600">
+              <ul className="space-y-4 text-[15px] text-[var(--mid)]">
                 <li className="flex items-start gap-3">
-                  <svg className="w-4 h-4 text-[var(--accent)] shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
+                  <MapPin size={18} weight="light" className="mt-0.5 shrink-0 text-[var(--accent)]" />
                   <span>Rambla 27<br />08130 Santa Perpètua de Mogoda (Barcelona)</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <svg className="w-4 h-4 text-[var(--accent)] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg>
+                  <Phone size={18} weight="light" className="shrink-0 text-[var(--accent)]" />
                   <a href="tel:+34691294443" className="hover:text-[var(--accent)] transition-colors">+34 691 294 443</a>
                 </li>
                 <li className="flex items-center gap-3">
-                  <svg className="w-4 h-4 text-[var(--accent)] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>
+                  <EnvelopeSimple size={18} weight="light" className="shrink-0 text-[var(--accent)]" />
                   <a href="mailto:bego@luxhomein.com" className="hover:text-[var(--accent)] transition-colors">
                     bego@luxhomein.com
                   </a>
                 </li>
                 <li className="flex items-start gap-3">
-                  <svg className="w-4 h-4 text-[var(--accent)] shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                  <span className="text-gray-400 text-xs">{t('hours')}</span>
+                  <Clock size={18} weight="light" className="mt-0.5 shrink-0 text-[var(--accent)]" />
+                  <span className="text-[14px]">{t('hours')}</span>
                 </li>
               </ul>
             </div>
 
-            <div className="bg-[#25d366] rounded-2xl p-6 text-white">
-              <h3 className="font-bold text-lg mb-2">{t('whatsapp.title')}</h3>
-              <p className="text-white/80 text-sm mb-4">{t('whatsapp.subtitle')}</p>
+            <div className="rounded-[var(--radius-panel)] p-7 text-white" style={{ background: 'var(--dark)' }}>
+              <h3 className="font-display mb-2 text-[26px] font-light">{t('whatsapp.title')}</h3>
+              <p className="mb-6 text-[15px] text-white/65">{t('whatsapp.subtitle')}</p>
               <a
                 href="https://wa.me/34691294443?text=Hola,%20me%20interesa%20una%20propiedad%20de%20LuxHome"
-                className="flex items-center justify-center gap-2 bg-white text-[#25d366] font-semibold px-5 py-3 rounded-lg text-sm hover:bg-green-50 transition-colors"
+                className="btn w-full bg-[#1f9d55] text-white hover:bg-[#188a49]"
               >
-                💬 {t('whatsapp.button')}
+                <WhatsappLogo size={18} weight="fill" /> {t('whatsapp.button')}
               </a>
             </div>
           </div>

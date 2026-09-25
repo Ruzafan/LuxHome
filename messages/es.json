@@ -75,7 +75,16 @@
       "title": "¿Buscas algo especial?",
       "subtitle": "Cuéntanos qué propiedad buscas y nuestros asesores te contactarán en menos de 24 horas.",
       "button": "Hablar con un asesor"
-    }
+    },
+    "heroText": "Bego, Vanesa, Mónica y Josep te acompañan a comprar, vender o alquilar tu casa en el Vallès.",
+    "team": {
+      "badge": "El equipo",
+      "title": "Las personas detrás de LuxHome",
+      "text": "Años de experiencia en el Vallès Occidental. Te acompañamos desde la primera visita hasta la firma ante notario, con un trato cercano y honesto.",
+      "years": "años de experiencia",
+      "rating": "valoración en Google"
+    },
+    "reviewsNote": "Opiniones reales de clientes en Google"
   },
   "sell": {
     "badge": "Para propietarios",
@@ -96,10 +105,22 @@
       "badge": "Cómo trabajamos",
       "title": "Un proceso pensado para que vendas con tranquilidad",
       "steps": [
-        { "title": "Escuchamos tu situación", "text": "Entendemos tus plazos, prioridades y expectativas antes de recomendarte nada." },
-        { "title": "Valoramos con criterio", "text": "Comparamos tu inmueble con el mercado real para definir una estrategia razonable." },
-        { "title": "Preparamos y promocionamos", "text": "Cuidamos la presentación y difundimos la propiedad en los canales adecuados." },
-        { "title": "Negociamos y acompañamos", "text": "Filtramos compradores y coordinamos la operación hasta la firma." }
+        {
+          "title": "Escuchamos tu situación",
+          "text": "Entendemos tus plazos, prioridades y expectativas antes de recomendarte nada."
+        },
+        {
+          "title": "Valoramos con criterio",
+          "text": "Comparamos tu inmueble con el mercado real para definir una estrategia razonable."
+        },
+        {
+          "title": "Preparamos y promocionamos",
+          "text": "Cuidamos la presentación y difundimos la propiedad en los canales adecuados."
+        },
+        {
+          "title": "Negociamos y acompañamos",
+          "text": "Filtramos compradores y coordinamos la operación hasta la firma."
+        }
       ]
     },
     "testimonials": {
@@ -117,9 +138,18 @@
       "badge": "Preguntas frecuentes",
       "title": "Antes de dar el paso",
       "items": [
-        { "question": "¿La valoración tiene algún coste?", "answer": "No. La primera valoración es gratuita y sin compromiso." },
-        { "question": "¿Tengo que aceptar trabajar con LuxHome?", "answer": "No. Primero te explicamos nuestra valoración y estrategia para que puedas decidir con toda la información." },
-        { "question": "¿Qué documentación necesito?", "answer": "Te orientamos sobre la documentación necesaria y revisamos contigo cada paso de la operación." }
+        {
+          "question": "¿La valoración tiene algún coste?",
+          "answer": "No. La primera valoración es gratuita y sin compromiso."
+        },
+        {
+          "question": "¿Tengo que aceptar trabajar con LuxHome?",
+          "answer": "No. Primero te explicamos nuestra valoración y estrategia para que puedas decidir con toda la información."
+        },
+        {
+          "question": "¿Qué documentación necesito?",
+          "answer": "Te orientamos sobre la documentación necesaria y revisamos contigo cada paso de la operación."
+        }
       ]
     }
   },
@@ -229,10 +259,22 @@
     "values": {
       "badge": "Lo que nos define",
       "title": "Nuestros valores",
-      "proximity": { "title": "Cercanía", "desc": "Tratamos a cada cliente de forma personal. Entendemos que comprar o vender una casa es una de las decisiones más importantes de tu vida." },
-      "honesty": { "title": "Honestidad", "desc": "Siempre te diremos la verdad sobre el mercado y tu propiedad, aunque no sea lo que esperas escuchar." },
-      "rigor": { "title": "Rigor", "desc": "Cada operación la gestionamos con máxima profesionalidad: documentación, plazos y coordinación sin sorpresas." },
-      "communication": { "title": "Comunicación", "desc": "Te mantenemos informado en todo momento. Nada de esperas ni silencio: sabrás cómo avanza tu proceso." }
+      "proximity": {
+        "title": "Cercanía",
+        "desc": "Tratamos a cada cliente de forma personal. Entendemos que comprar o vender una casa es una de las decisiones más importantes de tu vida."
+      },
+      "honesty": {
+        "title": "Honestidad",
+        "desc": "Siempre te diremos la verdad sobre el mercado y tu propiedad, aunque no sea lo que esperas escuchar."
+      },
+      "rigor": {
+        "title": "Rigor",
+        "desc": "Cada operación la gestionamos con máxima profesionalidad: documentación, plazos y coordinación sin sorpresas."
+      },
+      "communication": {
+        "title": "Comunicación",
+        "desc": "Te mantenemos informado en todo momento. Nada de esperas ni silencio: sabrás cómo avanza tu proceso."
+      }
     },
     "team": {
       "badge": "El equipo",
@@ -281,7 +323,7 @@
       "errorMessage": "No se pudo enviar el mensaje. Inténtalo de nuevo o escríbenos por WhatsApp."
     },
     "office": "Oficina",
-    "hours": "Lun–Vie 9:30–13:30 y 16:00–19:00",
+    "hours": "Lun-Vie 9:30-13:30 y 16:00-19:00",
     "whatsapp": {
       "title": "¿Prefieres WhatsApp?",
       "subtitle": "Escríbenos directamente y te atendemos al momento.",
@@ -301,7 +343,7 @@
     "penthouses": "Áticos",
     "office": "Oficina",
     "schedule": "Horario",
-    "hours": "Lun–Vie: 9:30–13:30 y 16:00–19:00",
+    "hours": "Lun-Vie: 9:30-13:30 y 16:00-19:00",
     "rights": "© {year} LuxHome. Todos los derechos reservados.",
     "privacy": "Política de Privacidad",
     "cookies": "Cookies",

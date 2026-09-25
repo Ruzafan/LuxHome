@@ -19,7 +19,7 @@ export default function NotFound() {
       <div className="flex flex-col sm:flex-row gap-4">
         <Link
           href="/propiedades"
-          className="px-8 py-3.5 gold-gradient text-[var(--navy)] font-semibold rounded hover:opacity-90 transition-opacity"
+          className="btn btn-primary"
         >
           Ver propiedades
         </Link>
