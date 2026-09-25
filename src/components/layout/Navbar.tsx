@@ -27,6 +27,7 @@ export default function Navbar() {
   const links = [
     { href: '/' as const, label: t('home') },
     { href: '/propiedades' as const, label: t('properties') },
+    { href: '/vender-mi-inmueble' as const, label: t('sell') },
     { href: '/contacto' as const, label: t('contact') },
   ];
 
@@ -87,11 +88,11 @@ export default function Navbar() {
           </button>
 
           <Link
-            href="/contacto"
+            href="/vender-mi-inmueble"
             className="text-[12px] font-semibold tracking-[0.12em] uppercase px-5 py-2.5 transition-all duration-200 rounded-lg shadow-sm"
             style={{ background: 'var(--rose)', color: 'var(--dark)' }}
           >
-            {t('requestVisit')}
+            {t('sell')}
           </Link>
         </nav>
 
@@ -157,12 +158,12 @@ export default function Navbar() {
             <span>🧮</span> Calculadora Hipotecaria
           </button>
           <Link
-            href="/contacto"
+            href="/vender-mi-inmueble"
             onClick={() => setMenuOpen(false)}
             className="mt-1 text-center text-[12px] font-semibold tracking-[0.12em] uppercase px-6 py-3 rounded-xl"
             style={{ background: 'var(--rose)', color: 'var(--dark)' }}
           >
-            {t('requestVisit')}
+            {t('sell')}
           </Link>
         </div>
       )}

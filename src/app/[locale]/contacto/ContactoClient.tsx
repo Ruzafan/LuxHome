@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { useState } from 'react';
 
-export default function ContactoClient() {
+export default function ContactoClient({ initialSubject = '', compact = false }: { initialSubject?: string; compact?: boolean }) {
   const t = useTranslations('contact');
   const [status, setStatus] = useState<'idle' | 'sending' | 'ok' | 'error'>('idle');
 
@@ -29,15 +29,17 @@ export default function ContactoClient() {
   }
 
   return (
-    <div className="pt-20 bg-[var(--cream)]">
+    <div className={`${compact ? '' : 'pt-20'} bg-[var(--cream)]`}>
       {/* Hero */}
-      <div className="luxury-gradient py-16 px-6 text-center">
-        <p className="text-[var(--rose)] text-sm font-semibold tracking-[0.3em] uppercase mb-2">{t('badge')}</p>
-        <h1 className="text-white font-light text-4xl font-playfair">
-          {t('title')}
-        </h1>
-        <p className="text-white/60 mt-3 max-w-lg mx-auto">{t('subtitle')}</p>
-      </div>
+      {!compact && (
+        <div className="luxury-gradient py-16 px-6 text-center">
+          <p className="text-[var(--rose)] text-sm font-semibold tracking-[0.3em] uppercase mb-2">{t('badge')}</p>
+          <h1 className="text-white font-light text-4xl font-playfair">
+            {t('title')}
+          </h1>
+          <p className="text-white/60 mt-3 max-w-lg mx-auto">{t('subtitle')}</p>
+        </div>
+      )}
 
       <div className="max-w-6xl mx-auto px-6 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-10">
@@ -94,7 +96,7 @@ export default function ContactoClient() {
                   <label htmlFor="asunto" className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">
                     {t('form.subject')}
                   </label>
-                  <select id="asunto" name="asunto" defaultValue=""
+                  <select id="asunto" name="asunto" defaultValue={initialSubject}
                     className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--rose)]">
                     <option value="" disabled>{t('form.subjectPlaceholder')}</option>
                     <option value="comprar">{t('form.subjectBuy')}</option>

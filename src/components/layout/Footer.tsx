@@ -75,6 +75,12 @@ export default async function Footer() {
                 </li>
               ))}
             </ul>
+            <Link
+              href="/vender-mi-inmueble"
+              className="mt-5 inline-block text-[12px] font-medium uppercase tracking-[0.1em] text-[var(--rose)] transition-opacity hover:opacity-70"
+            >
+              Vender mi inmueble
+            </Link>
           </div>
 
           {/* Zonas */}

@@ -28,11 +28,12 @@ export async function generateMetadata(): Promise<Metadata> {
 const serviceKeys = ['sale', 'personal', 'rental', 'newBuild', 'mortgage', 'docs'] as const;
 
 export default async function HomePage() {
-  const [t, featured, locations, stats] = await Promise.all([
+  const [t, featured, locations, stats, sellT] = await Promise.all([
     getTranslations('home'),
     getFeaturedProperties(4),
     getAllLocations(),
     getStats(),
+    getTranslations('sell'),
   ]);
 
   const testimonials = [
@@ -388,6 +389,13 @@ export default async function HomePage() {
             style={{ background: 'var(--rose)', color: 'var(--dark)' }}
           >
             {t('cta.button')}
+          </Link>
+          <Link
+            href="/vender-mi-inmueble"
+            className="mt-5 block self-start text-[11px] font-medium uppercase tracking-[0.14em] transition-opacity hover:opacity-65"
+            style={{ color: 'var(--accent)' }}
+          >
+            {sellT('cta')}
           </Link>
         </div>
       </section>
