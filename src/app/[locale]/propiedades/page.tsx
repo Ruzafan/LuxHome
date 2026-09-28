@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import { getPathname } from '@/i18n/navigation';
 import { Link } from '@/i18n/navigation';
-import { getProperties, getAllLocations } from '@/lib/propertyService';
+import { getProperties } from '@/lib/propertyService';
 import { PropertyFilters, PropertyType, OperationType } from '@/types/property';
 import PropertyCard from '@/components/properties/PropertyCard';
 import LocationAutocomplete from '@/components/ui/LocationAutocomplete';
@@ -76,10 +76,7 @@ export default async function PropiedadesPage({
     ? rawParams.orden
     : 'relevance') as 'relevance' | 'price_asc' | 'price_desc' | 'newest';
 
-  const [{ properties, total, totalPages }, locations] = await Promise.all([
-    getProperties(filters, page, 9, sort),
-    getAllLocations(),
-  ]);
+  const { properties, total, totalPages } = await getProperties(filters, page, 9, sort);
 
   const baseUrl = getPathname({ href: '/propiedades', locale });
   const canonicalBase = `https://luxhomein.com/propiedades`;
@@ -117,7 +114,7 @@ export default async function PropiedadesPage({
       <div className="container-lux flex flex-col gap-8 py-10 lg:flex-row">
         {/* ─── Sidebar Filters (desktop) ───────────────────────────────────────── */}
         <aside className="hidden lg:block lg:w-72 shrink-0">
-          <FilterPanel currentParams={rawParams} locations={locations} baseUrl={baseUrl} t={t} />
+          <FilterPanel currentParams={rawParams} baseUrl={baseUrl} t={t} />
         </aside>
 
         {/* ─── Results ─────────────────────────────────────────────────────────── */}
@@ -126,7 +123,6 @@ export default async function PropiedadesPage({
           <div className="flex items-center justify-between mb-4 gap-3 lg:hidden">
             <FilterDrawer
               currentParams={rawParams}
-              locations={locations}
               baseUrl={baseUrl}
               activeFiltersCount={[rawParams.operacion, rawParams.tipo, rawParams.ciudad, rawParams.habitaciones, rawParams.precioMin, rawParams.precioMax].filter(Boolean).length}
             />
@@ -221,12 +217,10 @@ type TFn = Awaited<ReturnType<typeof getTranslations<'properties'>>>;
 
 function FilterPanel({
   currentParams,
-  locations,
   baseUrl,
   t,
 }: {
   currentParams: SearchParams;
-  locations: string[];
   baseUrl: string;
   t: TFn;
 }) {
@@ -290,7 +284,6 @@ function FilterPanel({
           {t('filters.location')}
         </label>
         <LocationAutocomplete
-          suggestions={locations}
           defaultValue={currentParams.ciudad ?? ''}
           placeholder="Ej: Castelldefels..."
           name="ciudad"

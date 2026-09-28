@@ -8,6 +8,7 @@ import {
 } from '@/types/property';
 import { db } from '@/lib/db';
 import { normalize } from '@/lib/utils';
+import { MUNICIPALITY_ALIASES } from '@/data/catalanMunicipalities';
 import type {
   Property as PrismaProperty,
   PropertyFeatures as PrismaFeatures,
@@ -79,16 +80,25 @@ function mapToProperty(p: PropertyWithRelations): Property {
 // ─── Búsqueda por ciudad con normalización de acentos ─────────────────────────
 // PostgreSQL ILIKE no ignora acentos, así que filtramos en JS tras la consulta.
 
+// Alias por nombre oficial normalizado, p. ej. "palau solita i plegamans" -> ["palau plegamans"]
+const ALIASES_BY_QUERY = new Map(
+  Object.entries(MUNICIPALITY_ALIASES).map(([official, aliases]) => [normalize(official), aliases.map(normalize)])
+);
+
 function matchesCity(p: Property, query: string): boolean {
   const q = normalize(query);
   if (!q) return true;
+  const terms = [q, ...(ALIASES_BY_QUERY.get(q) ?? [])];
   return [
     p.location.city,
     p.location.neighborhood ?? '',
     p.location.province,
     p.location.postalCode,
     p.location.address,
-  ].some((field) => normalize(field).includes(q));
+  ].some((field) => {
+    const f = normalize(field);
+    return terms.some((term) => f.includes(term));
+  });
 }
 
 // ─── API pública del servicio ─────────────────────────────────────────────────

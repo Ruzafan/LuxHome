@@ -16,12 +16,11 @@ interface SearchParams {
 
 interface Props {
   currentParams: SearchParams;
-  locations: string[];
   baseUrl: string;
   activeFiltersCount: number;
 }
 
-export default function FilterDrawer({ currentParams, locations, baseUrl, activeFiltersCount }: Props) {
+export default function FilterDrawer({ currentParams, baseUrl, activeFiltersCount }: Props) {
   const t = useTranslations('properties');
   const [open, setOpen] = useState(false);
 
@@ -110,7 +109,6 @@ export default function FilterDrawer({ currentParams, locations, baseUrl, active
             <div>
               <label className="mb-2 block text-[13px] font-normal text-[var(--mid)]">{t('filters.location')}</label>
               <LocationAutocomplete
-                suggestions={locations}
                 defaultValue={currentParams.ciudad ?? ''}
                 placeholder="Ej: Castelldefels..."
                 name="ciudad"

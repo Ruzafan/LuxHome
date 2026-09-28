@@ -3,7 +3,7 @@ import React from 'react';
 import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
-import { getFeaturedProperties, getAllLocations, getStats } from '@/lib/propertyService';
+import { getFeaturedProperties, getStats } from '@/lib/propertyService';
 import PropertyCard from '@/components/properties/PropertyCard';
 import HeroSearchBar from '@/components/ui/HeroSearchBar';
 import ScrollRevealInit from '@/components/ui/ScrollRevealInit';
@@ -61,10 +61,9 @@ const headingStyle: React.CSSProperties = {
 };
 
 export default async function HomePage() {
-  const [t, featured, locations, stats, sellT] = await Promise.all([
+  const [t, featured, stats, sellT] = await Promise.all([
     getTranslations('home'),
     getFeaturedProperties(5),
-    getAllLocations(),
     getStats(),
     getTranslations('sell'),
   ]);
@@ -131,24 +130,27 @@ export default async function HomePage() {
 
       {/* ─── Hero: framed photo, content anchored bottom-left ─────────────────── */}
       <section className="px-2 pt-2 md:px-3 md:pt-3">
-        <div className="relative isolate flex min-h-[calc(100dvh-16px)] items-end overflow-hidden rounded-[var(--radius-panel)] md:min-h-[calc(100dvh-24px)]">
-          <div className="hero-ken-burns absolute inset-0 -z-20">
-            <Image
-              src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=2000&q=80"
-              alt=""
-              fill
-              preload
-              sizes="100vw"
-              className="object-cover"
+        <div className="relative isolate flex min-h-[calc(100dvh-16px)] items-end rounded-[var(--radius-panel)] md:min-h-[calc(100dvh-24px)]">
+          {/* Background layers clipped here, not on the hero, so the location dropdown can overflow */}
+          <div aria-hidden className="absolute inset-0 -z-10 overflow-hidden rounded-[var(--radius-panel)]">
+            <div className="hero-ken-burns absolute inset-0">
+              <Image
+                src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=2000&q=80"
+                alt=""
+                fill
+                preload
+                sizes="100vw"
+                className="object-cover"
+              />
+            </div>
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  'linear-gradient(90deg, oklch(15% 0.02 340 / 0.55) 0%, oklch(15% 0.02 340 / 0) 60%), linear-gradient(180deg, oklch(15% 0.02 340 / 0.45) 0%, oklch(15% 0.02 340 / 0.05) 30%, oklch(15% 0.02 340 / 0.3) 55%, oklch(15% 0.02 340 / 0.85) 100%)',
+              }}
             />
           </div>
-          <div
-            className="absolute inset-0 -z-10"
-            style={{
-              background:
-                'linear-gradient(90deg, oklch(15% 0.02 340 / 0.55) 0%, oklch(15% 0.02 340 / 0) 60%), linear-gradient(180deg, oklch(15% 0.02 340 / 0.45) 0%, oklch(15% 0.02 340 / 0.05) 30%, oklch(15% 0.02 340 / 0.3) 55%, oklch(15% 0.02 340 / 0.85) 100%)',
-            }}
-          />
 
           <div className="container-lux pb-6 pt-32 md:pb-10">
             <div className="max-w-[760px] animate-fade-in">
@@ -166,7 +168,7 @@ export default async function HomePage() {
               </p>
             </div>
             <div className="max-w-[1100px] animate-fade-in" style={{ animationDelay: '0.15s' }}>
-              <HeroSearchBar locations={locations} />
+              <HeroSearchBar />
             </div>
           </div>
         </div>

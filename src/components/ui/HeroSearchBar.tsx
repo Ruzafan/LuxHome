@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import { MagnifyingGlass } from '@phosphor-icons/react';
+import LocationAutocomplete from '@/components/ui/LocationAutocomplete';
 
 const fieldClass =
   'w-full appearance-none bg-transparent text-[15px] font-normal text-[var(--dark)] outline-none cursor-pointer';
@@ -19,7 +20,7 @@ function Field({ label, htmlFor, children }: { label: string; htmlFor: string; c
   );
 }
 
-export default function HeroSearchBar({ locations }: { locations: string[] }) {
+export default function HeroSearchBar() {
   const [operacion, setOperacion] = useState('venta');
   const [tipo, setTipo] = useState('');
   const [ciudad, setCiudad] = useState('');
@@ -81,20 +82,13 @@ export default function HeroSearchBar({ locations }: { locations: string[] }) {
         </Field>
 
         <Field label={t('location')} htmlFor="hero-ciudad">
-          <input
+          <LocationAutocomplete
             id="hero-ciudad"
-            type="text"
-            list="hero-locations"
-            value={ciudad}
-            onChange={(e) => setCiudad(e.target.value)}
             placeholder="Santa Perpètua, Mollet..."
-            className={`${fieldClass} cursor-text placeholder:text-[var(--subtle)]`}
+            onValueChange={setCiudad}
+            placement="top"
+            inputClassName={`${fieldClass} cursor-text placeholder:text-[var(--subtle)]`}
           />
-          <datalist id="hero-locations">
-            {locations.map((loc) => (
-              <option key={loc} value={loc} />
-            ))}
-          </datalist>
         </Field>
 
         <Field label="Precio máximo" htmlFor="hero-precio">
