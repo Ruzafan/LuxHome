@@ -238,3 +238,45 @@ export async function getPropertyCountByCity(): Promise<Record<string, number>> 
 }
 
 export { formatPrice } from '@/lib/propertyUtils';
+
+// ─── Mercado por municipio (páginas de captación) ────────────────────────────
+
+export interface MunicipalityMarket {
+  /** Todos los inmuebles del municipio, activos primero y luego vendidos/reservados */
+  properties: Property[];
+  forSale: number;
+  soldOrReserved: number;
+  /** Mediana de €/m² de los inmuebles en venta; null si hay menos de 3 */
+  medianPricePerM2: number | null;
+}
+
+/** Coincidencia estricta por municipio (city), no por provincia, barrio o dirección. */
+export async function getMunicipalityMarket(city: string): Promise<MunicipalityMarket> {
+  const keys = new Set([
+    normalize(city),
+    ...(Object.entries(MUNICIPALITY_ALIASES).find(([official]) => normalize(official) === normalize(city))?.[1] ?? []).map(normalize),
+  ]);
+
+  const rows = await db.property.findMany({
+    include: { features: true, location: true, images: true },
+    orderBy: { publishedAt: 'desc' },
+  });
+  const properties = rows
+    .filter((p) => keys.has(normalize(p.location?.city ?? '')))
+    .map(mapToProperty)
+    .sort((a, b) => Number(a.status !== 'disponible') - Number(b.status !== 'disponible'));
+
+  const pm2 = properties
+    .filter((p) => p.operation === 'venta' && p.status === 'disponible' && ['piso', 'atico', 'casa', 'chalet'].includes(p.type))
+    .map((p) => p.pricePerM2 ?? (p.features.area > 0 ? p.price / p.features.area : 0))
+    .filter((v) => v >= 500 && v <= 15000)
+    .sort((a, b) => a - b);
+  const mid = Math.floor(pm2.length / 2);
+
+  return {
+    properties,
+    forSale: properties.filter((p) => p.operation === 'venta' && p.status === 'disponible').length,
+    soldOrReserved: properties.filter((p) => p.status === 'vendido' || p.status === 'reservado').length,
+    medianPricePerM2: pm2.length >= 3 ? Math.round(pm2.length % 2 ? pm2[mid] : (pm2[mid - 1] + pm2[mid]) / 2) : null,
+  };
+}

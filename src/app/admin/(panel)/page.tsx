@@ -1,62 +1,39 @@
-import { redirect } from 'next/navigation';
-import { cookies } from 'next/headers';
-import { verifySessionToken, SESSION_COOKIE } from '@/lib/auth';
+import Link from 'next/link';
 import { db } from '@/lib/db';
-import type { SyncLog, Lead } from '@prisma/client';
+import type { SyncLog } from '@prisma/client';
+import { LEAD_STATUSES, type LeadStatus } from '@/lib/leads';
 import UploadForm from '@/components/admin/UploadForm';
 import SyncButton from '@/components/admin/SyncButton';
-import LogoutButton from '@/components/admin/LogoutButton';
 import TranslationEditor from '@/components/admin/TranslationEditor';
 
-export const metadata = { title: 'Panel Admin | LuxHome' };
-
 export default async function AdminPage() {
-  // Doble comprobación de sesión (el proxy ya redirige, pero por seguridad)
-  const cookieStore = await cookies();
-  const token = cookieStore.get(SESSION_COOKIE)?.value;
-  if (!token || !(await verifySessionToken(token))) {
-    redirect('/admin/login');
-  }
-
   // La base de datos es opcional: el sitio puede funcionar con datos mock.
   // Si DATABASE_URL no está configurada o hay error de conexión, mostramos
   // el panel igualmente con valores a cero y un aviso.
-  let total = 0, disponibles = 0, destacadas = 0, totalLeads = 0;
+  let total = 0, disponibles = 0, nuevas = 0, captadas = 0;
   let logs: SyncLog[] = [];
-  let leads: Lead[] = [];
+  let byStatus: Record<string, number> = {};
   let dbError: string | null = null;
 
   try {
-    [total, disponibles, destacadas, totalLeads, logs, leads] = await Promise.all([
+    const [t, d, l, grouped] = await Promise.all([
       db.property.count(),
       db.property.count({ where: { status: 'disponible' } }),
-      db.property.count({ where: { isFeatured: true } }),
-      db.lead.count(),
       db.syncLog.findMany({ orderBy: { triggeredAt: 'desc' }, take: 15 }),
-      db.lead.findMany({ orderBy: { createdAt: 'desc' }, take: 20 }),
+      db.lead.groupBy({ by: ['status'], _count: { _all: true } }),
     ]);
+    total = t;
+    disponibles = d;
+    logs = l;
+    byStatus = Object.fromEntries(grouped.map((g) => [g.status, g._count._all]));
+    nuevas = byStatus.nueva ?? 0;
+    captadas = byStatus.captada ?? 0;
   } catch (e) {
     dbError = e instanceof Error ? e.message : 'Error de conexión con la base de datos';
   }
 
   return (
-    <div className="min-h-screen bg-[var(--navy)]">
-      {/* Header */}
-      <header className="border-b border-white/10 px-6 py-4 flex items-center justify-between">
-        <div>
-          <p className="text-[var(--gold)] text-xs font-semibold tracking-[0.3em] uppercase">LuxHome</p>
-          <h1
-            className="text-white font-bold text-xl"
-           
-          >
-            Panel de Administración
-          </h1>
-        </div>
-        <LogoutButton />
-      </header>
-
-      <main className="max-w-6xl mx-auto px-6 py-10 space-y-10">
-
+    <>
         {/* ── Aviso si la BD no está configurada ────────────────────────── */}
         {dbError && (
           <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl px-5 py-4">
@@ -75,19 +52,19 @@ export default async function AdminPage() {
           <h2 className="text-white/50 text-xs font-semibold tracking-[0.2em] uppercase mb-4">
             Resumen
           </h2>
-          <div className="grid grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
             {[
               { label: 'Total inmuebles', value: total },
               { label: 'Disponibles', value: disponibles },
-              { label: 'Destacados', value: destacadas },
-              { label: 'Leads recibidos', value: totalLeads },
+              { label: 'Solicitudes sin atender', value: nuevas },
+              { label: 'Captaciones', value: captadas },
             ].map(({ label, value }) => (
               <div
                 key={label}
                 className="bg-white/5 border border-white/10 rounded-xl p-5"
               >
                 <p
-                  className="text-[var(--gold)] font-bold text-3xl"
+                  className="text-[var(--rose)] text-3xl"
                  
                 >
                   {value}
@@ -126,49 +103,25 @@ export default async function AdminPage() {
         {/* ── Traducciones ──────────────────────────────────────────────── */}
         <TranslationEditor />
 
-        {/* ── Leads ─────────────────────────────────────────────────────── */}
+        {/* ── Embudo de solicitudes ───────────────────────────────────────── */}
         <section>
-          <h2 className="text-white/50 text-xs font-semibold tracking-[0.2em] uppercase mb-4">
-            Últimos leads ({totalLeads} total)
-          </h2>
-          <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden">
-            {leads.length === 0 ? (
-              <p className="text-white/40 text-sm p-6">Sin leads aún.</p>
-            ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="border-b border-white/10">
-                      {['Fecha', 'Nombre', 'Email', 'Teléfono', 'Propiedad', 'Motivo'].map((h) => (
-                        <th key={h} className="text-white/40 font-medium px-5 py-3 text-left whitespace-nowrap">{h}</th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {leads.map((lead) => (
-                      <tr key={lead.id} className="border-b border-white/5 last:border-0 hover:bg-white/5 transition">
-                        <td className="text-white/50 px-5 py-3 whitespace-nowrap text-xs">
-                          {new Date(lead.createdAt).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' })}
-                        </td>
-                        <td className="text-white/80 px-5 py-3 whitespace-nowrap">
-                          {lead.nombre}{lead.apellidos ? ` ${lead.apellidos}` : ''}
-                        </td>
-                        <td className="px-5 py-3">
-                          <a href={`mailto:${lead.email}`} className="text-[var(--gold)] hover:underline">{lead.email}</a>
-                        </td>
-                        <td className="text-white/60 px-5 py-3 whitespace-nowrap">{lead.telefono ?? '—'}</td>
-                        <td className="px-5 py-3">
-                          {lead.propertyRef
-                            ? <span className="text-xs bg-white/10 text-white/70 px-2 py-0.5 rounded">{lead.propertyRef}</span>
-                            : <span className="text-white/30">—</span>}
-                        </td>
-                        <td className="text-white/60 px-5 py-3 max-w-xs truncate">{lead.asunto ?? '—'}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-sm text-white/60">Estado de las solicitudes</h2>
+            <Link href="/admin/solicitudes" className="text-sm text-[var(--rose)] hover:underline">
+              Ver solicitudes
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
+            {(Object.keys(LEAD_STATUSES) as LeadStatus[]).map((status) => (
+              <Link
+                key={status}
+                href={`/admin/solicitudes?estado=${status}`}
+                className="rounded-xl border border-white/10 bg-white/5 p-4 transition hover:bg-white/10"
+              >
+                <p className="text-2xl text-white">{byStatus[status] ?? 0}</p>
+                <p className="mt-1 text-xs text-white/50">{LEAD_STATUSES[status]}</p>
+              </Link>
+            ))}
           </div>
         </section>
 
@@ -249,7 +202,6 @@ export default async function AdminPage() {
             )}
           </div>
         </section>
-      </main>
-    </div>
+    </>
   );
 }

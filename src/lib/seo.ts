@@ -1,5 +1,9 @@
+import { routing } from '@/i18n/routing';
+
 const BASE_URL = 'https://luxhomein.com';
-const LOCALES = ['es', 'ca', 'en'] as const;
+
+// Solo idiomas activos: hreflang a URLs inexistentes perjudica al SEO
+const LOCALES = routing.locales;
 
 /** Returns the full URL for a given path and locale */
 export function localizedUrl(path: string, locale: string): string {

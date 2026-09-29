@@ -107,7 +107,7 @@ model Lead {
   id           String   @id @default(cuid())
   nombre       String
   apellidos    String?
-  email        String
+  email        String?  // opcional en el valorador: para captar basta con el teléfono
   telefono     String?
   asunto       String?
   presupuesto  String?
@@ -115,9 +115,41 @@ model Lead {
   propertyRef  String?  // rellenado cuando viene de ficha de propiedad
   locale       String   @default("es")
   createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now()) @updatedAt
+
+  kind         String   @default("contacto") // contacto | valoracion | propiedad
+  status       String   @default("nueva")    // nueva | contactada | visita | captada | descartada
+  notes        String?  @db.Text             // notas internas del equipo
+  city         String?                       // municipio del inmueble (valoraciones)
+  sourcePath   String?                       // página desde la que se envió
+  utmSource    String?
+  utmMedium    String?
+  utmCampaign  String?
+  valuation    Json?                         // datos del valorador + horquilla calculada
 
   @@index([createdAt])
   @@index([email])
+  @@index([kind])
+  @@index([status])
+}
+
+// ─── Analítica propia (sin cookies ni datos personales) ──────────────────────
+// Una fila por evento. No se guarda IP, user agent completo ni identificador de visitante.
+
+model AnalyticsEvent {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  type        String   // pageview | valuation_start | valuation_step | valuation_submit | contact_submit | phone_click | whatsapp_click
+  path        String
+  referrer    String?  // solo el dominio de origen
+  utmSource   String?
+  utmMedium   String?
+  utmCampaign String?
+  device      String?  // mobile | desktop
+  meta        Json?    // datos del evento, p. ej. { step: 2 }
+
+  @@index([createdAt])
+  @@index([type, createdAt])
 }
 
 // ─── Log de sincronización ────────────────────────────────────────────────────

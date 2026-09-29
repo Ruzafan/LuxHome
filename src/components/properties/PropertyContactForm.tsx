@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { getAttribution } from '@/lib/track';
 
 interface Props {
   propertyRef: string;
@@ -27,6 +28,7 @@ export default function PropertyContactForm({ propertyRef, propertyTitle }: Prop
         apellidos: '',
         _propertyRef: propertyRef,
         _propertyTitle: propertyTitle,
+        _attribution: getAttribution(),
       }),
     });
 
@@ -49,8 +51,10 @@ export default function PropertyContactForm({ propertyRef, propertyTitle }: Prop
   }
 
   return (
-    <form className="space-y-3" onSubmit={handleSubmit}>
+    <form className="relative space-y-3" onSubmit={handleSubmit}>
       <input type="hidden" name="ref" value={propertyRef} />
+      {/* Campo trampa anti-spam: invisible para personas */}
+      <input type="text" name="empresa_web" tabIndex={-1} autoComplete="off" aria-hidden className="absolute -left-[9999px] h-px w-px opacity-0" />
       <div>
         <label htmlFor="pc-nombre" className="mb-1.5 block text-[13px] text-[var(--mid)]">{t('contactNamePlaceholder')}</label>
         <input id="pc-nombre" type="text" name="nombre" required autoComplete="name" className="w-full rounded-[var(--radius-input)] border border-[var(--line)] bg-[var(--bg)] px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--rose)]" />

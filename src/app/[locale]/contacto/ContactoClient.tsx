@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { useState } from 'react';
 import PageHeader from '@/components/layout/PageHeader';
+import { getAttribution } from '@/lib/track';
 import { CheckCircle, Clock, EnvelopeSimple, MapPin, Phone, WhatsappLogo } from '@phosphor-icons/react';
 
 export default function ContactoClient({ initialSubject = '', compact = false }: { initialSubject?: string; compact?: boolean }) {
@@ -19,7 +20,7 @@ export default function ContactoClient({ initialSubject = '', compact = false }:
     const res = await fetch('/api/contact', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
+      body: JSON.stringify({ ...data, _attribution: getAttribution() }),
     });
 
     if (res.ok) {
@@ -50,7 +51,10 @@ export default function ContactoClient({ initialSubject = '', compact = false }:
                 <p className="text-sm text-[var(--mid)]">{t('form.successSubtitle')}</p>
               </div>
             ) : (
-              <form className="space-y-4" onSubmit={handleSubmit}>
+              <form className="relative space-y-4" onSubmit={handleSubmit}>
+                {/* Campo trampa anti-spam: invisible para personas */}
+      <input type="text" name="empresa_web" tabIndex={-1} autoComplete="off" aria-hidden className="absolute -left-[9999px] h-px w-px opacity-0" />
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label htmlFor="nombre" className="mb-2 block text-[13px] text-[var(--mid)]">

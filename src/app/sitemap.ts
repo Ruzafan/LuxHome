@@ -1,8 +1,11 @@
 import { MetadataRoute } from 'next';
 import { db } from '@/lib/db';
+import { routing } from '@/i18n/routing';
+import { SELL_MUNICIPALITIES } from '@/data/sellZones';
 
 const BASE_URL = 'https://luxhomein.com';
-const LOCALES = ['es', 'ca', 'en'] as const;
+// Solo los idiomas activos en routing (ahora solo 'es'): no anunciar URLs que no existen
+const LOCALES = routing.locales;
 
 function localizedUrl(path: string, locale: string) {
   if (locale === 'es') return `${BASE_URL}${path}`;
@@ -18,7 +21,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages = [
     { path: '/', priority: 1.0, freq: 'daily' as const },
     { path: '/propiedades', priority: 0.9, freq: 'daily' as const },
+    { path: '/vender-mi-inmueble', priority: 0.9, freq: 'weekly' as const },
     { path: '/contacto', priority: 0.8, freq: 'weekly' as const },
+    ...SELL_MUNICIPALITIES.map((m) => ({ path: `/vender-mi-inmueble/${m.slug}`, priority: 0.7, freq: 'weekly' as const })),
     { path: '/privacidad', priority: 0.3, freq: 'monthly' as const },
     { path: '/aviso-legal', priority: 0.3, freq: 'monthly' as const },
     { path: '/cookies', priority: 0.3, freq: 'monthly' as const },
