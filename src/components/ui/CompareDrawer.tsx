@@ -134,7 +134,7 @@ export default function CompareDrawer() {
                             {p.type}
                           </span>
                           <h4 className="text-sm font-semibold text-gray-900 line-clamp-1 mb-1">{p.title}</h4>
-                          <span className="text-lg font-light text-[var(--dark)] block font-playfair font-bold">
+                          <span className="font-figures text-lg font-medium text-[var(--dark)] block">
                             {formatPrice(p.price, p.operation)}
                           </span>
                           <Link

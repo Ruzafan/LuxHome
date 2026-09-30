@@ -92,6 +92,14 @@ body {
   font-family: var(--font-cormorant), Georgia, serif;
 }
 
+/* Precios y cifras: sans con números de altura uniforme y ancho fijo.
+   Los números de Cormorant son de estilo antiguo (suben y bajan de la línea) y quedan largos e irregulares. */
+.font-figures {
+  font-family: var(--font-jost), system-ui, sans-serif;
+  font-variant-numeric: lining-nums tabular-nums;
+  letter-spacing: -0.02em;
+}
+
 /* ─── Buttons ─── */
 .btn {
   display: inline-flex;

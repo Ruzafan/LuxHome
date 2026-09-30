@@ -99,7 +99,7 @@ export default function PropertyQuickView() {
               {property.type}
             </span>
 
-            <span className="text-3xl md:text-4xl font-light font-playfair text-[var(--dark)] block mb-2">
+            <span className="font-figures text-3xl font-normal text-[var(--dark)] block mb-2">
               {formatPrice(property.price, property.operation)}
             </span>
 

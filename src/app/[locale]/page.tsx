@@ -296,7 +296,7 @@ export default async function HomePage() {
                 <div key={label}>
                   <dt className="sr-only">{label}</dt>
                   <dd>
-                    <span className="font-display block text-[40px] font-light leading-none">{value}</span>
+                    <span className="font-figures block text-[34px] font-light leading-none">{value}</span>
                     <span className="mt-1.5 block text-[13px]" style={{ color: 'var(--subtle)' }}>{label}</span>
                   </dd>
                 </div>

@@ -241,10 +241,9 @@ export default async function PropertyDetailPage({ params }: Props) {
               </p>
 
               <p
-                className="font-light leading-none"
+                className="font-figures font-normal leading-none"
                 style={{
-                  fontFamily: 'var(--font-cormorant), Georgia, serif',
-                  fontSize: '42px',
+                  fontSize: '36px',
                   color: 'var(--dark)',
                 }}
               >

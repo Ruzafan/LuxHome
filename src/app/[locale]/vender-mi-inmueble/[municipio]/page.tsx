@@ -131,7 +131,7 @@ export default async function SellMunicipalityPage({ params }: Props) {
               <div key={s.label} className="reveal">
                 <dt className="sr-only">{s.label}</dt>
                 <dd>
-                  <span className="font-display block text-[44px] font-light leading-none">{s.value}</span>
+                  <span className="font-figures block text-[36px] font-light leading-none">{s.value}</span>
                   <span className="mt-2 block max-w-[28ch] text-[14px] text-[var(--mid)]">{s.label}</span>
                 </dd>
               </div>

@@ -211,8 +211,8 @@ export default function PropertyCard({ property, size = 'default' }: Props) {
 
           <Link href={`/propiedades/${property.id}`} className="group/title block">
             <span
-              className="font-display mb-1.5 block font-normal leading-none"
-              style={{ fontSize: large ? 'clamp(30px, 3vw, 38px)' : '28px', color: 'var(--dark)' }}
+              className="font-figures mb-2 block font-normal leading-none"
+              style={{ fontSize: large ? 'clamp(26px, 2.4vw, 32px)' : '24px', color: 'var(--dark)' }}
             >
               {formatPrice(property.price, property.operation)}
             </span>

@@ -196,7 +196,7 @@ export default function ValuationWizard({ defaultCity = '' }: { defaultCity?: st
         {estimate ? (
           <>
             <p className="mb-2 text-[14px] text-[var(--mid)]">Valor orientativo de tu inmueble en {cityName}</p>
-            <p className="font-display mb-4 font-light leading-none" style={{ fontSize: 'clamp(34px, 4vw, 52px)' }}>
+            <p className="font-figures mb-4 font-normal leading-none" style={{ fontSize: 'clamp(28px, 3.2vw, 42px)' }}>
               {eur(estimate.min)} - {eur(estimate.max)}
             </p>
             <p className="mb-8 max-w-[56ch] text-[14px] leading-[1.7] text-[var(--mid)]">
