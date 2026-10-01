@@ -25,6 +25,9 @@ model Property {
   pricePerM2       Float?
   isFeatured       Boolean  @default(false)
   isNewDevelopment Boolean  @default(false)
+  // Ajustes manuales del panel: la sync con Inmovilla no los toca
+  manualReserved   Boolean  @default(false) // se muestra como reservado mientras siga disponible
+  lowPriority      Boolean  @default(false) // aparece al final de los listados
   publishedAt      DateTime
   updatedAt        DateTime @updatedAt
 

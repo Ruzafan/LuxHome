@@ -135,6 +135,12 @@ export default function PropertyCard({ property, size = 'default' }: Props) {
           )}
         </Link>
 
+        {property.status !== 'disponible' && (
+          <span className="pointer-events-none absolute left-3 top-3 z-20 rounded-full bg-[var(--dark)]/85 px-3 py-1.5 text-[12px] text-white backdrop-blur-md">
+            {t(`status.${property.status}`)}
+          </span>
+        )}
+
         {/* Actions: favorite, quick view, compare */}
         <div className="absolute right-3 top-3 z-20 flex items-center gap-0.5 rounded-full bg-white/85 p-1 shadow-sm backdrop-blur-md">
           <button

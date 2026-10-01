@@ -25,6 +25,17 @@ type PropertyWithRelations = PrismaProperty & {
   images: PrismaImage[];
 };
 
+/**
+ * Estado que ve el público: la reserva manual del panel solo aplica mientras
+ * Inmovilla lo tenga disponible (si se vende, manda el estado de la sync).
+ */
+function publicStatus(p: Pick<PrismaProperty, 'status' | 'manualReserved'>): PropertyStatus {
+  return p.manualReserved && p.status === 'disponible' ? 'reservado' : (p.status as PropertyStatus);
+}
+
+/** Disponibles de verdad: ni vendidos ni reservados desde el panel */
+const AVAILABLE: Prisma.PropertyWhereInput = { status: 'disponible', manualReserved: false };
+
 function mapToProperty(p: PropertyWithRelations): Property {
   return {
     id: p.id,
@@ -33,7 +44,7 @@ function mapToProperty(p: PropertyWithRelations): Property {
     description: p.description,
     type: p.type as PropertyType,
     operation: p.operation as OperationType,
-    status: p.status as PropertyStatus,
+    status: publicStatus(p),
     price: p.price,
     pricePerM2: p.pricePerM2 ?? undefined,
     isFeatured: p.isFeatured,
@@ -127,11 +138,14 @@ export async function getProperties(
     where.features = { bedrooms: { gte: filters.minBedrooms } };
   }
 
-  const orderBy: Prisma.PropertyOrderByWithRelationInput[] =
-    sort === 'price_asc'  ? [{ price: 'asc' }] :
-    sort === 'price_desc' ? [{ price: 'desc' }] :
-    sort === 'newest'     ? [{ publishedAt: 'desc' }] :
-    [{ isFeatured: 'desc' }, { publishedAt: 'desc' }];
+  // Los marcados como poco prioritarios van siempre al final, sea cual sea el orden
+  const orderBy: Prisma.PropertyOrderByWithRelationInput[] = [
+    { lowPriority: 'asc' },
+    ...(sort === 'price_asc'  ? [{ price: 'asc' as const }] :
+        sort === 'price_desc' ? [{ price: 'desc' as const }] :
+        sort === 'newest'     ? [{ publishedAt: 'desc' as const }] :
+        [{ isFeatured: 'desc' as const }, { publishedAt: 'desc' as const }]),
+  ];
 
   const rows = await db.property.findMany({
     where,
@@ -173,7 +187,7 @@ export async function getFeaturedProperties(limit = 4): Promise<Property[]> {
   const featured = await db.property.findMany({
     where: { isFeatured: true, status: { not: 'vendido' } },
     include: { features: true, location: true, images: true },
-    orderBy: { publishedAt: 'desc' },
+    orderBy: [{ lowPriority: 'asc' }, { publishedAt: 'desc' }],
     take: limit,
   });
 
@@ -183,7 +197,7 @@ export async function getFeaturedProperties(limit = 4): Promise<Property[]> {
   const filler = await db.property.findMany({
     where: { id: { notIn: featuredIds }, status: { not: 'vendido' } },
     include: { features: true, location: true, images: true },
-    orderBy: { publishedAt: 'desc' },
+    orderBy: [{ lowPriority: 'asc' }, { publishedAt: 'desc' }],
     take: limit - featured.length,
   });
 
@@ -199,6 +213,7 @@ export async function getRelatedProperties(property: Property, limit = 3): Promi
       status: { not: 'vendido' },
     },
     include: { features: true, location: true, images: true },
+    orderBy: [{ lowPriority: 'asc' }, { publishedAt: 'desc' }],
     take: limit,
   });
   return rows.map(mapToProperty);
@@ -223,7 +238,7 @@ export async function getAllLocations(): Promise<string[]> {
 
 export async function getStats(): Promise<{ total: number; zones: number }> {
   const [total, cities] = await Promise.all([
-    db.property.count({ where: { status: 'disponible' } }),
+    db.property.count({ where: AVAILABLE }),
     db.propertyLocation.findMany({ select: { city: true }, distinct: ['city'] }),
   ]);
   return { total, zones: cities.length };
@@ -259,7 +274,7 @@ export async function getMunicipalityMarket(city: string): Promise<MunicipalityM
 
   const rows = await db.property.findMany({
     include: { features: true, location: true, images: true },
-    orderBy: { publishedAt: 'desc' },
+    orderBy: [{ lowPriority: 'asc' }, { publishedAt: 'desc' }],
   });
   const properties = rows
     .filter((p) => keys.has(normalize(p.location?.city ?? '')))

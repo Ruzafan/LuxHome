@@ -18,7 +18,7 @@ export default async function AdminPage() {
   try {
     const [t, d, l, grouped] = await Promise.all([
       db.property.count(),
-      db.property.count({ where: { status: 'disponible' } }),
+      db.property.count({ where: { status: 'disponible', manualReserved: false } }),
       db.syncLog.findMany({ orderBy: { triggeredAt: 'desc' }, take: 15 }),
       db.lead.groupBy({ by: ['status'], _count: { _all: true } }),
     ]);
