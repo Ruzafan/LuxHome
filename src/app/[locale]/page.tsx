@@ -153,19 +153,34 @@ export default async function HomePage() {
           </div>
 
           <div className="container-lux pb-6 pt-32 md:pb-10">
-            <div className="max-w-[760px] animate-fade-in">
-              <p className="mb-5 text-[13px] font-normal" style={{ color: 'oklch(100% 0 0 / 0.78)' }}>
-                {t('badge')}
-              </p>
-              <h1
-                className="font-display mb-5 font-light leading-[1.02] text-white"
-                style={{ fontSize: 'clamp(48px, 7vw, 104px)', letterSpacing: '-0.02em' }}
+            <div className="grid animate-fade-in items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,440px)] lg:gap-14">
+              <div className="max-w-[640px]">
+                <p className="mb-5 text-[13px] font-normal" style={{ color: 'oklch(100% 0 0 / 0.78)' }}>
+                  {t('badge')}
+                </p>
+                <h1
+                  className="font-display mb-5 font-light leading-[1.04] text-white"
+                  style={{ fontSize: 'clamp(40px, 5.4vw, 80px)', letterSpacing: '-0.02em' }}
+                >
+                  {t('title')}
+                </h1>
+                <p className="mb-9 max-w-[520px] text-[17px] leading-[1.6]" style={{ color: 'oklch(100% 0 0 / 0.82)' }}>
+                  {t('heroText')}
+                </p>
+              </div>
+              <div
+                className="mb-9 hidden overflow-hidden rounded-[var(--radius-card)] bg-white p-2 lg:block"
+                style={{ boxShadow: '0 30px 60px -20px oklch(15% 0.02 340 / 0.6)' }}
               >
-                {t('title')}
-              </h1>
-              <p className="mb-9 max-w-[520px] text-[17px] leading-[1.6]" style={{ color: 'oklch(100% 0 0 / 0.82)' }}>
-                {t('heroText')}
-              </p>
+                <Image
+                  src="/inmoweb.jpg"
+                  alt="Logotipo de LuxHome Inmobiliaria: más LUX que nunca"
+                  width={1179}
+                  height={831}
+                  sizes="440px"
+                  className="h-auto w-full rounded-[18px]"
+                />
+              </div>
             </div>
             <div className="max-w-[1100px] animate-fade-in" style={{ animationDelay: '0.15s' }}>
               <HeroSearchBar />

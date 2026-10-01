@@ -59,7 +59,7 @@ export default function Navbar() {
               alt="LuxHome Inmobiliaria"
               width={140}
               height={48}
-              className="h-9 w-auto object-contain transition-[filter] duration-500"
+              className="h-11 w-auto object-contain transition-[filter] duration-500 md:h-12"
               style={{ filter: transparent ? 'brightness(0) invert(1)' : 'none' }}
               preload
             />
