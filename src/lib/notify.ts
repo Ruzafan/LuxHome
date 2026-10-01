@@ -63,7 +63,7 @@ function valuationRows(v: ValuationData): [string, string][] {
   ];
   if (v.estimate) {
     rows.push([
-      'Horquilla orientativa',
+      'Horquilla orientativa (interna)',
       `${eur(v.estimate.min)} - ${eur(v.estimate.max)} (${v.estimate.comparables} comparables, ${v.estimate.basis})`,
     ]);
   } else {
@@ -121,15 +121,6 @@ function customerEmailHtml(lead: Lead): string {
       ? `Hemos recibido tu solicitud de valoración de tu ${escapeHtml(v.typeLabel.toLowerCase())} en ${escapeHtml(v.city)}. Una de nuestras asesoras te llamará en menos de 24 horas para concretar una visita y darte una valoración precisa, sin compromiso.`
       : 'Hemos recibido tu mensaje y te responderemos en menos de 24 horas.';
 
-  const estimate =
-    v?.estimate
-      ? `<div style="margin:0 0 24px;padding:16px 20px;background:#f6e9ef;border-radius:12px">
-           <p style="margin:0 0 4px;font-size:13px;color:#6b5b63">Valor orientativo según inmuebles comparables</p>
-           <p style="margin:0;font-size:22px;color:#21181d">${eur(v.estimate.min)} - ${eur(v.estimate.max)}</p>
-           <p style="margin:6px 0 0;font-size:12px;color:#6b5b63">Es una aproximación. El valor real depende de la visita: orientación, altura, reformas y estado de la finca.</p>
-         </div>`
-      : '';
-
   return `
   <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#21181d">
     <div style="background:#21181d;padding:24px 32px;border-radius:16px 16px 0 0">
@@ -138,7 +129,6 @@ function customerEmailHtml(lead: Lead): string {
     <div style="background:#fff;padding:32px;border:1px solid #eee;border-top:none;border-radius:0 0 16px 16px">
       <h2 style="margin:0 0 12px;font-size:22px;font-weight:normal">Hola, ${escapeHtml(lead.nombre)}</h2>
       <p style="font-size:15px;line-height:1.6;margin:0 0 20px;color:#3d3238">${intro}</p>
-      ${estimate}
       <p style="font-size:14px;line-height:1.6;margin:0 0 20px;color:#6b5b63">Si lo prefieres, puedes escribirnos o llamarnos directamente:</p>
       <a href="https://wa.me/34691294443" style="display:inline-block;padding:12px 20px;background:#1f9d55;color:#fff;text-decoration:none;border-radius:999px;font-size:14px;margin-right:8px">WhatsApp</a>
       <a href="tel:+34691294443" style="display:inline-block;padding:12px 20px;background:#21181d;color:#fff;text-decoration:none;border-radius:999px;font-size:14px">${AGENCY_PHONE}</a>

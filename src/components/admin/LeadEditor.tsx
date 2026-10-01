@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { LEAD_STATUSES, type LeadStatus } from '@/lib/leads';
 
 export default function LeadEditor({ id, status, notes }: { id: string; status: string; notes: string | null }) {
@@ -9,6 +9,25 @@ export default function LeadEditor({ id, status, notes }: { id: string; status: 
   const [current, setCurrent] = useState(status);
   const [text, setText] = useState(notes ?? '');
   const [state, setState] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+  const searchParams = useSearchParams();
+  const [deleting, setDeleting] = useState(false);
+
+  async function remove() {
+    if (!window.confirm('¿Borrar esta solicitud? Se eliminará definitivamente y no se puede deshacer.')) return;
+    setDeleting(true);
+    const res = await fetch(`/api/admin/leads/${id}`, { method: 'DELETE' });
+    if (!res.ok) {
+      setDeleting(false);
+      setState('error');
+      return;
+    }
+    // Vuelve al listado conservando los filtros activos
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete('id');
+    const qs = params.toString();
+    router.push(`/admin/solicitudes${qs ? `?${qs}` : ''}`);
+    router.refresh();
+  }
 
   async function save(patch: { status?: string; notes?: string }) {
     setState('saving');
@@ -71,6 +90,17 @@ export default function LeadEditor({ id, status, notes }: { id: string; status: 
             {state === 'saving' ? 'Guardando...' : state === 'saved' ? 'Guardado' : state === 'error' ? 'No se pudo guardar' : ''}
           </span>
         </div>
+      </div>
+
+      <div className="border-t border-white/10 pt-5">
+        <button
+          type="button"
+          onClick={remove}
+          disabled={deleting}
+          className="rounded-full border border-red-400/40 px-4 py-2 text-xs text-red-300 transition hover:bg-red-500/15 disabled:opacity-50"
+        >
+          {deleting ? 'Borrando...' : 'Borrar solicitud'}
+        </button>
       </div>
     </div>
   );

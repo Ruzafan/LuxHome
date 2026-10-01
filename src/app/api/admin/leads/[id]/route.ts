@@ -4,10 +4,14 @@ import { verifySessionToken, SESSION_COOKIE } from '@/lib/auth';
 import { db } from '@/lib/db';
 import { LEAD_STATUSES } from '@/lib/leads';
 
+async function isAuthorized(): Promise<boolean> {
+  const token = (await cookies()).get(SESSION_COOKIE)?.value;
+  return !!token && (await verifySessionToken(token));
+}
+
 /** PATCH /api/admin/leads/:id  { status?, notes? } */
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-  const token = (await cookies()).get(SESSION_COOKIE)?.value;
-  if (!token || !(await verifySessionToken(token))) {
+  if (!(await isAuthorized())) {
     return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
   }
 
@@ -28,6 +32,21 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
   try {
     const lead = await db.lead.update({ where: { id }, data, select: { id: true, status: true, notes: true, updatedAt: true } });
     return NextResponse.json(lead);
+  } catch {
+    return NextResponse.json({ error: 'Solicitud no encontrada' }, { status: 404 });
+  }
+}
+
+/** DELETE /api/admin/leads/:id  Borrado definitivo (pruebas o solicitudes ya gestionadas) */
+export async function DELETE(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  if (!(await isAuthorized())) {
+    return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
+  }
+
+  const { id } = await params;
+  try {
+    await db.lead.delete({ where: { id } });
+    return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json({ error: 'Solicitud no encontrada' }, { status: 404 });
   }

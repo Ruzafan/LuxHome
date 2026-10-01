@@ -161,11 +161,11 @@ export default async function SolicitudesPage({ searchParams }: { searchParams: 
                     </div>
                   ))}
                   <div className="col-span-2 rounded-lg bg-white/5 p-3">
-                    <dt className="text-xs text-white/40">Horquilla mostrada al cliente</dt>
+                    <dt className="text-xs text-white/40">Horquilla orientativa (no se muestra al cliente)</dt>
                     <dd className="mt-1 text-white">
                       {v.estimate
                         ? `${eur(v.estimate.min)} - ${eur(v.estimate.max)} · ${v.estimate.pricePerM2} €/m² · ${v.estimate.comparables} comparables (${v.estimate.basis})`
-                        : 'Sin comparables suficientes: no se mostró cifra'}
+                        : 'Sin comparables suficientes'}
                     </dd>
                   </div>
                 </dl>

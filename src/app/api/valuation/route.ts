@@ -6,8 +6,8 @@ import { estimateValue, parseValuationInput, toValuationData } from '@/lib/valua
 
 /**
  * POST /api/valuation
- * Guarda la solicitud del valorador como lead (kind = valoracion), calcula la horquilla
- * orientativa con comparables propios y avisa a la agencia tras responder.
+ * Guarda la solicitud del valorador como lead (kind = valoracion) y avisa a la agencia tras responder.
+ * La horquilla con comparables propios es solo de uso interno: no se devuelve al cliente.
  */
 export async function POST(request: NextRequest) {
   let body: Record<string, unknown>;
@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
   }
 
   // Bot: respondemos como si todo fuera bien, sin guardar nada
-  if (isSpam(body)) return NextResponse.json({ ok: true, estimate: null });
+  if (isSpam(body)) return NextResponse.json({ ok: true });
 
   const input = parseValuationInput(body);
   const nombre = String(body.nombre ?? '').trim().slice(0, 100);
@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
         .catch(() => {});
     });
 
-    return NextResponse.json({ ok: true, estimate });
+    return NextResponse.json({ ok: true });
   } catch (err) {
     console.error('[valuation]', err);
     return NextResponse.json({ error: 'No se pudo enviar la solicitud.' }, { status: 500 });

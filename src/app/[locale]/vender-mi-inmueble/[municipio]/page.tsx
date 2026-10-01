@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const m = getSellMunicipality(municipio);
   if (!m) return {};
   const title = `Vender piso en ${m.name} | Valoración gratuita`;
-  const description = `¿Quieres vender tu piso o casa en ${m.name}? Calcula el valor de tu vivienda gratis y vende con un equipo que conoce el ${m.comarca.name}: precio realista, compradores filtrados y acompañamiento hasta notaría.`;
+  const description = `¿Quieres vender tu piso o casa en ${m.name}? Pide una valoración gratuita de tu vivienda y vende con un equipo que conoce el ${m.comarca.name}: precio realista, compradores filtrados y acompañamiento hasta notaría.`;
   const path = `/vender-mi-inmueble/${m.slug}`;
   return {
     title,
@@ -55,7 +55,7 @@ export default async function SellMunicipalityPage({ params }: Props) {
   const faq: FaqItem[] = [
     {
       question: `¿Cuánto vale mi piso en ${m.name}?`,
-      answer: `Depende de la superficie, el estado, la altura y la calle. Con el valorador de esta página tienes una horquilla orientativa al momento, y después te hacemos una valoración precisa con ventas reales de ${m.name} y del ${m.comarca.name}, gratis y sin compromiso.`,
+      answer: `Depende de la superficie, el estado, la altura y la calle. Déjanos los datos en el formulario de esta página y un asesor te contactará para hacerte una valoración precisa con ventas reales de ${m.name} y del ${m.comarca.name}, gratis y sin compromiso.`,
     },
     {
       question: `¿Cuánto se tarda en vender una vivienda en ${m.name}?`,
@@ -143,7 +143,7 @@ export default async function SellMunicipalityPage({ params }: Props) {
       <div className="pt-16 md:pt-20">
         <ValuationSection
           title={`¿Cuánto vale tu vivienda en ${m.name}?`}
-          text={`Responde tres preguntas y obtén una horquilla orientativa al momento. Después te llamamos para afinarla con una visita, sin compromiso.`}
+          text={`Responde tres preguntas y un asesor te contactará para valorar tu vivienda con datos reales de la zona, gratis y sin compromiso.`}
           defaultCity={m.name}
         />
       </div>

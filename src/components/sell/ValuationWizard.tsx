@@ -14,18 +14,7 @@ import {
   type ConditionKey, type ExtraKey, type PropertyTypeKey, type TimingKey,
 } from '@/lib/valuationOptions';
 
-interface Estimate {
-  min: number;
-  max: number;
-  pricePerM2: number;
-  comparables: number;
-  basis: 'municipio' | 'comarca';
-}
-
 const STEPS = ['Ubicación', 'Tu inmueble', 'Contacto'] as const;
-
-const eur = (n: number) =>
-  new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n);
 
 const inputClass =
   'w-full rounded-[var(--radius-input)] border border-[var(--line)] bg-[var(--bg)] px-4 py-3.5 text-[15px] text-[var(--dark)] placeholder:text-[var(--subtle)] focus:outline-none focus:ring-2 focus:ring-[var(--rose)]';
@@ -81,7 +70,6 @@ export default function ValuationWizard({ defaultCity = '' }: { defaultCity?: st
   const [step, setStep] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState<'idle' | 'sending' | 'done'>('idle');
-  const [estimate, setEstimate] = useState<Estimate | null>(null);
   const started = useRef(false);
   const topRef = useRef<HTMLDivElement>(null);
 
@@ -176,7 +164,6 @@ export default function ValuationWizard({ defaultCity = '' }: { defaultCity?: st
         setStatus('idle');
         return;
       }
-      setEstimate(data.estimate ?? null);
       setStatus('done');
       topRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     } catch {
@@ -193,27 +180,10 @@ export default function ValuationWizard({ defaultCity = '' }: { defaultCity?: st
         <span className="mb-6 flex h-14 w-14 items-center justify-center rounded-full bg-[var(--rose-soft)] text-[var(--accent)]">
           <CheckCircle size={28} weight="light" />
         </span>
-        {estimate ? (
-          <>
-            <p className="mb-2 text-[14px] text-[var(--mid)]">Valor orientativo de tu inmueble en {cityName}</p>
-            <p className="font-figures mb-4 font-normal leading-none" style={{ fontSize: 'clamp(28px, 3.2vw, 42px)' }}>
-              {eur(estimate.min)} - {eur(estimate.max)}
-            </p>
-            <p className="mb-8 max-w-[56ch] text-[14px] leading-[1.7] text-[var(--mid)]">
-              Calculado con {estimate.comparables} inmuebles comparables {estimate.basis === 'municipio' ? `en ${cityName}` : 'de la comarca'}.
-              Es una aproximación: orientación, altura, reformas y estado de la finca pueden mover el precio.
-              Te llamamos en menos de 24 horas para darte una valoración precisa, sin compromiso.
-            </p>
-          </>
-        ) : (
-          <>
-            <h3 className="font-display mb-3 text-[34px] font-light leading-[1.1]">Solicitud recibida, {nombre.split(' ')[0]}</h3>
-            <p className="mb-8 max-w-[56ch] text-[15px] leading-[1.7] text-[var(--mid)]">
-              En {cityName} preferimos valorar cada inmueble a mano con datos de ventas reales de la zona.
-              Te llamamos en menos de 24 horas con una valoración precisa, sin compromiso.
-            </p>
-          </>
-        )}
+        <h3 className="font-display mb-3 text-[34px] font-light leading-[1.1]">Solicitud recibida, {nombre.split(' ')[0]}</h3>
+        <p className="mb-8 max-w-[56ch] text-[15px] leading-[1.7] text-[var(--mid)]">
+          Un asesor te contactará en menos de 24 horas para valorar tu inmueble en {cityName} con datos de ventas reales de la zona, gratis y sin compromiso.
+        </p>
         <div className="flex flex-wrap gap-3">
           <a href="tel:+34691294443" className="btn btn-primary">
             <Phone size={17} weight="light" />
@@ -355,7 +325,7 @@ export default function ValuationWizard({ defaultCity = '' }: { defaultCity?: st
             <span />
           )}
           <button type="submit" disabled={status === 'sending'} className="btn btn-primary disabled:cursor-not-allowed disabled:opacity-60">
-            {step < STEPS.length - 1 ? 'Continuar' : status === 'sending' ? 'Calculando...' : 'Ver mi valoración'}
+            {step < STEPS.length - 1 ? 'Continuar' : status === 'sending' ? 'Enviando...' : 'Solicitar valoración'}
             {status !== 'sending' && <ArrowRight size={16} />}
           </button>
         </div>
