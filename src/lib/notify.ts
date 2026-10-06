@@ -33,7 +33,7 @@ export function escapeHtml(value: unknown): string {
 }
 
 // Destino anterior, se mantiene mientras LEADS_NOTIFY_EMAILS no esté configurada
-const FALLBACK_NOTIFY_EMAIL = 'marcramiro@gmail.com';
+const FALLBACK_NOTIFY_EMAIL = 'bego@luxhomein.com';
 
 function notifyEmails(): string[] {
   const list = (process.env.LEADS_NOTIFY_EMAILS ?? '')
