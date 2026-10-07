@@ -153,7 +153,7 @@ function toInmovillaProperty(p: XmlProperty): InmovillaProperty {
     destacado:        asBool(p.destacado),
     obra_nueva:       asBool(p.keypromo),
     fecha_publicacion: new Date().toISOString(),
-    habitaciones:     asNum(p.habitaciones),
+    habitaciones:     asNum(p.habitaciones) + asNum(p.habdobles), // simples + dobles
     banos:            asNum(p.banyos) + asNum(p.aseos),
     superficie:       area,
     superficie_parcela: p.m_parcela ? asNum(p.m_parcela) : undefined,
