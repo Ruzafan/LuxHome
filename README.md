@@ -91,6 +91,7 @@ Plantilla completa y comentada en [`.env.example`](.env.example). En Vercel se c
 | `CRON_SECRET` | Protege `GET /api/sync`. Vercel Cron lo envía como `Authorization: Bearer ...` |
 | `ADMIN_USERNAME`, `ADMIN_PASSWORD` | Acceso a `/admin` |
 | `ADMIN_SECRET` | Firma HMAC de la cookie de sesión del admin |
+| `SMTP_USER` / `SMTP_PASS` | Envío por SMTP (Gmail + contraseña de aplicación); tiene prioridad sobre Resend |
 | `RESEND_API_KEY` | Envío de emails |
 | `EMAIL_FROM` | Remitente (dominio verificado en Resend) |
 | `LEADS_NOTIFY_EMAILS` | Destinatarios de los avisos de solicitudes, separados por comas |

@@ -6,6 +6,16 @@ Qué falta configurar para que funcionen el valorador online, los avisos de soli
 
 ---
 
+## 0. Solución inmediata: Gmail por SMTP (sin tocar DNS)
+
+Mientras el dominio no esté verificado en Resend, los emails se pueden enviar desde una cuenta de Gmail. Si `SMTP_USER` y `SMTP_PASS` están definidas, se usan en lugar de Resend.
+
+1. En la cuenta de Gmail que enviará los avisos, activar la **verificación en 2 pasos**.
+2. Ir a <https://myaccount.google.com/apppasswords>, crear una contraseña de aplicación ("LuxHome web") y copiar los 16 caracteres (sin espacios).
+3. En Vercel (Production) añadir `SMTP_USER` = la dirección de Gmail y `SMTP_PASS` = esa contraseña. Redeploy.
+
+El remitente será esa dirección de Gmail. Límite aproximado: 500 emails/día. Cuando Resend esté verificado, basta con borrar `SMTP_USER`/`SMTP_PASS` para volver a Resend.
+
 ## 1. Resend (envío de emails)
 
 Resend envía el aviso de cada solicitud a la agencia y la confirmación al propietario. Plan gratuito: 3.000 emails/mes, 100/día (de sobra para este volumen).
@@ -46,8 +56,9 @@ Cuando los añadan, pulsar **Verify** en Resend (puede tardar unas horas en prop
 
 | Variable | Valor | Obligatoria |
 |---|---|---|
-| `RESEND_API_KEY` | La API key del paso 1 | Sí |
-| `EMAIL_FROM` | `LuxHome <avisos@luxhomein.com>` (cualquier dirección `@luxhomein.com` una vez verificado el dominio) | Sí |
+| `SMTP_USER` / `SMTP_PASS` | Gmail y contraseña de aplicación (paso 0). Si están, tienen prioridad sobre Resend | Sí, si no hay Resend |
+| `RESEND_API_KEY` | La API key del paso 1 | Sí, si no hay SMTP |
+| `EMAIL_FROM` | `LuxHome <avisos@luxhomein.com>` (cualquier dirección `@luxhomein.com` una vez verificado el dominio). Se ignora con SMTP | Con Resend |
 | `LEADS_NOTIFY_EMAILS` | Quién recibe las solicitudes, separados por comas. Ejemplo: `bego@luxhomein.com,monica@luxhomein.com` | Sí (si está vacía, los avisos van solo a marcramiro@gmail.com) |
 | `SITE_URL` | `https://luxhomein.com` | Sí |
 | `WHATSAPP_NOTIFY` | Ver paso 4. Formato `34600111222:apikey,34600333444:apikey` | No |
@@ -75,7 +86,7 @@ Alternativa oficial: API de WhatsApp Business (Meta). Requiere verificar la empr
 1. Rellenar el valorador en <https://luxhomein.com/vender-mi-inmueble> con datos de prueba y un email propio.
 2. Deben llegar: el email a `LEADS_NOTIFY_EMAILS`, la confirmación al email del formulario y, si está configurado, el WhatsApp.
 3. La solicitud aparece en `/admin/solicitudes`. Marcarla como **Descartada** para que no cuente en las estadísticas de captación.
-4. Si no llega el email: **Vercel → Logs**, buscar líneas `[notify]` (dicen qué variable falta o qué error devuelve Resend).
+4. Si no llega el email: **Vercel → Logs**, buscar líneas `[notify]` (dicen qué variable falta o qué error devuelve Resend o el SMTP). Con Gmail, un error `535` significa que `SMTP_PASS` no es una contraseña de aplicación válida.
 
 ## 6. Google Search Console
 

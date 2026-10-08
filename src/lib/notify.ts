@@ -1,4 +1,5 @@
 import { Resend } from 'resend';
+import nodemailer from 'nodemailer';
 import type { Lead } from '@prisma/client';
 import type { ValuationData } from '@/lib/valuation';
 
@@ -12,9 +13,12 @@ import type { ValuationData } from '@/lib/valuation';
  */
 
 const SITE_URL = process.env.SITE_URL ?? 'https://luxhomein.com';
-// onboarding@resend.dev solo entrega al propietario de la cuenta de Resend:
-// hay que verificar luxhomein.com en Resend y definir EMAIL_FROM para que llegue al equipo.
-const EMAIL_FROM = process.env.EMAIL_FROM ?? 'LuxHome <onboarding@resend.dev>';
+// Con SMTP (Gmail) el remitente es la propia cuenta SMTP_USER: Gmail reescribe cualquier otro From.
+// Con Resend, onboarding@resend.dev solo entrega al propietario de la cuenta: hay que verificar
+// luxhomein.com en Resend y definir EMAIL_FROM para que llegue al equipo.
+const EMAIL_FROM = process.env.SMTP_USER
+  ? `LuxHome <${process.env.SMTP_USER}>`
+  : process.env.EMAIL_FROM ?? 'LuxHome <onboarding@resend.dev>';
 const AGENCY_PHONE = '+34 691 294 443';
 
 const KIND_LABEL: Record<string, string> = {
@@ -173,17 +177,40 @@ async function sendWhatsapp(text: string): Promise<void> {
   );
 }
 
+type EmailMessage = { to: string | string[]; replyTo?: string; subject: string; html: string };
+
+/**
+ * Prioridad: SMTP (SMTP_USER + SMTP_PASS, por defecto Gmail con contraseña de aplicación),
+ * si no Resend (RESEND_API_KEY). Devuelve null si no hay ninguno configurado.
+ */
+function emailSender(): ((msg: EmailMessage) => Promise<unknown>) | null {
+  if (process.env.SMTP_USER && process.env.SMTP_PASS) {
+    const port = Number(process.env.SMTP_PORT ?? 465);
+    const transport = nodemailer.createTransport({
+      host: process.env.SMTP_HOST ?? 'smtp.gmail.com',
+      port,
+      secure: port === 465,
+      auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
+    });
+    return (msg) => transport.sendMail({ from: EMAIL_FROM, ...msg });
+  }
+  if (process.env.RESEND_API_KEY) {
+    const resend = new Resend(process.env.RESEND_API_KEY);
+    return (msg) => resend.emails.send({ from: EMAIL_FROM, ...msg });
+  }
+  return null;
+}
+
 export async function notifyNewLead(lead: Lead): Promise<void> {
   const tasks: Promise<unknown>[] = [];
   const recipients = notifyEmails();
+  const send = emailSender();
 
-  if (!process.env.RESEND_API_KEY) {
-    console.warn('[notify] RESEND_API_KEY no configurada: no se envían emails');
+  if (!send) {
+    console.warn('[notify] Ni SMTP_USER/SMTP_PASS ni RESEND_API_KEY configuradas: no se envían emails');
   } else {
-    const resend = new Resend(process.env.RESEND_API_KEY);
     tasks.push(
-      resend.emails.send({
-        from: EMAIL_FROM,
+      send({
         to: recipients,
         ...(lead.email ? { replyTo: lead.email } : {}),
         subject: `[LuxHome] ${KIND_LABEL[lead.kind] ?? 'Nuevo lead'}: ${lead.nombre}${lead.city ? ` (${lead.city})` : ''}`,
@@ -192,8 +219,7 @@ export async function notifyNewLead(lead: Lead): Promise<void> {
     );
     if (lead.email) {
       tasks.push(
-        resend.emails.send({
-          from: EMAIL_FROM,
+        send({
           to: lead.email,
           replyTo: recipients[0],
           subject:
@@ -214,6 +240,10 @@ export async function notifyNewLead(lead: Lead): Promise<void> {
     // Resend devuelve { error } en vez de lanzar
     else if (r.value && typeof r.value === 'object' && 'error' in r.value && r.value.error) {
       console.error('[notify] Resend', r.value.error);
+    } else if (r.value && typeof r.value === 'object' && 'rejected' in r.value) {
+      // nodemailer: destinatarios rechazados por el servidor SMTP
+      const rejected = (r.value as { rejected: unknown[] }).rejected;
+      if (rejected.length) console.error('[notify] SMTP rechazó', rejected);
     }
   }
 }
