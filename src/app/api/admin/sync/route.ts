@@ -3,6 +3,7 @@ import { cookies } from 'next/headers';
 import { verifySessionToken, SESSION_COOKIE } from '@/lib/auth';
 import { syncFromXml, syncAllProperties } from '@/lib/inmovilla/sync';
 import { db } from '@/lib/db';
+import { invalidatePropertiesCache } from '@/lib/cache';
 
 export async function POST() {
   // Verificar sesión
@@ -16,6 +17,7 @@ export async function POST() {
     const stats = process.env.INMOVILLA_XML_URL
       ? { ...(await syncFromXml()), skipped: 0 }
       : await syncAllProperties();
+    invalidatePropertiesCache();
 
     await db.syncLog.create({
       data: {

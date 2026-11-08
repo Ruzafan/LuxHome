@@ -6,7 +6,9 @@ import {
   OperationType,
   PropertyStatus,
 } from '@/types/property';
+import { unstable_cache } from 'next/cache';
 import { db } from '@/lib/db';
+import { CACHE_TTL, CACHE_TAGS } from '@/lib/cache';
 import { normalize } from '@/lib/utils';
 import { MUNICIPALITY_ALIASES } from '@/data/catalanMunicipalities';
 import type {
@@ -116,7 +118,7 @@ function matchesCity(p: Property, query: string): boolean {
 
 type SortOption = 'relevance' | 'price_asc' | 'price_desc' | 'newest';
 
-export async function getProperties(
+async function getPropertiesFromDb(
   filters: PropertyFilters = {},
   page = 1,
   pageSize = 9,
@@ -175,7 +177,7 @@ export async function getProperties(
   };
 }
 
-export async function getPropertyById(id: string): Promise<Property | null> {
+async function getPropertyByIdFromDb(id: string): Promise<Property | null> {
   const p = await db.property.findUnique({
     where: { id },
     include: { features: true, location: true, images: true },
@@ -183,7 +185,7 @@ export async function getPropertyById(id: string): Promise<Property | null> {
   return p ? mapToProperty(p) : null;
 }
 
-export async function getFeaturedProperties(limit = 4): Promise<Property[]> {
+async function getFeaturedPropertiesFromDb(limit = 4): Promise<Property[]> {
   const featured = await db.property.findMany({
     where: { isFeatured: true, status: { not: 'vendido' } },
     include: { features: true, location: true, images: true },
@@ -204,7 +206,7 @@ export async function getFeaturedProperties(limit = 4): Promise<Property[]> {
   return [...featured, ...filler].map(mapToProperty);
 }
 
-export async function getRelatedProperties(property: Property, limit = 3): Promise<Property[]> {
+async function getRelatedPropertiesFromDb(property: Pick<Property, 'id' | 'type' | 'operation'>, limit = 3): Promise<Property[]> {
   const rows = await db.property.findMany({
     where: {
       id: { not: property.id },
@@ -219,7 +221,7 @@ export async function getRelatedProperties(property: Property, limit = 3): Promi
   return rows.map(mapToProperty);
 }
 
-export async function getAllLocations(): Promise<string[]> {
+async function getAllLocationsFromDb(): Promise<string[]> {
   const rows = await db.propertyLocation.findMany({
     select: { city: true, neighborhood: true },
   });
@@ -236,7 +238,7 @@ export async function getAllLocations(): Promise<string[]> {
   return result.sort((a, b) => a.localeCompare(b, 'es'));
 }
 
-export async function getStats(): Promise<{ total: number; zones: number }> {
+async function getStatsFromDb(): Promise<{ total: number; zones: number }> {
   const [total, cities] = await Promise.all([
     db.property.count({ where: AVAILABLE }),
     db.propertyLocation.findMany({ select: { city: true }, distinct: ['city'] }),
@@ -244,7 +246,7 @@ export async function getStats(): Promise<{ total: number; zones: number }> {
   return { total, zones: cities.length };
 }
 
-export async function getPropertyCountByCity(): Promise<Record<string, number>> {
+async function getPropertyCountByCityFromDb(): Promise<Record<string, number>> {
   const rows = await db.propertyLocation.groupBy({
     by: ['city'],
     _count: { city: true },
@@ -266,7 +268,7 @@ export interface MunicipalityMarket {
 }
 
 /** Coincidencia estricta por municipio (city), no por provincia, barrio o dirección. */
-export async function getMunicipalityMarket(city: string): Promise<MunicipalityMarket> {
+async function getMunicipalityMarketFromDb(city: string): Promise<MunicipalityMarket> {
   const keys = new Set([
     normalize(city),
     ...(Object.entries(MUNICIPALITY_ALIASES).find(([official]) => normalize(official) === normalize(city))?.[1] ?? []).map(normalize),
@@ -294,4 +296,30 @@ export async function getMunicipalityMarket(city: string): Promise<MunicipalityM
     soldOrReserved: properties.filter((p) => p.status === 'vendido' || p.status === 'reservado').length,
     medianPricePerM2: pm2.length >= 3 ? Math.round(pm2.length % 2 ? pm2[mid] : (pm2[mid - 1] + pm2[mid]) / 2) : null,
   };
+}
+
+// ─── Versiones cacheadas (lo que usa la web pública) ─────────────────────────
+// Cada combinación de argumentos se guarda 12 h; la sync, el webhook y el panel
+// admin vacían la caché con invalidatePropertiesCache() al cambiar datos.
+
+const cacheOpts = { revalidate: CACHE_TTL, tags: [CACHE_TAGS.properties] };
+
+export const getProperties = unstable_cache(getPropertiesFromDb, ['properties:list'], cacheOpts);
+export const getPropertyById = unstable_cache(getPropertyByIdFromDb, ['properties:byId'], cacheOpts);
+export const getFeaturedProperties = unstable_cache(getFeaturedPropertiesFromDb, ['properties:featured'], cacheOpts);
+export const getAllLocations = unstable_cache(getAllLocationsFromDb, ['properties:locations'], cacheOpts);
+export const getStats = unstable_cache(getStatsFromDb, ['properties:stats'], cacheOpts);
+export const getPropertyCountByCity = unstable_cache(getPropertyCountByCityFromDb, ['properties:countByCity'], cacheOpts);
+export const getMunicipalityMarket = unstable_cache(getMunicipalityMarketFromDb, ['properties:municipality'], cacheOpts);
+
+const getRelatedCached = unstable_cache(
+  (id: string, type: PropertyType, operation: OperationType, limit: number) =>
+    getRelatedPropertiesFromDb({ id, type, operation }, limit),
+  ['properties:related'],
+  cacheOpts
+);
+
+/** Solo usa id/tipo/operación como clave, no el inmueble entero */
+export function getRelatedProperties(property: Pick<Property, 'id' | 'type' | 'operation'>, limit = 3) {
+  return getRelatedCached(property.id, property.type, property.operation, limit);
 }

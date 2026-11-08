@@ -4,6 +4,7 @@ import { verifySessionToken, SESSION_COOKIE } from '@/lib/auth';
 import { syncSingleProperty } from '@/lib/inmovilla/sync';
 import { parseXmlProperties } from '@/lib/inmovilla/xmlClient';
 import { db } from '@/lib/db';
+import { invalidatePropertiesCache } from '@/lib/cache';
 
 export async function POST(request: Request) {
   // Verificar sesión
@@ -69,6 +70,8 @@ export async function POST(request: Request) {
     },
     data: { status: 'vendido' },
   });
+
+  invalidatePropertiesCache();
 
   await db.syncLog.create({
     data: {

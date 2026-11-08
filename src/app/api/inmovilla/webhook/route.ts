@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { invalidatePropertiesCache } from '@/lib/cache';
 import { syncSingleProperty } from '@/lib/inmovilla/sync';
 import { InmovillaProperty } from '@/lib/inmovilla/adapter';
 
@@ -49,6 +50,8 @@ export async function POST(req: NextRequest) {
       await syncSingleProperty(propiedad);
       existing ? propertiesUpdated++ : propertiesCreated++;
     }
+
+    invalidatePropertiesCache();
 
     // Registrar el evento en el log de sincronización
     await db.syncLog.create({

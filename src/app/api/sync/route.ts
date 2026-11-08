@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { invalidatePropertiesCache } from '@/lib/cache';
 import { syncFromXml, syncAllProperties } from '@/lib/inmovilla/sync';
 
 /**
@@ -31,6 +32,7 @@ export async function GET(req: NextRequest) {
         ? { ...(await syncFromXml()), skipped: 0 }
         : await syncAllProperties();
 
+    invalidatePropertiesCache();
     const elapsed = Date.now() - start;
 
     await db.syncLog.create({

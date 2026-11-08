@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { verifySessionToken, SESSION_COOKIE } from '@/lib/auth';
 import { db } from '@/lib/db';
+import { invalidateTranslationsCache } from '@/lib/cache';
 
 async function authenticate(): Promise<boolean> {
   const cookieStore = await cookies();
@@ -40,6 +41,7 @@ export async function POST(req: NextRequest) {
     update: { value },
     create: { locale, key, value },
   });
+  invalidateTranslationsCache();
 
   return NextResponse.json(translation);
 }
@@ -56,5 +58,6 @@ export async function DELETE(req: NextRequest) {
   }
 
   await db.translation.deleteMany({ where: { locale, key } });
+  invalidateTranslationsCache();
   return NextResponse.json({ ok: true });
 }

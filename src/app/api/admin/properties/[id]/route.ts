@@ -3,6 +3,7 @@ import { cookies } from 'next/headers';
 import { revalidatePath } from 'next/cache';
 import { verifySessionToken, SESSION_COOKIE } from '@/lib/auth';
 import { db } from '@/lib/db';
+import { invalidatePropertiesCache } from '@/lib/cache';
 
 /** PATCH /api/admin/properties/:id  { manualReserved?, lowPriority? } */
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -26,7 +27,8 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
       data,
       select: { id: true, manualReserved: true, lowPriority: true },
     });
-    // Las páginas por municipio se cachean 12 h; el resto de la web es dinámica
+    // Datos cacheados 12 h y páginas por municipio (ISR 12 h)
+    invalidatePropertiesCache();
     revalidatePath('/[locale]/vender-mi-inmueble/[municipio]', 'page');
     return NextResponse.json(property);
   } catch {
