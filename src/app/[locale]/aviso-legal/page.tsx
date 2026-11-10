@@ -22,8 +22,8 @@ export default function AvisoLegalPage() {
           </h2>
           <p>En cumplimiento del artículo 10 de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y de Comercio Electrónico (LSSI-CE), se informa de los datos identificativos del titular de este sitio web:</p>
           <ul className="mt-4 space-y-1.5 border-l-2 border-[var(--rose)] pl-4">
-            <li><strong>Denominación social:</strong> <span className="bg-yellow-100 px-1 rounded">[RAZÓN SOCIAL PENDIENTE — Ej: Lux Home Inmobiliaria S.L.]</span></li>
-            <li><strong>CIF/NIF:</strong> <span className="bg-yellow-100 px-1 rounded">[CIF/NIF PENDIENTE]</span></li>
+            <li><strong>Denominación social:</strong> <span className="bg-yellow-100 px-1 rounded">Bevamora S.L</span></li>
+            <li><strong>CIF/NIF:</strong> <span className="bg-yellow-100 px-1 rounded"> B-75455832</span></li>
             <li><strong>Domicilio social:</strong> Rambla 27, 08130 Santa Perpètua de Mogoda (Barcelona)</li>
             <li><strong>Teléfono:</strong> +34 691 294 443</li>
             <li><strong>Email:</strong> bego@luxhomein.com</li>
