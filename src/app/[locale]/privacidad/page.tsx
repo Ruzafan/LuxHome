@@ -21,8 +21,8 @@ export default function PrivacidadPage() {
             1. Responsable del tratamiento
           </h2>
           <ul className="space-y-1.5 border-l-2 border-[var(--rose)] pl-4">
-            <li><strong>Identidad:</strong> <span className="bg-yellow-100 px-1 rounded">[RAZÓN SOCIAL PENDIENTE]</span></li>
-            <li><strong>CIF/NIF:</strong> <span className="bg-yellow-100 px-1 rounded">[CIF/NIF PENDIENTE]</span></li>
+            <li><strong>Identidad:</strong> <span className="bg-yellow-100 px-1 rounded">Bevamora S.L</span></li>
+            <li><strong>CIF/NIF:</strong> <span className="bg-yellow-100 px-1 rounded"> B-75455832</span></li>
             <li><strong>Dirección:</strong> Rambla 27, 08130 Santa Perpètua de Mogoda (Barcelona)</li>
             <li><strong>Teléfono:</strong> +34 691 294 443</li>
             <li><strong>Email de contacto:</strong> bego@luxhomein.com</li>
