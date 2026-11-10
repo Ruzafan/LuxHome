@@ -28,7 +28,7 @@ export default function AvisoLegalPage() {
             <li><strong>Teléfono:</strong> +34 691 294 443</li>
             <li><strong>Email:</strong> bego@luxhomein.com</li>
             <li><strong>Web:</strong> luxhomein.com</li>
-            <li><strong>Registro Mercantil:</strong> <span className="bg-yellow-100 px-1 rounded">[DATOS REGISTRO MERCANTIL PENDIENTE]</span></li>
+            <li><strong>Registro Mercantil:</strong> <span className="bg-yellow-100 px-1 rounded">TOMO/IRUS 1000436264781</span></li>
           </ul>
         </section>
 
