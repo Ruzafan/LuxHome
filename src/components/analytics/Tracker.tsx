@@ -1,17 +1,13 @@
 'use client';
 
 import { useEffect } from 'react';
-import { usePathname } from 'next/navigation';
 import { track } from '@/lib/track';
 
-/** Registra una visita por cambio de ruta y los clics a teléfono / WhatsApp. */
+/**
+ * Registra los clics a teléfono / WhatsApp. Las visitas las cuenta Vercel Web Analytics
+ * (<Analytics /> en el layout) para no despertar la base de datos en cada página vista.
+ */
 export default function Tracker() {
-  const pathname = usePathname();
-
-  useEffect(() => {
-    track('pageview');
-  }, [pathname]);
-
   useEffect(() => {
     function onClick(e: MouseEvent) {
       const link = (e.target as HTMLElement | null)?.closest('a');

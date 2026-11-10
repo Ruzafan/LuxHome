@@ -6,8 +6,8 @@ import { db } from '@/lib/db';
  * Analítica propia sin cookies: no guarda IP, user agent ni identificador de visitante.
  */
 
+// 'pageview' ya no se guarda: las visitas van a Vercel Web Analytics
 const ALLOWED_TYPES = new Set([
-  'pageview',
   'valuation_start',
   'valuation_step',
   'phone_click',

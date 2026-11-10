@@ -4,7 +4,6 @@ import { db } from '@/lib/db';
 export const dynamic = 'force-dynamic';
 
 const RANGES = [7, 30, 90] as const;
-const SELL_PREFIX = '/vender-mi-inmueble';
 const nf = new Intl.NumberFormat('es-ES');
 const pct = (part: number, whole: number) => (whole > 0 ? `${((part / whole) * 100).toFixed(1).replace('.', ',')} %` : '-');
 
@@ -14,37 +13,22 @@ async function loadStats(days: number) {
   const since = new Date(Date.now() - days * 86_400_000);
   const inRange = { createdAt: { gte: since } };
 
-  const [
-    typeCounts, sellViews, stepCounts, leadsByKind, captadas, topPages, referrers, utmSources, devices, citiesRaw,
-    visitsPerDay, leadsPerDay,
-  ] = await Promise.all([
+  // Las visitas ya no se guardan aquí (van a Vercel Web Analytics): solo eventos de conversión y leads
+  const [typeCounts, stepCounts, leadsByKind, captadas, leadSources, citiesRaw, leadsPerDay] = await Promise.all([
     db.analyticsEvent.groupBy({ by: ['type'], where: inRange, _count: { _all: true } }),
-    db.analyticsEvent.count({ where: { ...inRange, type: 'pageview', path: { startsWith: SELL_PREFIX } } }),
     db.$queryRaw<{ step: string | null; count: bigint }[]>`
       SELECT meta->>'step' AS step, count(*) AS count FROM "AnalyticsEvent"
       WHERE type = 'valuation_step' AND "createdAt" >= ${since} GROUP BY 1`,
     db.lead.groupBy({ by: ['kind'], where: inRange, _count: { _all: true } }),
     db.lead.count({ where: { ...inRange, status: 'captada' } }),
-    db.analyticsEvent.groupBy({
-      by: ['path'], where: { ...inRange, type: 'pageview' }, _count: { _all: true },
-      orderBy: { _count: { path: 'desc' } }, take: 10,
+    db.lead.groupBy({
+      by: ['utmSource'], where: { ...inRange, utmSource: { not: null } }, _count: { _all: true },
+      orderBy: { _count: { utmSource: 'desc' } }, take: 10,
     }),
-    db.analyticsEvent.groupBy({
-      by: ['referrer'], where: { ...inRange, type: 'pageview', referrer: { not: null } }, _count: { _all: true },
-      orderBy: { _count: { referrer: 'desc' } }, take: 8,
-    }),
-    db.analyticsEvent.groupBy({
-      by: ['utmSource'], where: { ...inRange, type: 'pageview', utmSource: { not: null } }, _count: { _all: true },
-      orderBy: { _count: { utmSource: 'desc' } }, take: 8,
-    }),
-    db.analyticsEvent.groupBy({ by: ['device'], where: { ...inRange, type: 'pageview' }, _count: { _all: true } }),
     db.lead.groupBy({
       by: ['city'], where: { ...inRange, kind: 'valoracion', city: { not: null } }, _count: { _all: true },
       orderBy: { _count: { city: 'desc' } }, take: 10,
     }),
-    db.$queryRaw<DayRow[]>`
-      SELECT to_char("createdAt" AT TIME ZONE 'UTC' AT TIME ZONE 'Europe/Madrid', 'YYYY-MM-DD') AS day, count(*) AS count
-      FROM "AnalyticsEvent" WHERE type = 'pageview' AND "createdAt" >= ${since} GROUP BY 1`,
     db.$queryRaw<DayRow[]>`
       SELECT to_char("createdAt" AT TIME ZONE 'UTC' AT TIME ZONE 'Europe/Madrid', 'YYYY-MM-DD') AS day, count(*) AS count
       FROM "Lead" WHERE "createdAt" >= ${since} GROUP BY 1`,
@@ -55,20 +39,16 @@ async function loadStats(days: number) {
   const kinds = Object.fromEntries(leadsByKind.map((k) => [k.kind, k._count._all]));
 
   // Serie diaria completa (días sin datos = 0)
-  const visitsMap = new Map(visitsPerDay.map((r) => [r.day, Number(r.count)]));
   const leadsMap = new Map(leadsPerDay.map((r) => [r.day, Number(r.count)]));
   const series = Array.from({ length: days }, (_, i) => {
     const d = new Date(Date.now() - (days - 1 - i) * 86_400_000);
     const key = d.toLocaleDateString('sv-SE', { timeZone: 'Europe/Madrid' });
-    return { key, visits: visitsMap.get(key) ?? 0, leads: leadsMap.get(key) ?? 0 };
+    return { key, leads: leadsMap.get(key) ?? 0 };
   });
 
   const valuations = kinds.valoracion ?? 0;
   return {
-    pageviews: byType.pageview ?? 0,
-    sellViews,
     funnel: [
-      { label: 'Visitas a páginas de venta', value: sellViews },
       { label: 'Empiezan el valorador', value: byType.valuation_start ?? 0 },
       { label: 'Llegan a "Tu inmueble"', value: steps['2'] ?? 0 },
       { label: 'Llegan a "Contacto"', value: steps['3'] ?? 0 },
@@ -80,12 +60,7 @@ async function loadStats(days: number) {
     captadas,
     phoneClicks: byType.phone_click ?? 0,
     whatsappClicks: byType.whatsapp_click ?? 0,
-    topPages: topPages.map((p) => ({ label: p.path, value: p._count._all })),
-    sources: [
-      ...utmSources.map((u) => ({ label: `Campaña: ${u.utmSource}`, value: u._count._all })),
-      ...referrers.map((r) => ({ label: r.referrer ?? '', value: r._count._all })),
-    ].sort((a, b) => b.value - a.value).slice(0, 10),
-    devices: Object.fromEntries(devices.map((d) => [d.device ?? 'desconocido', d._count._all])),
+    leadSources: leadSources.map((u) => ({ label: u.utmSource ?? '', value: u._count._all })),
     cities: citiesRaw.map((c) => ({ label: c.city ?? '', value: c._count._all })),
     series,
   };
@@ -143,7 +118,10 @@ export default async function EstadisticasPage({ searchParams }: { searchParams:
   return (
     <div className="space-y-8">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <p className="text-sm text-white/50">Analítica propia, sin cookies. No cuenta bots ni el panel de admin.</p>
+        <p className="text-sm text-white/50">
+          Solicitudes y clics de contacto. Las visitas, páginas vistas y orígenes están en{' '}
+          <a href="https://vercel.com/dashboard" target="_blank" rel="noreferrer" className="underline hover:text-white">Vercel → Analytics</a>.
+        </p>
         <div className="flex gap-1 rounded-full bg-white/5 p-1" role="group" aria-label="Rango de fechas">
           {RANGES.map((r) => (
             <Link
@@ -165,27 +143,19 @@ export default async function EstadisticasPage({ searchParams }: { searchParams:
         </div>
       ) : (
         <>
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-5">
-            <Tile label="Visitas" value={nf.format(stats.pageviews)} />
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
             <Tile label="Solicitudes de valoración" value={nf.format(stats.valuations)} hint={`${nf.format(stats.otherLeads)} contactos más`} />
-            <Tile label="Conversión del valorador" value={pct(stats.valuations, stats.sellViews)} hint="Solicitudes / visitas a páginas de venta" />
             <Tile label="Captaciones" value={nf.format(stats.captadas)} hint="Solicitudes del periodo marcadas como captadas" />
             <Tile label="Clics para contactar" value={nf.format(stats.phoneClicks + stats.whatsappClicks)} hint={`${stats.phoneClicks} teléfono · ${stats.whatsappClicks} WhatsApp`} />
           </div>
 
-          <VisitsChart series={stats.series} />
+          <LeadsChart series={stats.series} />
 
           <Funnel steps={stats.funnel} />
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <RankTable title="Páginas más vistas" rows={stats.topPages} empty="Aún no hay visitas registradas." />
-            <RankTable title="De dónde llegan" rows={stats.sources} empty="Todas las visitas son directas o sin origen conocido." />
             <RankTable title="Valoraciones por municipio" rows={stats.cities} empty="Aún no hay solicitudes de valoración." />
-            <RankTable
-              title="Dispositivo"
-              rows={Object.entries(stats.devices).map(([k, v]) => ({ label: k === 'mobile' ? 'Móvil' : k === 'desktop' ? 'Ordenador' : k, value: v }))}
-              empty="Sin datos."
-            />
+            <RankTable title="Solicitudes por campaña" rows={stats.leadSources} empty="Ninguna solicitud del periodo viene de una campaña (utm)." />
           </div>
         </>
       )}
@@ -193,16 +163,16 @@ export default async function EstadisticasPage({ searchParams }: { searchParams:
   );
 }
 
-/** Barras diarias de visitas (una sola serie: sin leyenda, el título la nombra). Tooltip al pasar el ratón. */
-function VisitsChart({ series }: { series: { key: string; visits: number; leads: number }[] }) {
-  const max = Math.max(1, ...series.map((d) => d.visits));
+/** Barras diarias de solicitudes (una sola serie: sin leyenda, el título la nombra). Tooltip al pasar el ratón. */
+function LeadsChart({ series }: { series: { key: string; leads: number }[] }) {
+  const max = Math.max(1, ...series.map((d) => d.leads));
   const label = (key: string) => new Date(`${key}T12:00:00`).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
   const ticks = [0, Math.floor((series.length - 1) / 2), series.length - 1];
 
   return (
     <section className="rounded-xl border border-white/10 bg-white/5 p-5">
       <div className="mb-4 flex items-baseline justify-between">
-        <h3 className="text-sm text-white/70">Visitas por día</h3>
+        <h3 className="text-sm text-white/70">Solicitudes por día</h3>
         <span className="text-xs text-white/40">máx. {nf.format(max)}</span>
       </div>
       <div className="relative h-44 border-b border-white/15">
@@ -212,12 +182,12 @@ function VisitsChart({ series }: { series: { key: string; visits: number; leads:
             <li key={d.key} className="group relative flex h-full flex-1 items-end">
               <span
                 className="block w-full rounded-t-[4px] bg-[var(--rose)] transition-opacity group-hover:opacity-80"
-                style={{ height: `${(d.visits / max) * 100}%`, minHeight: d.visits > 0 ? 2 : 0 }}
+                style={{ height: `${(d.leads / max) * 100}%`, minHeight: d.leads > 0 ? 2 : 0 }}
               />
               {/* Zona de hover a toda la altura, mayor que la barra */}
               <span className="pointer-events-none absolute bottom-full left-1/2 z-10 mb-2 hidden -translate-x-1/2 whitespace-nowrap rounded-lg bg-white px-3 py-2 text-xs text-[var(--dark)] shadow-lg group-hover:block">
                 <strong className="block font-medium">{label(d.key)}</strong>
-                {nf.format(d.visits)} visitas · {d.leads} solicitudes
+                {nf.format(d.leads)} solicitudes
               </span>
             </li>
           ))}
@@ -238,11 +208,11 @@ function VisitsChart({ series }: { series: { key: string; visits: number; leads:
         <summary className="cursor-pointer">Ver datos en tabla</summary>
         <table className="mt-2 w-full">
           <thead>
-            <tr className="text-white/40"><th className="py-1 text-left font-normal">Día</th><th className="py-1 text-right font-normal">Visitas</th><th className="py-1 text-right font-normal">Solicitudes</th></tr>
+            <tr className="text-white/40"><th className="py-1 text-left font-normal">Día</th><th className="py-1 text-right font-normal">Solicitudes</th></tr>
           </thead>
           <tbody>
             {series.map((d) => (
-              <tr key={d.key}><td className="py-0.5">{label(d.key)}</td><td className="py-0.5 text-right tabular-nums">{d.visits}</td><td className="py-0.5 text-right tabular-nums">{d.leads}</td></tr>
+              <tr key={d.key}><td className="py-0.5">{label(d.key)}</td><td className="py-0.5 text-right tabular-nums">{d.leads}</td></tr>
             ))}
           </tbody>
         </table>
